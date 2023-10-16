@@ -5,7 +5,7 @@
   println(pitch())
 
 val eol = sys.props("line.separator")
-//val bezeichnung = "  A   B   C   D   E   F" + eol
+//val bezeichnung = "  A   B   C   D   E   F    G" + eol
 
 def title(cellWidth:Int = 3, colNum:Int = 7) = 
   (" " + (" " * ((cellWidth-1)/2)) + "A" + " ") * colNum + eol
