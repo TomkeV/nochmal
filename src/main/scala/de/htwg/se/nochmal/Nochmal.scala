@@ -1,4 +1,3 @@
-
 //Zeilen: lines / Spalten: columns / Spielfeld: pitch
 @main def nochmal: Unit =
   println("Willkommen bei Nochmal!")
