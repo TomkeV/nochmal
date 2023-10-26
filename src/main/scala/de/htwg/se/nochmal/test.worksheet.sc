@@ -34,3 +34,8 @@
     // fill erzeugt Kopien und liefert neue Datenstruktur -> kein intern veränderter Zustand, sondern neues Objekt! => Immutability
     m2.replaceCell(1, 1, Stone.X)
     // replace kopiert ebenfalls zu neuer Struktur und verändert dabei bestimmte Stelle zu anderem Wert
+
+case class PitchMatrix[T](rows: Vector[Vector[T]]):
+    def this(lineNum:Int = 4, colNum:Int = 7, filling:T = " ") = this(Vector.tabulate(lineNum, colNum) { (row, col) => filling })
+
+val myPitch = new PitchMatrix()
