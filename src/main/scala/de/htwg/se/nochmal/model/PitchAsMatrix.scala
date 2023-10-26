@@ -9,3 +9,7 @@ case class PitchMatrix[T](rows: Vector[Vector[T]]):
   def fill(filling: T): PitchMatrix[T] = copy(Vector.tabulate(lines, columns) { (row, col) => filling })
 
   def replaceCell(row: Int, col: Int, cell: T): PitchMatrix[T] = copy(rows.updated(row, rows(row).updated(col, cell)))
+/* 
+  override def toString(): String = {
+    //
+  } */
