@@ -1,4 +1,3 @@
-import scala.compiletime.ops.any
 // Scala Sequences - ein Bestandteil der Scala Collections
 
 /* Sequences zeichnen sich dadurch aus, dass ihre Elemente eine Reihenfolge haben.
