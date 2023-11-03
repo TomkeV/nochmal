@@ -1,4 +1,5 @@
-package de.htwg.se.nochmal.Bastelkiste
+package de.htwg.se.nochmal
+package Bastelkiste
 
 case class meinFeld(zeilen:Int = 4, spalten:Int = 7, feldgroesse:Int = 3):
     val eol = sys.props("line.separator")

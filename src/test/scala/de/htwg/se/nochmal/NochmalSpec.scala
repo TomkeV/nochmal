@@ -1,4 +1,6 @@
-/* import org.scalatest.wordspec.AnyWordSpec
+/* package de.htwg.se.nochmal
+
+import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 

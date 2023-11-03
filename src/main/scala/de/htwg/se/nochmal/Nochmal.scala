@@ -1,4 +1,5 @@
-/* //Zeilen: lines / Spalten: columns / Spielfeld: pitch
+/*package de.htwg.se.nochmal
+//Zeilen: lines / Spalten: columns / Spielfeld: pitch
 
 import scala.io.StdIn.readLine
 
