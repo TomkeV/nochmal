@@ -1,4 +1,4 @@
-// Enums: Die Basics
+// Enums
 
 /* In einer einfachen enum kann man einen Typ definieren, 
  * indem man eine Auswahl an Fällen für diesen festlegt. 
@@ -8,7 +8,6 @@
 enum Filling:
     case empty
     case filled
-
 
 /* Etwas nützlicher sind parametrisierte Enums,
  * in denen die Fälle einen Wert zugewiesen bekommen.
