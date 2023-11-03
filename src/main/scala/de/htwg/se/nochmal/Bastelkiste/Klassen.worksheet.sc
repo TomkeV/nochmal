@@ -1,30 +1,31 @@
-case class meinFeld(zeilen:Int, spalten:Int, feldgroesse:Int):
-    val eol = sys.props("line.separator")
 
-    def title() = 
-        (" " + (" " * ((feldgroesse-1)/2)) + "A" + " ") * spalten + eol
+// -------------- Anlegen einer Klasse für das Spielfeld ----------------
+case class pitch(rows:Int, columns:Int, width:Int):
+  val eol = sys.props("line.separator")
 
-    def columns() = 
-        ("+" + "-" * feldgroesse) * spalten + "+" + eol
+  def title() = 
+    (" " + (" " * ((width-1)/2)) + "A" + " ") * columns + eol
 
-    def lines() = 
-        ("|" + " " * feldgroesse) * spalten + "|" + eol
+  def print_cols() = 
+    ("+" + "-" * width) * columns + "+" + eol
 
-    def pointsFirst() =
-        (" " + (" " * ((feldgroesse-1)/2)) + "5" + " ") * spalten + eol
+  def print_rows() = 
+    ("|" + " " * width) * columns + "|" + eol
 
-    def pointsNext() =
-        (" " + (" " * ((feldgroesse-1)/2)) + "3" + " ") * spalten + eol
+  def pointsFirst() =
+    (" " + (" " * ((width-1)/2)) + "5" + " ") * columns + eol
 
-    def pitchToString() = 
-        title() + (columns() + lines()) * zeilen + 
-        columns() + pointsFirst() + pointsNext()
+  def pointsNext() =
+    (" " + (" " * ((width-1)/2)) + "3" + " ") * columns + eol
 
+  def pitchToString() = 
+    title() + (print_cols() + print_rows()) * rows + print_cols() + pointsFirst() + pointsNext()
 
-val spielfeld = meinFeld(3, 5, 2)
-spielfeld.title()
-spielfeld.columns()
-spielfeld.lines()
-spielfeld.pointsFirst()
-spielfeld.pointsNext()
-spielfeld.pitchToString()
+// ----------- Testen, ob meine Klasse funktioniert -----------------
+val my_pitch = pitch(3, 5, 2)
+my_pitch.title()
+my_pitch.print_cols()
+my_pitch.print_rows()
+my_pitch.pointsFirst()
+my_pitch.pointsNext()
+my_pitch.pitchToString()
