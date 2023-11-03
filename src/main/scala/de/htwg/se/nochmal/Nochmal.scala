@@ -1,4 +1,4 @@
-//Zeilen: lines / Spalten: columns / Spielfeld: pitch
+/* //Zeilen: lines / Spalten: columns / Spielfeld: pitch
 
 import scala.io.StdIn.readLine
 
@@ -36,4 +36,4 @@ def startgame(): String =
   println("Und wie viele Spalten? Standard: 7")
   val spalten = readLine().toInt
   val spielfeld = pitch(3, spalten, zeilen)
-  return spielfeld
+  return spielfeld */

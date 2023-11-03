@@ -14,10 +14,11 @@ create_title()
 
 
 
-
 val v = Vector(1, 2, 3)
 v.map(_.toString).map(" " + _ + " ").mkString("|", "|", "|")
 
+
+//-------------------- aus Tictactoe: ----------------------------------
 enum Stone(stringRepresentation: String):
   override def toString = stringRepresentation
   case X extends Stone("X")
