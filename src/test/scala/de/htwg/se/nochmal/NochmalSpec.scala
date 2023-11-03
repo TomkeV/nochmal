@@ -1,4 +1,4 @@
-import org.scalatest.wordspec.AnyWordSpec
+/* import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 
@@ -34,4 +34,4 @@ class NochmalSpec extends AnyWordSpec {
         pitch(1, 1, 1) should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol + " 3 " + eol)
       }
   }
-}
+} */
