@@ -5,14 +5,14 @@ import scala.io.StdIn.readLine
 
 @main def nochmal: Unit =
   println("Willkommen bei Nochmal!")
-  val pitch = start_game()
-  println(pitch.pitchToString())
+  val my_pitch = start_game()
+  println(my_pitch.pitchToString())
 
 
-def start_game(): meinFeld =
+def start_game(): pitch =
   println("Hallo! Wie viele Zeilen soll dein Spielfeld haben? Standard: 4")
-  val zeilen = readLine().toInt
+  val numOfRows = readLine().toInt
   println("Und wie viele Spalten? Standard: 7")
-  val spalten = readLine().toInt
-  val spielfeld = meinFeld(zeilen, spalten, 3)
-  return spielfeld
+  val numOfCols = readLine().toInt
+  val createdPitch = pitch(numOfRows, numOfCols, 3)
+  return createdPitch

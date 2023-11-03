@@ -7,21 +7,21 @@ import org.scalatest.matchers.should.Matchers._
 val eol = sys.props("line.separator")
 
 class SpielfeldSpec extends AnyWordSpec {
-  "Spielfeld" should {
-    val testfeld = meinFeld()
+  "A pitch" should {
+    val testfeld = pitch()
     "have a bar as String of Form '+---+---+---+---+---+---+---+' when its created without Parameters" in {
-      testfeld.columns() should be("+---+---+---+---+---+---+---+" + eol)
+      testfeld.print_cols() should be("+---+---+---+---+---+---+---+" + eol)
     }
     "have cells as String of form '|   |   |   |   |   |   |   |' when its created without Parameters" in {
-      testfeld.lines() should be("|   |   |   |   |   |   |   |" + eol)
+      testfeld.print_rows() should be("|   |   |   |   |   |   |   |" + eol)
     }
     
-    val mini_testfeld = meinFeld(1, 1, 1)
+    val mini_testfeld = pitch(1, 1, 1)
     "have a bar in String of Form '+-+' when its created with one column and minimal boxsize" in {
-      mini_testfeld.columns() should be("+-+" + eol)
+      mini_testfeld.print_cols() should be("+-+" + eol)
     }
     "have a cell in String of Form '| |' when its created with one line and minimal boxsize" in {
-      mini_testfeld.lines() should be("| |" + eol)
+      mini_testfeld.print_rows() should be("| |" + eol)
     }
     "have a pitch in the form " + 
       " A " +
