@@ -1,8 +1,6 @@
 package de.htwg.se.nochmal
 package Bastelkiste
 
-import Bastelkiste._
-
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
