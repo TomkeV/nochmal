@@ -47,6 +47,7 @@ for name <- names do println(name)
 /* Ein Vektor ist eine immmutable Sequence.
  * Die Elemente eines Vektors werden mit einem Index versehen.
  * Definition: val name = Vector(Wert1, Wert2, ...)
+ * Die Schreibweise Vector(Wert, Wert,...) ist eine Kurzschreibweise für Vector.apply(Wert, Wert,...)
  * Selbstverständlich kann ein Vektor auch Objekte einer Klasse fassen.
  */
 val nums = Vector(2, 4, 6, 8, 10)
@@ -69,3 +70,33 @@ val anotherTurn = Vector(-3, -1) :++ turnAround
  * eine Operation auf jedes Element anwenden:
  */
 for num <- nums do println(num)
+
+// Quelle für die folgenden Abschnitte: https://alvinalexander.com/scala/vector-class-methods-syntax-examples/
+/* Operationen auf Vektoren 
+ * fill(n): füllt einen leeren Vektor n mal mit dem gleichen Wert
+ * tabulate(n) (n => Funktion): füllt einen leeren Vektor mit n Elementen mit der Operation Funktion auf
+ */
+
+val test_fill = Vector.fill(3)("_")
+val test_tabulate = Vector.tabulate(3)(n => n+2)
+
+/* Zugriff auf die Elemente eines Vektors
+ * Zugriff mittels ()-Operator
+ * Zugriff mittels for
+ */
+test_fill(1)
+for(i <- test_tabulate) yield (i)
+
+/* Verändern der Elemente eines Vektors
+ * ist aufgrund Immutabilität nicht einfach so, aber über verschiedene "update"-Methoden möglich
+ * collect(pf): wendet die Funktion pf auf alle Elemente des Vektors an und gibt Ergebnis-Vektor zurück
+ * distinct: erzeugt neuen Vektor ohne Dopplungen
+ * flatten: erzeugt eine einfache Liste aus einer Liste von Listen
+ * map(f): wendet die Funktion f auf jedes Element des Vektors an und gibt neue Sequenz zurück
+ * updated(i, v): ersetzt das i-te Element im Vektor durch den Wert v
+ */
+val startvec = Vector.apply(1, 1, 2, 4, 9, 16, 25)
+val coll_v = startvec.collect(e => e * 2)
+val dis_v = startvec.distinct
+val map_v = startvec.map(e => e / 2)
+val update_v = startvec.updated(1, "_")
