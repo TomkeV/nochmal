@@ -1,4 +1,3 @@
-
 val v = Vector("rot", "orange", "gelb", "grün", "blau", "orange")
 
 v.head
@@ -30,3 +29,37 @@ enum Filling(s:String):
 
 // ---------------- Vektor mit Inhalten aus Enum
 val vec = Vector[Filling](Filling.empty, Filling.empty, Filling.empty)
+
+def myVec(places:Int = 3): Vector[Filling] = 
+  val my_v = Vector.tabulate(places)(p => Filling.empty)
+  return my_v
+
+myVec()
+myVec(5)
+
+val m = Vector(Vector.fill(3)(Filling.empty), Vector.fill(3)(Filling.empty), Vector.fill(3)(Filling.empty))
+println(m)
+
+// ---------------- Ziel 1 erreicht: Matrix mit leeren Feldern erzeugt!!
+def create_Matrix(Zeilen:Int, Spalten:Int): Vector[Vector[Filling]] = 
+  Vector.tabulate(Zeilen) {i =>
+    Vector.tabulate(Spalten) {j => Filling.empty}
+  }
+
+val matrix = create_Matrix(3, 5)
+
+matrix.foreach(i => println(i.toString()))
+
+
+case class Matrix(zeilen:Int, spalten: Int):
+  val z = zeilen
+  val c = spalten
+  def create_Matrix(): Vector[Vector[Filling]] = 
+  Vector.tabulate(z) {i =>
+    Vector.tabulate(c) {j => Filling.empty}
+  }
+  
+
+
+val myM = Matrix(2, 4)
+myM.create_Matrix()
