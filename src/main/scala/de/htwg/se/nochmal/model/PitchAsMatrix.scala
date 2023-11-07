@@ -1,12 +1,6 @@
 package de.htwg.se.nochmal
 package model
 
-// --- Enum Filling ---
-enum Filling(s:String):
-  override def toString(): String = s
-  case filled extends Filling("X")
-  case empty extends Filling("_")
-
 // --- Methode, die neue leere Matrix mit n Zeilen und m Spalten erzeugt ---
 def create_Matrix(rows:Int = 4, columns:Int = 7): Vector[Vector[Filling]] =
 	Vector.tabulate(rows) { i =>
