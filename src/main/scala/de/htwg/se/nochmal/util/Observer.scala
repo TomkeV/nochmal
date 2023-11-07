@@ -1,4 +1,4 @@
-package de.htwg.se.nochmal
+/* package de.htwg.se.nochmal
 package util
 
 trait Observer:
@@ -12,4 +12,4 @@ trait Observable:
 
 enum Event:
     case Quit
-    case Move
+    case Move */
