@@ -29,3 +29,52 @@ my_pitch.print_rows()
 my_pitch.pointsFirst()
 my_pitch.pointsNext()
 my_pitch.pitchToString()
+
+
+// ------------------------------------------------------------------------
+// Anlegen eines Würfels:
+val rand = new scala.util.Random
+rand.nextInt(6)
+
+val n = (1 to 3).toList
+val diced_ints = n.map(i => rand.nextInt(6)+1)
+val diced_colors = n.map(i => rand.nextInt(6))
+
+def roll_dice(anzahl:Int = 6) =
+  if (anzahl < 2) {
+    println("Du brauchst mindestens 2 Würfel!")
+  }
+  if (anzahl >= 2) {
+    val randomizer = new scala.util.Random
+    val n = (1 to (anzahl/2)).toList
+    val diced_ints = n.map(i => rand.nextInt(6)+1)
+    val diced_colors = n.map(i => rand.nextInt(6))
+    //println(diced_ints)
+    //println(diced_colors)
+    print_dice(diced_ints, diced_colors)
+  }
+
+roll_dice(6)
+
+def print_dice(numList:List[Int], colorList:List[Int]) = 
+  for (x <- numList) {
+    if (x == 6) {
+      println("?")
+    }
+    if (x < 6) {
+      println(x)
+    }
+  }
+
+  for (y <- colorList) {
+    y match {
+      case 0 => println("rot")
+      case 1 => println("orange")
+      case 2 => println("gelb")
+      case 3 => println("grün")
+      case 4 => println("blau")
+      case 5 => println("Joker!")
+    }
+  }
+
+print_dice(diced_ints, diced_colors)
