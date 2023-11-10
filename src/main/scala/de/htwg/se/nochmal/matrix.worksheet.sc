@@ -59,26 +59,21 @@ case class Matrix(zeilen:Int, spalten: Int):
     Vector.tabulate(c) {j => Filling.empty}
   }
   
-
-
 val myM = Matrix(2, 4)
 myM.create_Matrix()
 
 
 // Matrix als Klasse
-
-// How to Konstruktor:
-// def this(
-//     name: String,
-//     govtId: String,
-//     applicationDate: LocalDate
-//   ) =
-//     this(name, govtId)
-//     _applicationDate = Some(applicationDate)
-
-
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
+  val rowsInMatrix = matrix.size  
+  val colsInMatrix = matrix.head.size
   def this(rows:Int=4, columns:Int=7) = 
-    this(Vector.tabulate(rows) {i =>
-    Vector.tabulate(columns) {j => Filling.empty}
-  })
+    this(
+      Vector.tabulate(rows) {i =>
+      Vector.tabulate(columns) {j => Filling.empty}
+  }
+  )
+
+val testM = PitchAsMatrix(myM.create_Matrix())
+testM.rowsInMatrix
+testM.colsInMatrix
