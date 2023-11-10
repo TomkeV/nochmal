@@ -1,28 +1,28 @@
 package de.htwg.se.nochmal
 package model
 
-case class Colors_dice(anzahl:Int = 3):
-  val wuerfelzahl = anzahl
+case class Colors_dice(dice_num:Int = 3):
+  val num_of_dices = dice_num
   
   def roll_dice(): String =
-    if (anzahl < 1) {
+    if (num_of_dices < 1) {
       return "Du brauchst mindestens einen Wuerfel!"
     } else {
       val randomizer = new scala.util.Random
-      val n = (1 to anzahl).toList
+      val n = (1 to num_of_dices).toList
       val diced_colors = n.map(i => randomizer.nextInt(6))
       
       val eol = sys.props("line.separator")
-      var wuerfelergebnis = ""
+      var dice_result = ""
       for (y <- diced_colors) {
         y match {
-        case 0 => wuerfelergebnis += "rot" + eol
-        case 1 => wuerfelergebnis += "orange" + eol
-        case 2 => wuerfelergebnis += "gelb" + eol
-        case 3 => wuerfelergebnis += "grün" + eol
-        case 4 => wuerfelergebnis += "blau" + eol
-        case 5 => wuerfelergebnis += "Joker!" + eol
+        case 0 => dice_result += "rot" + eol
+        case 1 => dice_result += "orange" + eol
+        case 2 => dice_result += "gelb" + eol
+        case 3 => dice_result += "grün" + eol
+        case 4 => dice_result += "blau" + eol
+        case 5 => dice_result += "Joker!" + eol
         }
       }
-      return wuerfelergebnis
+      return dice_result
     }
