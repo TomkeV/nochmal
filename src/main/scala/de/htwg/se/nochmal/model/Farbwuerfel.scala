@@ -1,7 +1,7 @@
 package de.htwg.se.nochmal
 package model
 
-case class colors_dice(anzahl:Int = 3):
+case class Colors_dice(anzahl:Int = 3):
   val wuerfelzahl = anzahl
   
   def roll_dice(): String =

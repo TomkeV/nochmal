@@ -2,7 +2,7 @@ package de.htwg.se.nochmal
 package model
 
 // Klasse für Zahlenwürfel
-case class numbers_dice(anzahl:Int = 3):
+case class Numbers_dice(anzahl:Int = 3):
   val wuerfelzahl = anzahl
   
   def roll_dice(): String =
