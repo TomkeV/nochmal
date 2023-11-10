@@ -78,3 +78,29 @@ def print_dice(numList:List[Int], colorList:List[Int]) =
   }
 
 print_dice(diced_ints, diced_colors)
+
+// Klasse für Zahlenwürfel
+case class numbers_dice(anzahl:Int = 3):
+  val wuerfelzahl = anzahl
+  
+  def roll_dice(): List[Int] =
+    if (anzahl < 1) {
+      println("Du brauchst mindestens 1 Würfel!")
+      return null
+    } else {
+      val randomizer = new scala.util.Random
+      val n = (1 to anzahl).toList
+      val diced_ints = n.map(i => rand.nextInt(6)+1)
+      return diced_ints
+  }
+
+val my_dice = numbers_dice(0)
+my_dice.roll_dice()
+
+
+
+// Klassen und Konstruktoren
+case class Person(name:String, age:Int):
+  println("Hallo Mensch!") // primary constructor
+
+val myperson = Person("Anna", 23)
