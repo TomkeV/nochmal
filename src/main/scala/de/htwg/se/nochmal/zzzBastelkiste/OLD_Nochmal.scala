@@ -1,4 +1,5 @@
 /*package de.htwg.se.nochmal
+package zzzBastelkiste
 //Zeilen: lines / Spalten: columns / Spielfeld: pitch
 
 import scala.io.StdIn.readLine
