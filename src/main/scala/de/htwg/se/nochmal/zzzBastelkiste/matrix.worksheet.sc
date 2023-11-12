@@ -1,3 +1,4 @@
+import scala.collection.View.Fill
 val v = Vector("rot", "orange", "gelb", "grün", "blau", "orange")
 
 v.head
@@ -73,10 +74,17 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
       Vector.tabulate(columns) {j => Filling.empty}
   }
   )
+  
+  def getIndex(row:Int, col:Int):Filling =
+    matrix(row)(col)
+
+  def fillCell(row:Int, col:Int):PitchAsMatrix = 
+    copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
 val testM = new PitchAsMatrix(2, 4)
 testM.rowsInMatrix
 testM.colsInMatrix
-
-
-
+testM.getIndex(1, 1)
+testM.fillCell(0, 0)
+testM.fillCell(0, 1)
+testM.fillCell(0, 2)

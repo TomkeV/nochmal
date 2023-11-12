@@ -1,5 +1,4 @@
 package de.htwg.se.nochmal
-package aview
 
 import model.Colors_dice
 import model.Numbers_dice

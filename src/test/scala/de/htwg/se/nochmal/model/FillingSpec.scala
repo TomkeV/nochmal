@@ -11,7 +11,7 @@ class FillingSpec extends AnyWordSpec {
         val field_empty = Filling.empty
         "have an overwritten toString() method " in {
             field_filled.toString() should be("X")
-            field_empty.toString() should be("_")
+            field_empty.toString() should be(" ")
         }
     }
 }
