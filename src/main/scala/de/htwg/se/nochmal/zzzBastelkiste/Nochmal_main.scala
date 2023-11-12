@@ -1,5 +1,5 @@
 package de.htwg.se.nochmal
-package Bastelkiste
+package zzzBastelkiste
 
 import model.Colors_dice
 import model.Numbers_dice

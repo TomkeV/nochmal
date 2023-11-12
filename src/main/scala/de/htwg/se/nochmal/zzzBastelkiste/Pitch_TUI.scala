@@ -1,5 +1,5 @@
 package de.htwg.se.nochmal
-package Bastelkiste
+package zzzBastelkiste
 
 case class pitch(rows:Int = 4, columns:Int = 7, width:Int = 3):
   val eol = sys.props("line.separator")
