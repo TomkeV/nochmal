@@ -74,6 +74,9 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   }
   )
 
-val testM = PitchAsMatrix(myM.create_Matrix())
+val testM = new PitchAsMatrix(2, 4)
 testM.rowsInMatrix
 testM.colsInMatrix
+
+
+

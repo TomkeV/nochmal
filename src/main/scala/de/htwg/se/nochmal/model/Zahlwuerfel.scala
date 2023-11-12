@@ -13,15 +13,5 @@ case class Numbers_dice(dice_num:Int = 3):
       val n = (1 to num_of_dices).toList
       val diced_ints = n.map(i => randomizer.nextInt(6)+1)
       
-      val eol = sys.props("line.separator")
-      var dice_result = ""
-      for (x <- diced_ints) {
-        if (x == 6) {
-          dice_result += "!" + eol
-        }
-        if (x < 6) {
-          dice_result += x.toString() + eol
-        }
-      }
-      return dice_result
+      diced_ints.map((x:Int) => if(x == 6) then "!" else x.toString()).mkString(",")
     }

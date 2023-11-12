@@ -76,3 +76,32 @@ case class Field(matrix: Matrix[Stone]):
   def get(x: Int, y: Int): Stone = matrix.cell(x, y)
 
 val field = new Field(3, Stone.Empty)
+
+
+
+
+case class Numbers_dice(dice_num:Int = 3):
+  val num_of_dices = dice_num
+  
+  def roll_dice(): String =
+    if (num_of_dices < 1) {
+      return "Du brauchst mindestens einen Wuerfel!"
+    } else {
+      val randomizer = new scala.util.Random
+      val n = (1 to num_of_dices).toList
+      val diced_ints = n.map(i => randomizer.nextInt(6)+1)
+      
+      val eol = sys.props("line.separator")
+      diced_ints.map((x:Int) => if(x == 6) then "!" else x.toString()).mkString(",")
+
+    }
+
+val mydice = Numbers_dice()
+mydice.roll_dice()
+
+// alternativ: map . mkString()
+
+
+
+val myv = Vector(1, 2, 3)
+//def newV = myv.copy()
