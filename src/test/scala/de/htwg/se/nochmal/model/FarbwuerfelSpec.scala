@@ -5,19 +5,32 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 class FarbwuerfelSpec extends AnyWordSpec {
-  "A colored dice" should {
-    val test_dice = Colors_dice()
-    val small_test_dice = Colors_dice(1)
-    "save its number of colors to dice" in {
-        test_dice.num_of_dices should be(3)
-        small_test_dice.num_of_dices should be(1)
+  "The dice of colors " when {
+    "created " should {
+      "roll 3 dice if there is no argument " in {
+        val testDice = Colors_dice()
+        testDice.num_of_dices should be(3)
+      }
+      "be scalable in the number of dices to roll " in {
+        val testDice = Colors_dice(1)
+        testDice.num_of_dices should be(1)
+      }
+      "save its number of dices to roll for the argument its called with " in {
+        val testDice = Colors_dice(1)
+        testDice.num_of_dices should be(1)
+      }
     }
-
-/*     "return its results in form " +
-    "color" +
-    "color" +
-    "color" in {
-      test_dice.roll_dice() should be(/*regex*/)
-    } */
+    "rolled " should {
+      "return 'Du brauchst mindestens einen Wuerfel' if the object was initialized with a number of dice less than 1 " in {
+        val testDice = Colors_dice(0)
+        val s = testDice.roll_dice()
+        s should be("Du brauchst mindestens einen Wuerfel!")
+      }
+/*       "return its result in the form " in {
+        val testDice = Colors_dice()
+        val s = testDice.roll_dice()
+        s should fullyMatch regex """((rot|orange|gelb|gruen|blau|Joker!)\R){3}""" 
+      } */
+    }
   }
 }

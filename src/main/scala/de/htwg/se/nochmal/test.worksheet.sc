@@ -92,7 +92,7 @@ case class Numbers_dice(dice_num:Int = 3):
       val diced_ints = n.map(i => randomizer.nextInt(6)+1)
       
       val eol = sys.props("line.separator")
-      diced_ints.map((x:Int) => if(x == 6) then "!" else x.toString()).mkString(",")
+      diced_ints.map((x:Int) => if(x == 6) then "!" else x.toString()).mkString(sep = eol)
 
     }
 
