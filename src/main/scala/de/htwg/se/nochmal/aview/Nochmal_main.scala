@@ -1,10 +1,11 @@
 package de.htwg.se.nochmal
-package zzzBastelkiste
+package aview
 
 import model.Colors_dice
 import model.Numbers_dice
 
 import scala.io.StdIn.readLine
+import aview.pitch
 
 @main def nochmal: Unit =
   val my_pitch = start_game()

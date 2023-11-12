@@ -1,9 +1,9 @@
 package de.htwg.se.nochmal
-package zzzBastelkiste
+package aview
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
-import zzzBastelkiste.pitch
+import aview.pitch
 
 
 val eol = sys.props("line.separator")

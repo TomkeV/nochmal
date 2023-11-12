@@ -1,5 +1,5 @@
 /* package de.htwg.se.nochmal
-package Bastelkiste
+package aview
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
