@@ -8,31 +8,39 @@ import de.htwg.se.nochmal.model.PitchAsMatrix
 import model.PitchAsMatrix
 import controller.Controller
 //import aview.TUI
-import model.PitchAsMatrix
+import model.Colors_dice
+import model.Numbers_dice
 
 @main def nochmal: Unit =
   println("Herzlich Willkommen zu Nochmal!")
 
-  val myPitch = new PitchAsMatrix(1, 1)
-  println(myPitch.toString)
+  val myPitch = new PitchAsMatrix(7, 4)
 
-  val controller = Controller(myPitch)
+  startgame(myPitch)
+
+  //val controller = Controller(myPitch)
 
   //val tui = TUI(controller)
   //tui.run
 
-/*   val my_pitch = start_game()
-  println(my_pitch.pitchToString())
-  val dice_colors = Colors_dice()
-  val dice_numbers = Numbers_dice()
-  println(dice_numbers.roll_dice() + dice_colors.roll_dice()) */
+def startgame(a_pitch:PitchAsMatrix):String =
+  val eol = sys.props("line.separator")
+  //val myPitch = new PitchAsMatrix(7, 4)
+  val dicecolors = Colors_dice(3)
+  val dicenumbers = Numbers_dice(3)
+  println(a_pitch.toString)
+  print("Bitte gib ein, was du tun moechtest.\n" +
+    "q: beenden\n" +
+    "w: wuerfeln\n" +
+    "x: Feld ankreuzen\n")
+  val eingabe = readLine().toString()
 
-
-/* def start_game(): pitch =
-  println("Hallo! Wie viele Zeilen soll dein Spielfeld haben? Standard: 4")
-  val numOfRows = readLine().toInt
-  println("Und wie viele Spalten? Standard: 7")
-  val numOfCols = readLine().toInt
-  val createdPitch = pitch(numOfRows, numOfCols, 3)
-  return createdPitch */
-
+  eingabe match 
+    case "q" => "Danke fuers Spielen!"
+    case "w" => println(dicenumbers.roll_dice() + eol + dicecolors.roll_dice())
+                startgame(a_pitch)
+    case "x" => println("In welcher Zeile moechtest du ankreuzen?")
+                val row = readLine().toInt
+                println("In welcher Spalte moechtest du ankreuzen?")
+                val col = readLine().toInt
+                startgame(a_pitch.fillCell(row, col))
