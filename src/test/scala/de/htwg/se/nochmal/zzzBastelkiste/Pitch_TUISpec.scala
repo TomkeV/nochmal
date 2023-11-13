@@ -1,5 +1,5 @@
-package de.htwg.se.nochmal
-package aview
+/* package de.htwg.se.nochmal
+package zzzBastelkiste
 
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
@@ -36,4 +36,4 @@ class SpielfeldSpec extends AnyWordSpec {
       mini_testfeld.pitchToString() should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol + " 3 " + eol)
     }
   }
-}
+} */

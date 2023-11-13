@@ -33,5 +33,56 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         returnedM.getIndex(1, 1) should be(Filling.filled)
       }
     }
+    "converted in Strings " should {
+      val eol = sys.props("line.separator")
+      // "have a title line as String of Form 'A   A   A   A   A   A'" in {
+      //   val testM = new PitchAsMatrix(4, 7)
+      //   testM.title() should be("  A   A   A   A   A   A   A   ")
+      // }
+      "have a bar as String of Form '+---+---+---+---+---+---+---+' " in {
+        val testM = new PitchAsMatrix(4, 7)
+        testM.columns() should be("+---+---+---+---+---+---+---+" + eol)
+      }
+      "have a scalable bar" in {
+        val testM = new PitchAsMatrix(1, 1)
+        val testM2 = new PitchAsMatrix(1, 2)
+        val testM3 = new PitchAsMatrix(2, 1)
+        testM.columns(1, 1) should be("+-+" + eol)
+        testM2.columns(1, 2) should be("+-+-+" + eol)
+        testM3.columns(2, 1) should be("+--+" + eol)
+      }
+      "have cells as String of form '|   |   |   |   |   |   |   |' " in {
+        val testM = new PitchAsMatrix(4, 7)
+        testM.lines() should be("|   |   |   |   |   |   |   |" + eol)
+      }
+      "have scalable cells" in {
+        val testM = new PitchAsMatrix(1, 1)
+        val testM2 = new PitchAsMatrix(1, 2)
+        val testM3 = new PitchAsMatrix(2, 1)
+        testM.lines(1, 1) should be("| |" + eol)
+        testM2.lines(1, 2) should be("| | |" + eol)
+        testM3.lines(2, 1) should be("|  |" + eol)
+      }
+      "have a pitch in the form " + 
+      " A " +
+      "+-+" +
+      "| |" + 
+      "+-+" + 
+      " 5 " +
+      " 3" in {
+        val testM = new PitchAsMatrix(1, 1)
+        testM.pitch(1, 1, 1) should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol + " 3 " + eol)
+      }
+/*       "have an overwritten toString-method which also returns a pitch in the form " +
+      "  A  " +
+      "+---+" +
+      "|   |" + 
+      "+---+" + 
+      "  5  " +
+      "  3  " in {
+        val testM = new PitchAsMatrix(1, 1)
+        testM.toString should be("  A  " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5  " + eol + "  3  " + eol)
+      } */
+    }
   }
 }

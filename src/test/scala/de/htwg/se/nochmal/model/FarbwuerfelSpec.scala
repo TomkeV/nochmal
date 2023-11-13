@@ -26,11 +26,16 @@ class FarbwuerfelSpec extends AnyWordSpec {
         val s = testDice.roll_dice()
         s should be("Du brauchst mindestens einen Wuerfel!")
       }
+      "return its result as a String in form 'farbe'" in {
+        val testDice = Colors_dice(1)
+        val s = testDice.roll_dice()
+        s should fullyMatch regex """(rot|orange|gelb|gruen|blau|Joker!)"""
+      }
 /*       "return its result in the form " in {
         val testDice = Colors_dice()
         val s = testDice.roll_dice()
-        s should fullyMatch regex """((rot|orange|gelb|gruen|blau|Joker!)\R){3}""" 
-      } */
+        s should fullyMatch regex """((rot|orange|gelb|gruen|blau|Joker!)\n){2}(rot|orange|gelb|gruen|blau|Joker!)""" 
+      }  */
     }
   }
 }

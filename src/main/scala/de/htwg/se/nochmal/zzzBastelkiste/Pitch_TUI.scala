@@ -1,5 +1,7 @@
-package de.htwg.se.nochmal
-package aview
+// in PitchAsMatrix eingebunden
+
+/* package de.htwg.se.nochmal
+package zzzBastelkiste
 
 case class pitch(rows:Int = 4, columns:Int = 7, width:Int = 3):
   val eol = sys.props("line.separator")
@@ -20,4 +22,4 @@ case class pitch(rows:Int = 4, columns:Int = 7, width:Int = 3):
     (" " + (" " * ((width-1)/2)) + "3" + " ") * columns + eol
 
   def pitchToString() = 
-    title() + (print_cols() + print_rows()) * rows + print_cols() + pointsFirst() + pointsNext()
+    title() + (print_cols() + print_rows()) * rows + print_cols() + pointsFirst() + pointsNext() */
