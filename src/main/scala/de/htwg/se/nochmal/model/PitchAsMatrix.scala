@@ -37,12 +37,12 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
 
   def pointsNext(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "3" + " ") * colNum + eol
 
-  def pitch(cellWidth:Int = 3, colNum:Int = 7, lineNum:Int = 4) = 
+  def pitchToString(cellWidth:Int = 3, colNum:Int = 7, lineNum:Int = 4) = 
     title(cellWidth, colNum) + (columns(cellWidth, colNum) + lines(cellWidth, colNum)) * lineNum + 
     columns(cellWidth, colNum) + pointsFirst(cellWidth, colNum) + pointsNext(cellWidth, colNum)
   
   // Methode toString()
-  override def toString = pitch(3, row_num, col_num)
+  override def toString = pitchToString(3, row_num, col_num)
 
 
 // --- alte Methode, um neue leere Matrix mit n Zeilen und m Spalten erzeugt ---

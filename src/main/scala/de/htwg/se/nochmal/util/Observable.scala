@@ -6,5 +6,5 @@ trait Observable: // trait entspricht interface
     def add(s: Observer) = subscribers = subscribers :+ s
     def remove(s: Observer) = subscribers = subscribers.filterNot(o => o == s)
     // filterNot: prueft fuer jedes Element in der Liste, ob es s ist und schmeißt es raus wenn ja 
-    def notifyObservers(e: Event) = subscribers.foreach(o => o.update(e)) 
+    def notifyObservers = subscribers.foreach(o => o.update()) 
     // bei jedem Observer in der Liste wird die update-Methode aufgerufen
