@@ -5,5 +5,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 class TUISpec extends AnyWordSpec {
-    // Inhalt folgt
+    "The TUI" when {
+        // Inhalt folgt
+    }
 }

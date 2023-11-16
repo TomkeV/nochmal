@@ -33,7 +33,7 @@ class TUI(controller: Controller) extends Observer:
     
     val input = readLine()
     input match
-      case "q" => println("Danke fuers Spielen")
+      case "q" => println("Danke fuers Spielen!")
       case "w" => println(controller.dice())
       case "x" => println("In welcher Zeile moechtest du ankreuzen?")
                   val row = readLine().toInt

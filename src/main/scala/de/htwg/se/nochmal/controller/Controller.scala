@@ -12,7 +12,7 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     
   // kreuze ein Feld an:
   def set(row:Int, col:Int) = 
-    pitch = pitch.fillCell(row, col)
+    pitch = pitch.fillCell(row, col) // FUNKTIONIERT NICHT!
     notifyObservers
   
   // Lass die Würfel rollen!
