@@ -31,11 +31,13 @@ class FarbwuerfelSpec extends AnyWordSpec {
         val s = testDice.roll_dice()
         s should fullyMatch regex """(rot|orange|gelb|gruen|blau|Joker!)"""
       }
-/*       "return its result in the form " in {
+      "return its result in the form " in {
         val testDice = Colors_dice()
         val s = testDice.roll_dice()
-        s should fullyMatch regex """((rot|orange|gelb|gruen|blau|Joker!)\n){2}(rot|orange|gelb|gruen|blau|Joker!)""" 
-      }  */
+        s should startWith regex """(rot|orange|gelb|gruen|blau|Joker!)"""
+        s should include regex """((rot|orange|gelb|gruen|blau|Joker!)\R)+"""
+        //s should endWith regex """(rot|orange|gelb|gruen|blau|Joker!)""" 
+      }
     }
   }
 }
