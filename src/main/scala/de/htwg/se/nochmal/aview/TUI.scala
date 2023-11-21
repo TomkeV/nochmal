@@ -28,15 +28,16 @@ class TUI(controller: Controller) extends Observer:
     print("Bitte gib ein, was du tun moechtest.\n" +
       "q: beenden\n" +
       "w: wuerfeln\n" +
-      "x 1, 1: Feld ankreuzen\n")
+      "x Zahl Zahl: Feld ankreuzen\n")
     
     val input = methodForInput()
     input match
       case "q" => "Danke fuers Spielen!"
       case "w" => controller.dice()
-      case "x" => println("In welcher Zeile moechtest du ankreuzen?")
-                  val row = readLine().toInt
-                  println("In welcher Spalte moechtest du ankreuzen?")
-                  val col = readLine().toInt
-                  controller.set(row, col)
-                  controller.toString
+      case _ => val chars = input.toCharArray()
+                chars(0) match 
+                  case 'x' => 
+                    println("Zeile: " + chars(2).toString.toInt)
+                    println("Spalte: " + chars(4).toString.toInt)
+                    controller.set(chars(2).toString.toInt, chars(4).toString.toInt)
+                    controller.toString

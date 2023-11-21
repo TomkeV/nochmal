@@ -16,7 +16,7 @@ class TUISpec extends AnyWordSpec {
       "print 'Danke fuers Spielen!' " in {
         testTUI.play(()=> "q") should be ("Danke fuers Spielen!")
       }
-     }
+    }
 /*    "asked to roll dice by entering 'w'" should {
       "print its dice results in form '" +
         "Zahl " +
@@ -29,8 +29,12 @@ class TUISpec extends AnyWordSpec {
           testTUI.play(() => "q")
       }
     } */
-/*     "asked to cross cell by entering 'x'" should {
-        testTUI.play(()=> "q")
-    } */
+/*        "asked to cross cell by entering 'x'" should {
+        "always cross the first cell for test purposes " in {
+          val eol = sys.props("line.separator")
+          testTUI.play(()=> "x 1 1") should be ("+---+" + eol + "| X |" + eol + "+---+")
+          testTUI.play(() => "q")
+        }
+    }    */
   }
 }
