@@ -1,4 +1,4 @@
-name: scala_workflow
+name: scala_ci
 
 on: ['push', 'pull_request']
 
@@ -23,3 +23,5 @@ jobs:
     - name: Test && Coveralls
       run: sbt clean coverage test 
            coverageReport coveralls
+
+           
