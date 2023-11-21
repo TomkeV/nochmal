@@ -36,7 +36,13 @@ class FarbwuerfelSpec extends AnyWordSpec {
         val s = testDice.roll_dice()
         s should startWith regex """(rot|orange|gelb|gruen|blau|Joker!)"""
         s should include regex """((rot|orange|gelb|gruen|blau|Joker!)\R)+"""
-        //s should endWith regex """(rot|orange|gelb|gruen|blau|Joker!)""" 
+      }
+    }
+    "created for test purposes " should {
+      "be created with 100 dice to match all colors " in {
+        val testDice = Colors_dice(100)
+        val s = testDice.roll_dice()
+        s should include regex """((rot|orange|gelb|gruen|blau|Joker!)\R)+"""
       }
     }
   }
