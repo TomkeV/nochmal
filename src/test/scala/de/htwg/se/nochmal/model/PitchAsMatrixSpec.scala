@@ -51,7 +51,43 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         testM2.columns(1, 2) should be("+-+-+" + eol)
         testM3.columns(2, 1) should be("+--+" + eol)
       }
-      "have cells as String of form '|   |   |   |   |   |   |   |' " in {
+      "have a pitch in the form " + 
+      " A " +
+      "+-+" +
+      "|_|" + 
+      "+-+" + 
+      " 5 " in {
+        val testM = new PitchAsMatrix(1, 1, 1)
+        val s = testM.pitchToString(1)
+        s should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol)
+      }
+      "have a pitch in the form " +
+      " A " +
+      "+-+" +
+      "|X|" +
+      "+-+" +
+      " 5  with filled cells " in {
+        var testM = new PitchAsMatrix(1, 1, 1)
+        testM.fillCell(0, 0) 
+        testM.pitchToString(1) should be (" A " + eol + "+-+" + eol + "|X|" + eol + "+-+" + eol + " 5" + eol)
+      }
+      "have an overwritten toString-method which also returns a pitch in the form " +
+      "  A  " +
+      "+---+" +
+      "|   |" + 
+      "+---+" + 
+      "  5  " +
+      "  3  " in {
+        val testM = new PitchAsMatrix(1, 1)
+        testM.toString should be("  A " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5 " + eol)
+      } 
+    }
+  }
+}
+
+
+// alte Testbedingungen:
+/* "have cells as String of form '|   |   |   |   |   |   |   |' " in {
         val testM = new PitchAsMatrix(4, 7)
         testM.lines() should be("|   |   |   |   |   |   |   |" + eol)
       }
@@ -72,17 +108,4 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       " 3" in {
         val testM = new PitchAsMatrix(1, 1)
         testM.pitchToString(1, 1, 1) should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol + " 3 " + eol)
-      }
-       /* "have an overwritten toString-method which also returns a pitch in the form " +
-      "  A  " +
-      "+---+" +
-      "|   |" + 
-      "+---+" + 
-      "  5  " +
-      "  3  " in {
-        val testM = new PitchAsMatrix(1, 1)
-        testM.toString should be("  A  " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5  " + eol + "  3  " + eol)
-      }  */
-    }
-  }
-}
+      } */
