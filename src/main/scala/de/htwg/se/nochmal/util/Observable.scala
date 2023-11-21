@@ -1,6 +1,10 @@
 package de.htwg.se.nochmal
 package util
 
+
+trait Observer: // Trait ist Interface in Scala
+    def update(): Unit  // Methode update tut nichts
+
 trait Observable: // trait entspricht interface
     var subscribers: Vector[Observer] = Vector() // Liste der Observer (anfangs leer)
     def add(s: Observer) = subscribers = subscribers :+ s

@@ -1,14 +1,13 @@
 package de.htwg.se.nochmal
 package aview
 
+import scala.io.StdIn.readLine
+
 import controller.Controller
 import util.Observer
 import util.Event
 import model.Filling
-import scala.io.StdIn.readLine
 import model.PitchAsMatrix
-import controller.Controller
-//import aview.TUI
 import model.Colors_dice
 import model.Numbers_dice
 
@@ -16,29 +15,28 @@ import model.Numbers_dice
 class TUI(controller: Controller) extends Observer:
   controller.add(this) // fügt TUI in die Liste hinzu, sodass update funktioniert
 
-  def startgame = 
+  def printPitch = 
     println(controller.pitch.toString)
-    play()
+    println(play(readLine))
 
-  override def update() = println("Next one...") // absoluter Quark
+  override def update() = printPitch 
 
-  def play():Unit =
+  def play(methodForInput: () => String):String =
     val eol = sys.props("line.separator")
     val dicecolors = Colors_dice(3)
     val dicenumbers = Numbers_dice(3)
     print("Bitte gib ein, was du tun moechtest.\n" +
       "q: beenden\n" +
       "w: wuerfeln\n" +
-      "x: Feld ankreuzen\n")
+      "x 1, 1: Feld ankreuzen\n")
     
-    val input = readLine()
+    val input = methodForInput()
     input match
-      case "q" => println("Danke fuers Spielen!")
-      case "w" => println(controller.dice())
+      case "q" => "Danke fuers Spielen!"
+      case "w" => controller.dice()
       case "x" => println("In welcher Zeile moechtest du ankreuzen?")
                   val row = readLine().toInt
                   println("In welcher Spalte moechtest du ankreuzen?")
                   val col = readLine().toInt
                   controller.set(row, col)
-                  println(controller.toString)
-  play()
+                  controller.toString

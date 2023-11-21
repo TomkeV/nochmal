@@ -32,6 +32,8 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def columns(cellWidth:Int = 3, colNum:Int = 7) = ("+" + "-" * cellWidth) * colNum + "+" + eol
 
   def lines(cellWidth:Int = 3, colNum:Int = 7) = ("|" + " " * cellWidth) * colNum + "|" + eol
+  // über Zeile iterieren, Wert der Matrix an x|y abfragen und eintragen
+
 
   def pointsFirst(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "5" + " ") * colNum + eol
 

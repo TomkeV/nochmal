@@ -1,13 +1,12 @@
 package de.htwg.se.nochmal
 
-import model.Colors_dice
-import model.Numbers_dice
 
 import scala.io.StdIn.readLine
-import model.PitchAsMatrix
-import controller.Controller
+
 import model.Colors_dice
 import model.Numbers_dice
+import model.PitchAsMatrix
+import controller.Controller
 import aview.TUI
 
 @main def nochmal: Unit =
@@ -19,4 +18,4 @@ import aview.TUI
   val myController = Controller(myPitch, myNumdice, myColorsdice)
   val myTui = TUI(myController)
 
-  myTui.startgame
+  myTui.printPitch

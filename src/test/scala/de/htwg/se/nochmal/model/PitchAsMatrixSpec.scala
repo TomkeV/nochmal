@@ -73,7 +73,7 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         val testM = new PitchAsMatrix(1, 1)
         testM.pitchToString(1, 1, 1) should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol + " 3 " + eol)
       }
-/*       "have an overwritten toString-method which also returns a pitch in the form " +
+       /* "have an overwritten toString-method which also returns a pitch in the form " +
       "  A  " +
       "+---+" +
       "|   |" + 
@@ -82,7 +82,7 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       "  3  " in {
         val testM = new PitchAsMatrix(1, 1)
         testM.toString should be("  A  " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5  " + eol + "  3  " + eol)
-      } */
+      }  */
     }
   }
 }

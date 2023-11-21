@@ -12,15 +12,16 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     
   // kreuze ein Feld an:
   def set(row:Int, col:Int) = 
-    pitch = pitch.fillCell(row, col) // FUNKTIONIERT NICHT!
+    pitch = pitch.fillCell(row, col)
     notifyObservers
   
   // Lass die Würfel rollen!
-  def dice():String =
+  def dice(): String =
     val n = nums.roll_dice()
     val c = colors.roll_dice()
     val eol = sys.props("line.separator")
+    val res = n + eol + c
     notifyObservers
-    return n + eol + c
+    return res
 
   override def toString = pitch.pitchToString()
