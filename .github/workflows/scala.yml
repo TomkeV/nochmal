@@ -12,7 +12,7 @@ jobs:
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN_NOCHMAL }}
+      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_TOKEN_Nochmal }}
 
     steps:
     - uses: actions/checkout@v3
