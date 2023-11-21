@@ -24,31 +24,42 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def fillCell(row:Int, col:Int):PitchAsMatrix = 
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
-  // Hilfsethoden zur Ausgabe als String
+  // Hilfsmethoden zur Ausgabe als String
   val eol = sys.props("line.separator")
 
   def title(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "A" + " ") * colNum + eol
 
   def columns(cellWidth:Int = 3, colNum:Int = 7) = ("+" + "-" * cellWidth) * colNum + "+" + eol
-
-  def lines(cellWidth:Int = 3, colNum:Int = 7) = ("|" + " " * cellWidth) * colNum + "|" + eol
-  // über Zeile iterieren, Wert der Matrix an x|y abfragen und eintragen
-
-
+  
   def pointsFirst(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "5" + " ") * colNum + eol
 
-  def pointsNext(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "3" + " ") * colNum + eol
-
-  def pitchToString(cellWidth:Int = 3, colNum:Int = 7, lineNum:Int = 4) = 
-    title(cellWidth, colNum) + (columns(cellWidth, colNum) + lines(cellWidth, colNum)) * lineNum + 
-    columns(cellWidth, colNum) + pointsFirst(cellWidth, colNum) + pointsNext(cellWidth, colNum)
+  def pitchToString(cellWidth:Int = 3): String =
+    var res = title(cellWidth, col_num) + columns(cellWidth, col_num)
+    for (i <- 1 to row_num) {
+      res += "|"
+        for (j <- 1 to col_num) {
+          res += " " * (cellWidth/2) + getIndex(i-1, j-1).toString() + " " * (cellWidth/2) + "|"
+        }
+      res += eol + columns(cellWidth, col_num)
+    }
+    return res + pointsFirst(cellWidth, col_num)
   
   // Methode toString()
-  override def toString = pitchToString(3, row_num, col_num)
+  override def toString = pitchToString()
 
 
-// --- alte Methode, um neue leere Matrix mit n Zeilen und m Spalten erzeugt ---
+// --- alte Methoden ---
+// Methode, um neue leere Matrix mit n Zeilen und m Spalten zu erzeugen
 /* def create_Matrix(rows:Int = 4, columns:Int = 7): Vector[Vector[Filling]] =
 	Vector.tabulate(rows) { i =>
    	Vector.tabulate(columns) {j => Filling.empty}
   } */
+
+// Hilfsmethoden zur Ausgabe als String
+/* def lines(cellWidth:Int = 3, colNum:Int = 7) = ("|" + " " * cellWidth) * colNum + "|" + eol */
+/*   def pointsNext(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "3" + " ") * colNum + eol */
+
+// Methode zur Ausgabe eines leeren Felds
+/*   def emptyPitchToString(cellWidth:Int = 3, colNum:Int = 7, lineNum:Int = 4) = 
+    title(cellWidth, colNum) + (columns(cellWidth, colNum) + lines(cellWidth, colNum)) * lineNum + 
+    columns(cellWidth, colNum) + pointsFirst(cellWidth, colNum) + pointsNext(cellWidth, colNum) */

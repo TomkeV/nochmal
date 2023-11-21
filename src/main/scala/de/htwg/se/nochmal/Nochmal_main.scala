@@ -12,7 +12,7 @@ import aview.TUI
 @main def nochmal: Unit =
   println("Herzlich Willkommen zu Nochmal!")
 
-  val myPitch = new PitchAsMatrix(7, 4)
+  val myPitch = new PitchAsMatrix(4, 7)
   val myNumdice = Numbers_dice(3)
   val myColorsdice = Colors_dice(3)
   val myController = Controller(myPitch, myNumdice, myColorsdice)

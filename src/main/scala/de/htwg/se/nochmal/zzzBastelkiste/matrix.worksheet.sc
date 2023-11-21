@@ -75,16 +75,47 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   }
   )
   
+  val eol = sys.props("line.separator")
+
   def getIndex(row:Int, col:Int):Filling =
     matrix(row)(col)
 
   def fillCell(row:Int, col:Int):PitchAsMatrix = 
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
+  
+  def columns(cellWidth:Int = 3, colNum:Int = 7) = 
+    ("+" + "-" * cellWidth) * colNum + "+" + eol
+  
+  def printPitch(cellWidth:Int = 3): String =
+    var res = columns(cellWidth, colsInMatrix)
+    for (i <- 1 to rowsInMatrix) {
+      res += "|"
+        for (j <- 1 to colsInMatrix) {
+          res += " " * (cellWidth/2) + getIndex(i-1, j-1).toString() + " " * (cellWidth/2) + "|"
+        }
+      res += eol + columns(cellWidth, colsInMatrix)
+    }
+    return res
 
 val testM = new PitchAsMatrix(2, 4)
 testM.rowsInMatrix
 testM.colsInMatrix
 testM.getIndex(1, 1)
-testM.fillCell(0, 0)
-testM.fillCell(0, 1)
-testM.fillCell(0, 2)
+var ausgabeMatrix = testM.fillCell(0, 0)
+
+ausgabeMatrix.printPitch()
+
+val eol = sys.props("line.separator")
+var res = ""
+for (i <- 1 to ausgabeMatrix.rowsInMatrix) {
+  res += "|"
+  for (j <- 1 to ausgabeMatrix.colsInMatrix) {
+    res += " " + ausgabeMatrix.getIndex(i-1, j-1).toString() + " |"
+  }
+  res += eol
+}
+
+println(res)
+
+// und die Ausgabe als Methode: 
+
