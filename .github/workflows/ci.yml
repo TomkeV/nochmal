@@ -1,15 +1,18 @@
-name: scala-ci
+name: Scala CI
 
 on: ['push', 'pull_request']
 
 permissions:
   contents: read
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS__TOKEN_scala-ci }}
+      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS__TOKEN_NOCHMAL }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 11
@@ -21,7 +24,8 @@ jobs:
     - name: run tests
       run: sbt test
     - name: Test && Coveralls
-      run: sbt clean coverage test 
-           coverageReport coveralls
+      run: sbt clean coverage test coverageReport coveralls
+    - name: Upload coveralls
+      run: sbt coverageReport coveralls
 
            
