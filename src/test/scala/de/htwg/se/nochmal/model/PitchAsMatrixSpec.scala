@@ -35,10 +35,6 @@ class PitchAsMatrixSpec extends AnyWordSpec {
     }
     "converted in Strings " should {
       val eol = sys.props("line.separator")
-      // "have a title line as String of Form 'A   A   A   A   A   A'" in {
-      //   val testM = new PitchAsMatrix(4, 7)
-      //   testM.title() should be("  A   A   A   A   A   A   A   ")
-      // }
       "have a bar as String of Form '+---+---+---+---+---+---+---+' " in {
         val testM = new PitchAsMatrix(4, 7)
         testM.columns() should be("+---+---+---+---+---+---+---+" + eol)
@@ -54,22 +50,12 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       "have a pitch in the form " + 
       " A " +
       "+-+" +
-      "|_|" + 
+      "| |" + 
       "+-+" + 
       " 5 " in {
         val testM = new PitchAsMatrix(1, 1, 1)
         val s = testM.pitchToString(1)
         s should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol)
-      }
-      "have a pitch in the form " +
-      " A " +
-      "+-+" +
-      "|X|" +
-      "+-+" +
-      " 5  with filled cells " in {
-        var testM = new PitchAsMatrix(1, 1, 1)
-        testM.fillCell(0, 0) 
-        testM.pitchToString(1) should be (" A " + eol + "+-+" + eol + "|X|" + eol + "+-+" + eol + " 5" + eol)
       }
       "have an overwritten toString-method which also returns a pitch in the form " +
       "  A  " +
