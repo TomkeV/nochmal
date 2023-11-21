@@ -37,7 +37,7 @@ class TUI(controller: Controller) extends Observer:
       case _ => val chars = input.toCharArray()
                 chars(0) match 
                   case 'x' => 
-                    //println("Zeile: " + chars(2).toString.toInt)
+                    println("Zeile: " + chars(2).toString.toInt)
                     //println("Spalte: " + chars(4).toString.toInt)
                     controller.set(chars(2).toString.toInt, chars(4).toString.toInt)
                     controller.toString
