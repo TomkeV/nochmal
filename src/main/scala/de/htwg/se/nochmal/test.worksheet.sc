@@ -105,3 +105,10 @@ mydice.roll_dice()
 
 val myv = Vector(1, 2, 3)
 //def newV = myv.copy()
+
+
+val myList = List(0, 1, 2, 3, 4, 5)
+
+myList.map( (x) => {
+  ('a'+ x).toChar
+} )
