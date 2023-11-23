@@ -10,7 +10,7 @@ import controller.Controller
 import aview.TUI
 
 @main def nochmal: Unit =
-  println("Hallo und herzlich Willkommen zu Nochmal!")
+  println("Herzlich Willkommen zu Nochmal!")
 
   val myPitch = new PitchAsMatrix(4, 7)
   val myNumdice = Numbers_dice(3)
