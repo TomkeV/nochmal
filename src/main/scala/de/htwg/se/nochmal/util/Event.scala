@@ -3,4 +3,5 @@ package util
 
 enum Event:
     case Quit
-    case Move
+    case Diced
+    case Crossed

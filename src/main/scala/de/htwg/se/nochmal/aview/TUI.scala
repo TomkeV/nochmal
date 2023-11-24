@@ -15,13 +15,39 @@ import model.Numbers_dice
 class TUI(controller: Controller) extends Observer:
   controller.add(this) // fügt TUI in die Liste hinzu, sodass update funktioniert
 
-  def printPitch = 
+  var goOn = true
+
+// NEU  
+  def run =
     println(controller.pitch.toString)
-    println(play(readLine))
+    //getInput()
+    inputGetAndAnalysis()
 
-  override def update() = printPitch 
+// NEU  
+  override def update(e: Event) = 
+      e match
+        case Event.Quit => goOn = false
+        case Event.Crossed => println(controller.pitch.toString) 
+        case Event.Diced => println("Wo moechtest du ankreuzen? x Zahl Zahl")
 
-  def play(methodForInput: () => String):String =
+// NEU NEU
+  def inputGetAndAnalysis():Unit =
+    val input = readLine 
+    input match
+      case "q" => controller.publishQuit()
+      case "w" => controller.publishDice()
+      case _ => {
+        val chars = input.toCharArray()
+          chars(0) match 
+            case 'x' => 
+              val line = chars(2).toString.toInt
+              val col = chars(4).toString.toInt
+              controller.publishCross(line, col)
+      }
+    if goOn then inputGetAndAnalysis()
+
+// Alte Methoden: 
+/*   def play(methodForInput: () => String):String =
     val eol = sys.props("line.separator")
     val dicecolors = Colors_dice(3)
     val dicenumbers = Numbers_dice(3)
@@ -41,3 +67,10 @@ class TUI(controller: Controller) extends Observer:
                     //println("Spalte: " + chars(4).toString.toInt)
                     controller.set(chars(2).toString.toInt, chars(4).toString.toInt)
                     controller.toString
+*/
+
+/*   override def update() = printPitch  */
+
+/*   def printPitch = 
+    println(controller.pitch.toString)
+    println(play(readLine)) */

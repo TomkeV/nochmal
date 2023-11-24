@@ -115,3 +115,11 @@ case class Person(name:String, age:Int):
   println("Hallo Mensch!") // primary constructor
 
 val myperson = Person("Anna", 23)
+
+
+
+// _____________________________________________________________
+// testing for TUI
+case class Quit(message: String)
+val res: Quit|Int = Quit("Bye")
+res.getClass()

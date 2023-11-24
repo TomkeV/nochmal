@@ -18,4 +18,4 @@ import aview.TUI
   val myController = Controller(myPitch, myNumdice, myColorsdice)
   val myTui = TUI(myController)
 
-  myTui.printPitch
+  myTui.run
