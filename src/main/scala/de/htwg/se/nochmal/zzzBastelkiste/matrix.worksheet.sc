@@ -117,5 +117,69 @@ for (i <- 1 to ausgabeMatrix.rowsInMatrix) {
 
 println(res)
 
-// und die Ausgabe als Methode: 
+// printPitch in Funktional umwandeln - schritt 1:
+val feldListe = Range(0, ausgabeMatrix.colsInMatrix).toList
+var ergebnis = ""
+for (i <- 0 to ausgabeMatrix.rowsInMatrix-1) {
+  ergebnis += feldListe.map(x => 
+                            "| " + ausgabeMatrix.getIndex(i, x).toString() + " ").mkString
+  ergebnis += "|" + eol
+}
+println(ergebnis)
 
+// printPitch in Funktional umwandeln - schritt 2:
+val felder = Range(0, ausgabeMatrix.colsInMatrix).toList
+val hoehe = Range(0, ausgabeMatrix.rowsInMatrix).toList
+var ziel = hoehe.map(x => (felder.map(y => "| " + ausgabeMatrix.getIndex(x, y).toString() + " ").mkString) + "|" + eol).mkString
+println(ziel)
+
+
+
+// Titel mappen:
+
+def title(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "A" + " ") * colNum + eol
+
+val s = title()
+
+val list = Range(0, 7).toList
+
+val title = list.map(x =>
+                  ('A' + x).toChar)
+
+def create_title(cellWidth:Int = 3, colNum:Int = 7): String =
+  val eol = sys.props("line.separator")
+  var res = " "
+  for (i <- 0 to colNum-1) {
+    res += " " * ((cellWidth-1)/2)
+    res += ('A' + i).toChar
+    res += "  "
+  }
+  return res + eol
+
+val a = create_title(1, 4)
+
+val x = list.map(x =>
+                " " + 
+                " " * ((3-1)/2) +
+                ('A' + x).toChar +
+                " "
+                )
+for (i <- 0 to x.length-1) {
+  print(x(i).toString())
+}
+print(eol)
+
+val y = for(i <- 0 to x.length-1) {
+  x(i).toString()
+}
+
+println(y)
+
+val test = list.map(x =>
+                " " + 
+                " " * ((3-1)/2) +
+                ('A' + x).toChar +
+                " "
+                ).mkString
+
+println(test)
