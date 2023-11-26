@@ -38,7 +38,34 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
 
   def columns(cellWidth:Int = 3, colNum:Int = 7) = ("+" + "-" * cellWidth) * colNum + "+" + eol
   
-  def pointsFirst(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "5" + " ") * colNum + eol
+  def points(cellWidth:Int = 3, colNum:Int = 7): String =
+    val numOfPoints = Range(0, colNum).toList
+    val points = numOfPoints.map(x =>
+        if (colNum%2 == 0) {
+          // für gerade Zahlen: 
+          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+            (" " * ((cellWidth-1)/2)) + " 5 "
+          } else if ((x == (colNum/2)) || (x == (colNum/2)-1)) {
+            (" " * ((cellWidth-1)/2)) + " 1 "
+          } else if (x == ((colNum/2)-2) || x == ((colNum/2)+1)) {
+            (" " * ((cellWidth-1)/2)) + " 2 "
+          } else {
+            (" " * ((cellWidth-1)/2)) + " 3 "
+          }
+        } else {
+          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+            (" " * ((cellWidth-1)/2)) + " 5 "
+          } else if (x == (colNum/2)) {
+            (" " * ((cellWidth-1)/2)) + " 1 "
+          } else if (x == ((colNum/2)+1) || x == ((colNum/2)-1)) {
+            (" " * ((cellWidth-1)/2)) + " 2 "
+          } else {
+            (" " * ((cellWidth-1)/2)) + " 3 "
+          }
+        }        
+      ).mkString
+    return points
+
 
   def pitchToString(cellWidth:Int = 3): String =
     val numOfCells = Range(0, col_num)
@@ -46,7 +73,9 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
 
     val result = title(cellWidth, col_num) + columns(cellWidth, col_num) + numOfRows.map(x =>
       (numOfCells.map(y =>
-        "|" + " " * (cellWidth/2) + getIndex(x, y).toString() + " " * (cellWidth/2)).mkString) + "|" + eol + columns(cellWidth, col_num)).mkString + pointsFirst(cellWidth, col_num)
+        "|" + " " * (cellWidth/2) + getIndex(x, y).toString() 
+        + " " * (cellWidth/2)).mkString) + "|" + eol + columns(cellWidth, col_num)).mkString 
+        + points(cellWidth, col_num)
 
     return result
   
@@ -94,3 +123,6 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
       res += "|" + eol + columns(cellWidth, col_num)
     }
     return res + pointsFirst(cellWidth, col_num) */
+
+// Punkte alt:
+//   def pointsFirst(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "5" + " ") * colNum + eol

@@ -183,3 +183,34 @@ val test = list.map(x =>
                 ).mkString
 
 println(test)
+
+
+// Punkte mit map auf reale Punkte anpassen
+val rowNum = 13
+val cellWidth = 3
+val anzahlPunkte = Range(0, rowNum).toList
+val punkte = anzahlPunkte.map(x =>
+        if (rowNum%2 == 0) {
+          // für gerade Zahlen: 
+          if (x == anzahlPunkte(0) || x == anzahlPunkte(rowNum-1)){
+            (" " * ((cellWidth-1)/2)) + " 5 "
+          } else if ((x == (rowNum/2)) || (x == (rowNum/2)-1)) {
+            (" " * ((cellWidth-1)/2)) + " 1 "
+          } else if (x == ((rowNum/2)-2) || x == ((rowNum/2)+1)) {
+            (" " * ((cellWidth-1)/2)) + " 2 "
+          } else {
+            (" " * ((cellWidth-1)/2)) + " 3 "
+          }
+        } else {
+          if (x == anzahlPunkte(0) || x == anzahlPunkte(rowNum-1)){
+            (" " * ((cellWidth-1)/2)) + " 5 "
+          } else if (x == (rowNum/2)) {
+            (" " * ((cellWidth-1)/2)) + " 1 "
+          } else if (x == ((rowNum/2)+1) || x == ((rowNum/2)-1)) {
+            (" " * ((cellWidth-1)/2)) + " 2 "
+          } else {
+            (" " * ((cellWidth-1)/2)) + " 3 "
+          }
+        }        
+      ).mkString
+
