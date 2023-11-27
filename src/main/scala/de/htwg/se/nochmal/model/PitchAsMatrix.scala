@@ -85,36 +85,3 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   
   // Methode toString()
   override def toString = pitchToString()
-
-
-
-
-// Alte Methoden
-// Points ohne Strategy-Pattern:
-/*     def points(cellWidth:Int = 3, colNum:Int = 7): String =
-    val numOfPoints = Range(0, colNum).toList
-    val points = numOfPoints.map(x =>
-        if (colNum%2 == 0) {
-          // für gerade Zahlen: 
-          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
-            (" " * ((cellWidth-1)/2)) + " 5 "
-          } else if ((x == (colNum/2)) || (x == (colNum/2)-1)) {
-            (" " * ((cellWidth-1)/2)) + " 1 "
-          } else if (x == ((colNum/2)-2) || x == ((colNum/2)+1)) {
-            (" " * ((cellWidth-1)/2)) + " 2 "
-          } else {
-            (" " * ((cellWidth-1)/2)) + " 3 "
-          }
-        } else {
-          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
-            (" " * ((cellWidth-1)/2)) + " 5 "
-          } else if (x == (colNum/2)) {
-            (" " * ((cellWidth-1)/2)) + " 1 "
-          } else if (x == ((colNum/2)+1) || x == ((colNum/2)-1)) {
-            (" " * ((cellWidth-1)/2)) + " 2 "
-          } else {
-            (" " * ((cellWidth-1)/2)) + " 3 "
-          }
-        }        
-      ).mkString
-    return points + eol */
