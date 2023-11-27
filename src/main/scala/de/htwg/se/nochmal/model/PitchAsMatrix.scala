@@ -24,6 +24,10 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def fillCell(row:Int, col:Int):PitchAsMatrix = 
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
+  // Methode zum Leeren von Feldern (nötig für Undo):
+  def unfillCell(row:Int, col:Int):PitchAsMatrix =
+    copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
+
   // Hilfsmethoden zur Ausgabe als String
   val eol = sys.props("line.separator")
 
@@ -83,46 +87,34 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   override def toString = pitchToString()
 
 
-// --- alte Methoden ---
-// Methode, um neue leere Matrix mit n Zeilen und m Spalten zu erzeugen
-/* def create_Matrix(rows:Int = 4, columns:Int = 7): Vector[Vector[Filling]] =
-	Vector.tabulate(rows) { i =>
-   	Vector.tabulate(columns) {j => Filling.empty}
-  } */
 
-// Hilfsmethoden zur Ausgabe als String
-/* def lines(cellWidth:Int = 3, colNum:Int = 7) = ("|" + " " * cellWidth) * colNum + "|" + eol */
-/*   def pointsNext(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "3" + " ") * colNum + eol */
 
-// Methode zur Ausgabe eines leeren Felds
-/*   def emptyPitchToString(cellWidth:Int = 3, colNum:Int = 7, lineNum:Int = 4) = 
-    title(cellWidth, colNum) + (columns(cellWidth, colNum) + lines(cellWidth, colNum)) * lineNum + 
-    columns(cellWidth, colNum) + pointsFirst(cellWidth, colNum) + pointsNext(cellWidth, colNum) */
-
-  //def title(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "A" + " ") * colNum + eol
-
-// altes print pitch mit for-Verkettung:
-/*   def pitchToString(cellWidth:Int = 3): String =
-    var res = title(cellWidth, col_num) + columns(cellWidth, col_num)
-    for (i <- 1 to row_num) {
-      res += "|"
-        for (j <- 1 to col_num) {
-          res += " " * (cellWidth/2) + getIndex(i-1, j-1).toString() + " " * (cellWidth/2) + "|"
-        }
-      res += eol + columns(cellWidth, col_num)
-    }
-    return res + pointsFirst(cellWidth, col_num) */
-
-// altes print pitch mit einer for-Schleife:
-/*     def pitchToString(cellWidth:Int = 3): String =
-    var res = title(cellWidth, col_num) + columns(cellWidth, col_num)
-    val numOfCells = Range(0, col_num)
-    for (i <- 1 to row_num) {
-      res += numOfCells.map(x =>
-                          "| " + getIndex(i-1, x).toString() + " ").mkString
-      res += "|" + eol + columns(cellWidth, col_num)
-    }
-    return res + pointsFirst(cellWidth, col_num) */
-
-// Punkte alt:
-//   def pointsFirst(cellWidth:Int = 3, colNum:Int = 7) = (" " + (" " * ((cellWidth-1)/2)) + "5" + " ") * colNum + eol
+// Alte Methoden
+// Points ohne Strategy-Pattern:
+/*     def points(cellWidth:Int = 3, colNum:Int = 7): String =
+    val numOfPoints = Range(0, colNum).toList
+    val points = numOfPoints.map(x =>
+        if (colNum%2 == 0) {
+          // für gerade Zahlen: 
+          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+            (" " * ((cellWidth-1)/2)) + " 5 "
+          } else if ((x == (colNum/2)) || (x == (colNum/2)-1)) {
+            (" " * ((cellWidth-1)/2)) + " 1 "
+          } else if (x == ((colNum/2)-2) || x == ((colNum/2)+1)) {
+            (" " * ((cellWidth-1)/2)) + " 2 "
+          } else {
+            (" " * ((cellWidth-1)/2)) + " 3 "
+          }
+        } else {
+          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+            (" " * ((cellWidth-1)/2)) + " 5 "
+          } else if (x == (colNum/2)) {
+            (" " * ((cellWidth-1)/2)) + " 1 "
+          } else if (x == ((colNum/2)+1) || x == ((colNum/2)-1)) {
+            (" " * ((cellWidth-1)/2)) + " 2 "
+          } else {
+            (" " * ((cellWidth-1)/2)) + " 3 "
+          }
+        }        
+      ).mkString
+    return points + eol */
