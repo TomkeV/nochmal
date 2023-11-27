@@ -6,13 +6,6 @@ import org.scalatest.matchers.should.Matchers._
 
 class PitchAsMatrixSpec extends AnyWordSpec {
   "A Matrix is a data type which is a vector of multiple vectors. A Matrix" when {
-/*    "created for test purposes " should {
-       "be a Vector of Vectors filled empty " in {
-        val testM = new PitchAsMatrix(Vector[Vector[Filling.empty]])
-        testM.row_num should be(1)
-        testM.col_num should be(1)
-        testM.getIndex(0, 0) should be(Filling.empty)
-      }  */
     "created for normal use " should {
       "be created empty with a num of rows and a num of colums " in {
         val testM = new PitchAsMatrix(1, 1)
@@ -47,6 +40,20 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         testM2.columns(1, 2) should be("+-+-+" + eol)
         testM3.columns(2, 1) should be("+--+" + eol)
       }
+      "have a title in the form A B C D E..." in {
+        val testM = new PitchAsMatrix(3, 5)
+        testM.title() should be ("  A   B   C   D   E   F   G " + eol)
+      }
+      "have points which " should {
+        "be given in the form 5 3 2 1 2 3 5 for odd numbers " in {
+          val testM = new PitchAsMatrix(4, 7) 
+          testM.points() should be ("  5   3   2   1   2   3   5 " + eol)
+        }
+        "be given in the form 5 3 2 1 1 2 3 5 for even numbers " in {
+          val testM = new PitchAsMatrix(4, 8)
+          testM.points(3, 8) should be ("  5   3   2   1   1   2   3   5 " + eol)
+        }
+      }
       "have a pitch in the form " + 
       " A " +
       "+-+" +
@@ -55,15 +62,14 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       " 5 " in {
         val testM = new PitchAsMatrix(1, 1, 1)
         val s = testM.pitchToString(1)
-        s should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol)
+        s should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol )
       }
       "have an overwritten toString-method which also returns a pitch in the form " +
       "  A  " +
       "+---+" +
       "|   |" + 
       "+---+" + 
-      "  5  " +
-      "  3  " in {
+      "  5  " in {
         val testM = new PitchAsMatrix(1, 1)
         testM.toString should be("  A " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5 " + eol)
       } 

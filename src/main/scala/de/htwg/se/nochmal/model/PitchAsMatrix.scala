@@ -64,7 +64,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
           }
         }        
       ).mkString
-    return points
+    return points + eol
 
 
   def pitchToString(cellWidth:Int = 3): String =
