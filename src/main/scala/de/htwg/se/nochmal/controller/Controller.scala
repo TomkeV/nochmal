@@ -11,10 +11,20 @@ import util.Event
 
 case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
     
-// NEU
   def publishCross(line:Int, col:Int) =
-      pitch = set(line, col)
-      notifyObservers(Event.Crossed)
+    pitch = set(line, col)
+    notifyObservers(Event.Crossed)
+  
+  def publishCross(input:String) = 
+    val splitArray = input.split("""x""")
+    for (i <- 0 to splitArray.length-1) {
+        if (splitArray(i).toString.length() > 1) {
+            val line = splitArray(i)(0).toString().toInt
+            val col = splitArray(i)(1).toString().toInt
+            pitch = set(line, col)
+        }
+    }
+    notifyObservers(Event.Crossed)
 
   def publishDice() =
     println(dice())
@@ -24,18 +34,15 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     println(beQuit())
     notifyObservers(Event.Quit)
     
-// NEU
   def set(line:Int, col:Int): PitchAsMatrix =
     pitch.fillCell(line-1, col-1)
 
-// Neu
   def dice(): String = 
     val n = nums.roll_dice()
     val c = colors.roll_dice()
     val eol = sys.props("line.separator")
     "Deine Wuerfelergebnisse: " + eol + n + eol + c
 
-// Neu
   def beQuit(): String =
     "Danke fuers Spielen!"
 

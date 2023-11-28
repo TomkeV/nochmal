@@ -25,6 +25,11 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         val returnedM = testM.fillCell(1, 1)
         returnedM.getIndex(1, 1) should be(Filling.filled)
       }
+      "be able to change its cells from 'filled' to 'empty' to undo a move " in {
+        val returnedM_filled = testM.fillCell(1, 1)
+        val returnedM_emptied = returnedM_filled.unfillCell(1, 1)
+        returnedM_emptied.getIndex(1, 1) should be (Filling.empty)
+      }
     }
     "converted in Strings " should {
       val eol = sys.props("line.separator")
