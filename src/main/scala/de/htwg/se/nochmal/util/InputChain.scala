@@ -35,9 +35,8 @@ class DiceHandler() extends ChainHandler {
 class RestHandler() extends ChainHandler {
     var nextHandler = null;
     override def handleInput(input: String, controller:Controller): Unit = {
-        //val chars = input.toString().toList
-        val chars = input.toLowerCase().toCharArray()
-        val inputString = analyseChars(chars)
+        val chars = input.toString().toList
+        val inputString = chars.filter(_.isLetterOrDigit).mkString
         chars(0) match
           case 'x' => controller.publishCross(inputString)
           case ' ' => 
@@ -46,7 +45,19 @@ class RestHandler() extends ChainHandler {
           case _ => println("Ungueltige Eingabe!")
     }
 
-    def analyseChars(array:Array[Char]):String = 
+
+}
+
+object InputHandler {
+    def handle(i: String, c: Controller) = 
+        QuitHandler().handleInput(i, c)
+}
+
+
+// Alte Methode analyseChars:
+    //val chars = input.toLowerCase().toCharArray()
+    //val inputString = analyseChars(chars)
+    /*     def analyseChars(array:Array[Char]):String = 
         val range = Range(0, array.length).toList
         val tmpArray = range.map(i =>
           if(array(i).isDigit) {
@@ -63,10 +74,4 @@ class RestHandler() extends ChainHandler {
                 resString += tmpArray(i)
         }
         }
-        return resString
-}
-
-object InputHandler {
-    def handle(i: String, c: Controller) = 
-        QuitHandler().handleInput(i, c)
-}
+        return resString */
