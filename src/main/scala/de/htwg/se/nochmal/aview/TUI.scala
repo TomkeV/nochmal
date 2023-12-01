@@ -6,7 +6,6 @@ import scala.io.StdIn.readLine
 import controller.Controller
 import util.Observer
 import util.Event
-import model.Filling
 import model.PitchAsMatrix
 import model.Colors_dice
 import model.Numbers_dice
