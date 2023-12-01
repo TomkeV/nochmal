@@ -1,3 +1,5 @@
+
+
 // State für PitchAsMatrix.points()
 trait EvenOddEvent
     //override def toString(): String = "Hallo"
@@ -54,7 +56,6 @@ EvenOdd.handle(OddEvent())(3, 11).toString()
 EvenOdd.evenState(3, 8)
 
 
-
 def points(cellWidth:Int = 3, colNum:Int = 7): String =
     if (colNum%2 == 0) {
     // für gerade Zahlen: 
@@ -66,9 +67,67 @@ def points(cellWidth:Int = 3, colNum:Int = 7): String =
     //return points
 
 points().toString()
-// ----------------------------------------------------------------------------------
-// Chain of Responsibility für TUI EvenOddState
 
+
+
+// ----------------------------------------------------------------------------------
+// Chain of Responsibility 
+import de.htwg.se.nochmal.controller.Controller
+import de.htwg.se.nochmal.model.Colors_dice
+import de.htwg.se.nochmal.model.Numbers_dice
+import de.htwg.se.nochmal.model.PitchAsMatrix
+
+trait HandlerInterface:
+    def handleInput(input: String, controller:Controller): Unit
+
+abstract class ChainHandler extends HandlerInterface:
+    protected var nextHandler: ChainHandler
+
+
+class QuitHandler() extends ChainHandler {
+    var nextHandler = DiceHandler()
+    override def handleInput(input: String, controller:Controller): Unit = {
+        if (input == "q") {
+            println("Controller publish Quit")
+            controller.publishQuit()
+        } else {
+            nextHandler.handleInput(input: String, controller:Controller)
+        }
+    }
+}
+
+class DiceHandler() extends ChainHandler {
+    var nextHandler = RestHandler()
+    override def handleInput(input: String, controller:Controller): Unit = {
+        if (input == "d") {
+            println("Controller publish Dice")
+            controller.publishDice()
+        } else {
+            nextHandler.handleInput(input: String, controller:Controller)
+        }
+    }
+}
+
+class RestHandler() extends ChainHandler {
+    var nextHandler = null;
+    override def handleInput(input: String, controller:Controller): Unit = {
+        val chars = input.toString().toList
+        println("Analysing input as String")
+    }
+}
+
+object InputHandler {
+    def handle(i: String, c: Controller) = 
+        QuitHandler().handleInput(i, c)
+}
+
+
+val myPitch = new PitchAsMatrix(4, 7)
+val myNumdice = Numbers_dice(3)
+val myColorsdice = Colors_dice(3)
+val controller = Controller(myPitch, myNumdice, myColorsdice)
+val my_input = "q"
+InputHandler.handle(my_input, controller)
 
 
 // ----------------------------------------------------------------------------------
@@ -105,6 +164,7 @@ class BlueField() extends ColorFactory {
 }
 
 object ColorFactory {
+        
     //def apply =
         // Ersatz für Konstruktor, erzeugt neue Felder je nach Parameter
 }

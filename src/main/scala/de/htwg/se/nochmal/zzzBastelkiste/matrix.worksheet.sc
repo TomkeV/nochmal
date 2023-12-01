@@ -214,3 +214,6 @@ val punkte = anzahlPunkte.map(x =>
         }        
       ).mkString
 
+
+val rot = "\u001B[41m"
+println(rot+"Hi")

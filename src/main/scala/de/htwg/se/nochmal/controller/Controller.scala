@@ -7,6 +7,7 @@ import model.Filling
 import model.Numbers_dice
 import model.Colors_dice
 import util.Event
+import de.htwg.se.nochmal.util.setCommand
 
 
 case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
@@ -16,6 +17,7 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     notifyObservers(Event.Crossed)
   
   def publishCross(input:String) = 
+    // Command erzeugen, Move ausführen
     val splitArray = input.split("""x""")
     for (i <- 0 to splitArray.length-1) {
         if (splitArray(i).toString.length() > 1) {
