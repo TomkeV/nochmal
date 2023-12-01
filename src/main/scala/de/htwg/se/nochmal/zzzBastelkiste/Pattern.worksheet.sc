@@ -131,40 +131,138 @@ InputHandler.handle(my_input, controller)
 
 
 // ----------------------------------------------------------------------------------
-// Factory-Pattern statt enum Color
+// Builder für Spielfeld mit Titel, ohne Titel,...
 
-trait ColorFactory {
-    def color(): String
-    def colorHash(): String
+trait Builder:
+    def createTitle(t:Title): Builder
+    def createMatrix(m:Matrix): Builder
+    def createPoints(p:Points): Builder
+
+class Title(cellWidth:Int, colNum:Int) {
+    val eol = sys.props("line.separator")
+    val list = Range(0, colNum).toList
+    val res = list.map(x =>
+                " " + 
+                " " * ((cellWidth-1)/2) +
+                ('A' + x).toChar +
+                " ").mkString + eol
+}
+val testTitle = Title(3, 7).res
+
+class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchAsMatrix) {
+    val eol = sys.props("line.separator")
+    val numOfRows = Range(0, rowNum)
+    val numOfCells = Range(0, colNum)
+    val res = columns(cellWidth, colNum) + numOfRows.map(x =>
+      (numOfCells.map(y =>
+        "|" + " " * (cellWidth/2) + pitch.getIndex(x, y).toString() 
+        + " " * (cellWidth/2)).mkString) + "|" + eol + columns(cellWidth, colNum)).mkString 
+
+    def columns(cellWidth:Int = 3, colNum:Int = 7) = 
+        ("+" + "-" * cellWidth) * colNum + "+" + eol
+}
+val pitchForTest = new PitchAsMatrix(4, 7)
+val testMatrix = Matrix(3, 7, 4, pitchForTest).res
+
+class Points(cellWidth:Int, colNum:Int) {
+    val eol = sys.props("line.separator")
+    val res = if (colNum%2 == 0) { // für gerade Zahlen: 
+                EvenOdd.handle(EvenEvent())(cellWidth, colNum) + eol
+              } else { // für ungerade Zahlen: 
+                EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
+              }
+}
+val testPoints = Points(3, 7).res
+
+class PitchBuilder() extends Builder {
+    private var title : String = _
+    private var matrix : String = _
+    private var points : String = _
+
+    override def createTitle(t:Title) : PitchBuilder= 
+        title = t.res
+        this
+
+    override def createMatrix(m: Matrix) : PitchBuilder = 
+        matrix = m.res
+        this
+
+    override def createPoints(p: Points) : PitchBuilder = 
+        points = p.res
+        this
+
+    override def toString(): String = 
+        title + matrix + points
 }
 
-class RedField() extends ColorFactory {
-    override def color(): String = "r"
-    override def colorHash(): String = "FFFFFF"
+object Pitch {
+    def builder(cellWidth: Int = 3, colNum: Int = 7): PitchBuilder = {
+        new PitchBuilder()
+    }
 }
 
-class OrangeField() extends ColorFactory {
-    override def color(): String = "o"
-    override def colorHash(): String = "FFFFFF"
+val test = Pitch.builder(3, 7).createTitle(Title(3, 7)).createMatrix(Matrix(3, 7, 4, pitchForTest)).createPoints(Points(3, 7))
+
+
+val eol = sys.props("line.separator")
+// von chat-GPT
+class PitchBuilder2(val cellWidth: Int, val colNum: Int) {
+    private var title: String = _
+    private var columns: String = _
+    private var points: String = _
+
+    def withTitle(): PitchBuilder2 = {
+        title = buildTitle()
+        this
+    }
+
+    def withColumns(): PitchBuilder2 = {
+        columns = buildColumns()
+        this
+    }
+
+    def withPoints(): PitchBuilder2 = {
+        points = buildPoints()
+        this
+    }
+
+    def build(): String = {
+        title + columns + points
+    }
+
+    private def buildTitle(): String = {
+        val list = Range(0, colNum).toList
+        list.map(x =>
+                " " +
+                " " * ((cellWidth - 1) / 2) +
+                ('A' + x).toChar +
+                " ").mkString + eol
+        }
+
+    private def buildColumns(): String = {
+        ("+" + "-" * cellWidth) * colNum + "+" + eol
+    }
+
+    private def buildPoints(): String = {
+        if (colNum % 2 == 0) {
+            EvenOdd.handle(EvenEvent())(cellWidth, colNum) + eol
+        } else {
+            EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
+        }
+    }
 }
 
-class YellowField() extends ColorFactory {
-    override def color(): String = "y"
-    override def colorHash(): String = "FFFFF"
+/* object Pitch {
+def builder(cellWidth: Int = 3, colNum: Int = 7): PitchBuilder2 = {
+new PitchBuilder2(cellWidth, colNum)
 }
+} */
 
-class GreenField() extends ColorFactory {
-    override def color(): String = "g" 
-    override def colorHash(): String = "FFFFFF"
-}
+/* // Verwendung des Builders
+val pitch = Pitch.builder()
+.withTitle()
+.withColumns()
+.withPoints()
+.build()
 
-class BlueField() extends ColorFactory {
-    override def color(): String = "b" 
-    override def colorHash(): String = "FFFFF"
-}
-
-object ColorFactory {
-        
-    //def apply =
-        // Ersatz für Konstruktor, erzeugt neue Felder je nach Parameter
-}
+println(pitch) */

@@ -14,7 +14,6 @@ class QuitHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "q") {
-            //println("Controller publish Quit")
             controller.publishQuit()
         } else {
             nextHandler.handleInput(input: String, controller:Controller)
@@ -26,7 +25,6 @@ class DiceHandler() extends ChainHandler {
     var nextHandler = RestHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "w") {
-            //println("Controller publish Dice")
             controller.publishDice()
         } else {
             nextHandler.handleInput(input: String, controller:Controller)
@@ -38,7 +36,6 @@ class RestHandler() extends ChainHandler {
     var nextHandler = null;
     override def handleInput(input: String, controller:Controller): Unit = {
         //val chars = input.toString().toList
-        println("Analysing input as String")
         val chars = input.toLowerCase().toCharArray()
         val inputString = analyseChars(chars)
         chars(0) match
