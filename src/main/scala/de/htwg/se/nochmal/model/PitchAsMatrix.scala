@@ -1,6 +1,8 @@
 package de.htwg.se.nochmal
 package model
 
+import util.*
+
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   
 	// auxiliary construktor
@@ -43,11 +45,9 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def columns(cellWidth:Int = 3, colNum:Int = 7) = ("+" + "-" * cellWidth) * colNum + "+" + eol
   
   def points(cellWidth:Int = 3, colNum:Int = 7): String =
-    val numOfPoints = Range(0, colNum).toList
-    val points = numOfPoints.map(x =>
         if (colNum%2 == 0) {
           // für gerade Zahlen: 
-          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+/*           if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
             (" " * ((cellWidth-1)/2)) + " 5 "
           } else if ((x == (colNum/2)) || (x == (colNum/2)-1)) {
             (" " * ((cellWidth-1)/2)) + " 1 "
@@ -55,9 +55,10 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
             (" " * ((cellWidth-1)/2)) + " 2 "
           } else {
             (" " * ((cellWidth-1)/2)) + " 3 "
-          }
+          } */
+          EvenOdd.handle(EvenEvent())(cellWidth, colNum) + eol
         } else {
-          if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+          /* if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
             (" " * ((cellWidth-1)/2)) + " 5 "
           } else if (x == (colNum/2)) {
             (" " * ((cellWidth-1)/2)) + " 1 "
@@ -65,10 +66,9 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
             (" " * ((cellWidth-1)/2)) + " 2 "
           } else {
             (" " * ((cellWidth-1)/2)) + " 3 "
-          }
-        }        
-      ).mkString
-    return points + eol
+          } */
+          EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
+        }
 
 
   def pitchToString(cellWidth:Int = 3): String =
