@@ -10,6 +10,7 @@ import model.Filling
 import model.PitchAsMatrix
 import model.Colors_dice
 import model.Numbers_dice
+import util.InputHandler
 
 
 class TUI(controller: Controller) extends Observer:
@@ -19,7 +20,6 @@ class TUI(controller: Controller) extends Observer:
  
   def run =
     println(controller.pitch.toString)
-    //getInput()
     inputGetAndAnalysis()
  
   override def update(e: Event) = 
@@ -30,7 +30,8 @@ class TUI(controller: Controller) extends Observer:
 
   def inputGetAndAnalysis():Unit =
     val input = readLine 
-    input match
+    InputHandler.handle(input, controller)
+/*     input match
       case "q" => controller.publishQuit()
       case "w" => controller.publishDice()
       case _ => {
@@ -38,9 +39,10 @@ class TUI(controller: Controller) extends Observer:
         val inputString = analyseChars(chars)
         chars(0) match
           case 'x' => controller.publishCross(inputString)
-          case ' ' => chars(1) match
-            case 'x' => controller.publishCross(inputString)
-          case _ => println("Ungueltige Eingabe!")
+          case ' ' => 
+            chars(1) match
+              case 'x' => controller.publishCross(inputString)
+          case _ => println("Ungueltige Eingabe!") */
         
         
         // TODO: controller.cross so umschreiben, dass String verarbeitet wird!
@@ -49,28 +51,28 @@ class TUI(controller: Controller) extends Observer:
               val line = chars(2).toString.toInt
               val col = chars(4).toString.toInt
               controller.publishCross(line, col) */
-      }
+      //}
     if goOn then inputGetAndAnalysis()
 
 
-  def analyseChars(array:Array[Char]):String = 
-    val range = Range(0, array.length).toList
-    val tmpArray = range.map(i =>
-          if(array(i).isDigit) {
-            array(i)
-          } else if (array(i).isLetter) {
-            'x'
-          } else {
+  // def analyseChars(array:Array[Char]):String = 
+  //   val range = Range(0, array.length).toList
+  //   val tmpArray = range.map(i =>
+  //         if(array(i).isDigit) {
+  //           array(i)
+  //         } else if (array(i).isLetter) {
+  //           'x'
+  //         } else {
 
-          }
-          )
-    var resString = ""
-    for (i <- 0 to array.length-1) {
-      if (tmpArray(i) != ()) {
-        resString += tmpArray(i)
-      }
-    }
-    return resString
+  //         }
+  //         )
+  //   var resString = "" // noch nicht funktional programmiert!
+  //   for (i <- 0 to array.length-1) {
+  //     if (tmpArray(i) != ()) {
+  //       resString += tmpArray(i)
+  //     }
+  //   }
+  //   return resString
 
 
 // case _ vorher:
