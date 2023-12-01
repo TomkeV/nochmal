@@ -45,9 +45,33 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def columns(cellWidth:Int = 3, colNum:Int = 7) = ("+" + "-" * cellWidth) * colNum + "+" + eol
   
   def points(cellWidth:Int = 3, colNum:Int = 7): String =
-        if (colNum%2 == 0) {
-          // für gerade Zahlen: 
-/*           if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
+        if (colNum%2 == 0) { // für gerade Zahlen: 
+          EvenOdd.handle(EvenEvent())(cellWidth, colNum) + eol
+        } else { // für ungerade Zahlen: 
+          EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
+        }
+
+
+  def pitchToString(cellWidth:Int = 3): String =
+    val result = Pitch.builder(cellWidth, col_num).createTitle(Title(cellWidth, col_num)).createMatrix(Matrix(cellWidth, col_num, row_num, this)).createPoints(Points(cellWidth, col_num))
+    return result.toString()
+    /* val numOfCells = Range(0, col_num)
+    val numOfRows = Range(0, row_num)
+
+    val result = title(cellWidth, col_num) + columns(cellWidth, col_num) + numOfRows.map(x =>
+      (numOfCells.map(y =>
+        "|" + " " * (cellWidth/2) + getIndex(x, y).toString() 
+        + " " * (cellWidth/2)).mkString) + "|" + eol + columns(cellWidth, col_num)).mkString 
+        + points(cellWidth, col_num)
+
+    return result */
+  
+  // Methode toString()
+  override def toString = pitchToString()
+
+
+// Alte if-else von createPoints:
+  /*           if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
             (" " * ((cellWidth-1)/2)) + " 5 "
           } else if ((x == (colNum/2)) || (x == (colNum/2)-1)) {
             (" " * ((cellWidth-1)/2)) + " 1 "
@@ -56,8 +80,6 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
           } else {
             (" " * ((cellWidth-1)/2)) + " 3 "
           } */
-          EvenOdd.handle(EvenEvent())(cellWidth, colNum) + eol
-        } else {
           /* if (x == numOfPoints(0) || x == numOfPoints(colNum-1)){
             (" " * ((cellWidth-1)/2)) + " 5 "
           } else if (x == (colNum/2)) {
@@ -67,21 +89,3 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
           } else {
             (" " * ((cellWidth-1)/2)) + " 3 "
           } */
-          EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
-        }
-
-
-  def pitchToString(cellWidth:Int = 3): String =
-    val numOfCells = Range(0, col_num)
-    val numOfRows = Range(0, row_num)
-
-    val result = title(cellWidth, col_num) + columns(cellWidth, col_num) + numOfRows.map(x =>
-      (numOfCells.map(y =>
-        "|" + " " * (cellWidth/2) + getIndex(x, y).toString() 
-        + " " * (cellWidth/2)).mkString) + "|" + eol + columns(cellWidth, col_num)).mkString 
-        + points(cellWidth, col_num)
-
-    return result
-  
-  // Methode toString()
-  override def toString = pitchToString()
