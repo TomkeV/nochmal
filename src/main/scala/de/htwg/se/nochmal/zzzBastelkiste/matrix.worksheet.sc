@@ -1,4 +1,7 @@
-import scala.collection.View.Fill
+
+
+
+
 val v = Vector("rot", "orange", "gelb", "grün", "blau", "orange")
 
 v.head
@@ -52,7 +55,7 @@ val matrix = create_Matrix(3, 5)
 matrix.foreach(i => println(i.toString()))
 
 
-case class Matrix(zeilen:Int, spalten: Int):
+case class Matrix1(zeilen:Int, spalten: Int):
   val z = zeilen
   val c = spalten
   def create_Matrix(): Vector[Vector[Filling]] = 
@@ -60,12 +63,12 @@ case class Matrix(zeilen:Int, spalten: Int):
     Vector.tabulate(c) {j => Filling.empty}
   }
   
-val myM = Matrix(2, 4)
+val myM = Matrix1(2, 4)
 myM.create_Matrix()
 
 
 // Matrix als Klasse
-case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
+case class PitchAsMatrix1(matrix: Vector[Vector[Filling]]):
   val rowsInMatrix = matrix.size  
   val colsInMatrix = matrix.head.size
   def this(rows:Int=4, columns:Int=7) = 
@@ -80,7 +83,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def getIndex(row:Int, col:Int):Filling =
     matrix(row)(col)
 
-  def fillCell(row:Int, col:Int):PitchAsMatrix = 
+  def fillCell(row:Int, col:Int):PitchAsMatrix1 = 
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
   
   def columns(cellWidth:Int = 3, colNum:Int = 7) = 
@@ -97,7 +100,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
     }
     return res
 
-val testM = new PitchAsMatrix(2, 4)
+val testM = new PitchAsMatrix1(2, 4)
 testM.rowsInMatrix
 testM.colsInMatrix
 testM.getIndex(1, 1)
@@ -217,3 +220,12 @@ val punkte = anzahlPunkte.map(x =>
 
 val rot = "\u001B[41m"
 println(rot+"Hi")
+
+
+// Matrix für Farben erstellen:
+
+import de.htwg.se.nochmal.model.Color
+
+val colorMatrix = Vector[Vector[Color]](Vector(Color.green, Color.orange, Color.blue, Color.blue, Color.red, Color.red, Color.yellow),
+                                        Vector(Color.green, Color.green, Color.green, Color.red, Color.orange, Color.blue, Color.yellow),
+                                        Vector(Color.green, Color.yellow, Color.red, Color.red, Color.orange, Color.blue, Color.blue))

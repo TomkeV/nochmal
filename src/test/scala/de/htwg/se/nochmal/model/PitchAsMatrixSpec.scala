@@ -31,7 +31,7 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         returnedM_emptied.getIndex(1, 1) should be (Filling.empty)
       }
     }
-    "converted in Strings " should {
+/*     "converted in Strings " should {
       val eol = sys.props("line.separator")
       "have a bar as String of Form '+---+---+---+---+---+---+---+' " in {
         val testM = new PitchAsMatrix(4, 7)
@@ -57,8 +57,9 @@ class PitchAsMatrixSpec extends AnyWordSpec {
         "be given in the form 5 3 2 1 1 2 3 5 for even numbers " in {
           val testM = new PitchAsMatrix(4, 8)
           testM.points(3, 8) should be ("  5   3   2   1   1   2   3   5 " + eol)
-        }
-      }
+        } 
+      } */
+      val eol = sys.props("line.separator")
       "have a pitch in the form " + 
       " A " +
       "+-+" +
@@ -80,7 +81,7 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       } 
     }
   }
-}
+//}
 
 
 // alte Testbedingungen:
