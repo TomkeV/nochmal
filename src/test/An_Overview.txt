@@ -1,0 +1,21 @@
+Code Coverage
+Stand: 03.12. 18.25 Uhr
+
+// Zustand gut:
+aview: -
+controller: -
+model: Color, Farbwuerfel, Filling, PitchAsMatrix, Zahlwuerfel
+util:
+
+// Zustand naja:
+aview: -
+controller: Controller (unFill!)
+model: -
+util: EvenOddState, 
+
+
+// Zustand keine Tests:
+aview: TUI
+controller: -
+model: -
+util: Command, InputChain

@@ -1,7 +1,7 @@
 package de.htwg.se.nochmal
 package util
 
-import de.htwg.se.nochmal.controller.Controller
+import controller.Controller
 
 trait HandlerInterface:
     def handleInput(input: String, controller:Controller): Unit
@@ -11,12 +11,37 @@ abstract class ChainHandler extends HandlerInterface:
 
 
 class QuitHandler() extends ChainHandler {
-    var nextHandler = DiceHandler()
+    var nextHandler = UndoHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "q") {
             controller.publishQuit()
         } else {
             nextHandler.handleInput(input: String, controller:Controller)
+        }
+    }
+}
+
+// NEU für Undo-Manager
+class UndoHandler() extends ChainHandler {
+    var nextHandler = RedoHandler()
+    override def handleInput(input: String, controller: Controller): Unit = {
+        if (input == "u") {
+            println("Undo!")
+        } else {
+            nextHandler.handleInput(input, controller)
+        }
+    }
+}
+
+
+// NEU für Redo-Manager
+class RedoHandler() extends ChainHandler {
+    var nextHandler = DiceHandler()
+    override def handleInput(input: String, controller: Controller): Unit = {
+        if (input == "r") {
+            println("Redo!")
+        } else {
+            nextHandler.handleInput(input, controller)
         }
     }
 }
@@ -27,7 +52,7 @@ class DiceHandler() extends ChainHandler {
         if (input == "w") {
             controller.publishDice()
         } else {
-            nextHandler.handleInput(input: String, controller:Controller)
+            nextHandler.handleInput(input, controller)
         }
     }
 }
@@ -47,6 +72,7 @@ class RestHandler() extends ChainHandler {
 
 
 }
+
 
 object InputHandler {
     def handle(i: String, c: Controller) = 
