@@ -7,10 +7,12 @@ import model.Filling
 import model.Numbers_dice
 import model.Colors_dice
 import util.Event
-import de.htwg.se.nochmal.util.setCommand
+import util.UndoManager
 
 
 case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
+
+  val undoManager = new UndoManager[PitchAsMatrix]
     
   def publishCross(line:Int, col:Int) =
     pitch = set(line, col)
@@ -36,8 +38,10 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     println(beQuit())
     notifyObservers(Event.Quit)
     
+  // Methode set soll mit Undo kompatibel sein
   def set(line:Int, col:Int): PitchAsMatrix =
-    pitch.fillCell(line-1, col-1)
+    undoManager.doMove(pitch, SetCommand(line, col))
+    //pitch.fillCell(line-1, col-1)
 
   def dice(): String = 
     val n = nums.roll_dice()

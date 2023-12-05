@@ -3,39 +3,44 @@ package util
 
 import controller.Controller
 
-trait Command {
-  def doMove: Unit
-  def undoMove: Unit
-  def redoMove: Unit
+trait Command[T] {
+  def noMove(t: T): T //wenn nichts getan wurde unverändertes T zurückliefern
+  def doMove(t: T): T
+  def undoMove(t: T): T
+  def redoMove(t: T): T
 }
 
-class setCommand(line:Int, col:Int, controller:Controller) extends Command {
-  override def doMove: Unit = 
-    controller.pitch = controller.pitch.fillCell(line-1, col-1)
 
-  override def undoMove: Unit = 
-    controller.pitch = controller.pitch.unfillCell(line-1, col-1)
+class UndoManager[T] {
+  private var undoStack: List[Command[T]] = Nil 
+  private var redoStack: List[Command[T]] = Nil
 
-  override def redoMove: Unit = 
-    controller.pitch = controller.pitch.fillCell(line-1, col-1)
-}
-
-class UndoManager {
-  private var undoStack: List[Command] = Nil 
-  private var redoStack: List[Command] = Nil
-
-  def doMove(command: Command) = {
-    undoStack = command::undoStack
-    command.doMove
+  def doMove(t: T, command: Command[T]) = {
+    undoStack = command::undoStack // legt Objekt auf Stack, damit undo möglich
+    command.doMove(t)
   }
 
-  def undoMove = {
+  def undoMove(t: T): T = {
     undoStack match {
-      case Nil => 
-      case head::stack => {
-        head.undoMove
+      case Nil => t
+      case head::stack => 
+        val result = head.undoMove(t)
         undoStack = stack
         redoStack = head::redoStack
+
+        return result
+    }
+  }
+
+  def redoMove(t: T): T = {
+    redoStack match {
+      case Nil => t
+      case head :: stack => {
+        val result = head.redoMove(t)
+        redoStack = stack
+        undoStack = head :: undoStack
+        
+        return result
       }
     }
   }
