@@ -14,9 +14,9 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 
   val undoManager = new UndoManager[PitchAsMatrix]
     
-  def publishCross(line:Int, col:Int) =
+/*   def publishCross(line:Int, col:Int) =
     pitch = set(line, col)
-    notifyObservers(Event.Crossed)
+    notifyObservers(Event.Crossed) */
   
   def publishCross(input:String) = 
     // Command erzeugen, Move ausführen
@@ -37,6 +37,16 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
   def publishQuit() =
     println(beQuit())
     notifyObservers(Event.Quit)
+
+  // NEU wegen undo
+  def publishUndo() = 
+    println(undo())
+    notifyObservers(Event.Undone)
+
+  // NEU wegen redo
+  def publishRedo() = 
+    println(redo())
+    notifyObservers(Event.Redone)
     
   // Methode set soll mit Undo kompatibel sein
   def set(line:Int, col:Int): PitchAsMatrix =
@@ -51,6 +61,14 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 
   def beQuit(): String =
     "Danke fuers Spielen!"
+
+
+  // NEU für Undo-Manager
+  def undo(): PitchAsMatrix =
+    undoManager.undoMove(pitch)
+
+  def redo(): PitchAsMatrix =
+    undoManager.redoMove(pitch)
 
   override def toString = pitch.pitchToString()
 

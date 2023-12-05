@@ -5,3 +5,5 @@ enum Event:
     case Quit
     case Diced
     case Crossed
+    case Undone
+    case Redone

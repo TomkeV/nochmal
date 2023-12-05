@@ -21,12 +21,14 @@ class QuitHandler() extends ChainHandler {
     }
 }
 
+
 // NEU für Undo-Manager
 class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "u") {
-            println("Undo!")
+            controller.publishUndo()
+            //println("Undo!")
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -39,7 +41,8 @@ class RedoHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "r") {
-            println("Redo!")
+            controller.publishRedo()
+            //println("Redo!")
         } else {
             nextHandler.handleInput(input, controller)
         }

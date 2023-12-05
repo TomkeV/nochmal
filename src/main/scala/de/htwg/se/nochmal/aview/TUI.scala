@@ -26,6 +26,8 @@ class TUI(controller: Controller) extends Observer:
         case Event.Quit => goOn = false
         case Event.Crossed => println(controller.pitch.toString) 
         case Event.Diced => println("Wo moechtest du ankreuzen? x Zahl Zahl")
+        case Event.Undone => println("Ankreuzen rueckgaengig gemacht")
+        case Event.Redone => println("Ankreuzen wiederhergestellt")
 
   def inputGetAndAnalysis():Unit =
     val input = readLine 
