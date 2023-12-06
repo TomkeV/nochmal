@@ -26,6 +26,20 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def fillCell(row:Int, col:Int):PitchAsMatrix = 
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
+/*   // Methode zum Füllen mehrerer Felder:
+  def fillCells(l:List[Cross]): PitchAsMatrix = 
+    for (i <- 0 to l.length) {
+      val row = l(i).x
+      val col = l(i).y
+      copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
+
+      if (l(i+1)) {
+
+      }
+    }
+    this */
+
+ 
   // Methode zum Leeren von Feldern (nötig für Undo):
   def unfillCell(row:Int, col:Int):PitchAsMatrix =
     copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
