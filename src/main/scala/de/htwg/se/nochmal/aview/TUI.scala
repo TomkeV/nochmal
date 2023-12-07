@@ -16,6 +16,8 @@ class TUI(controller: Controller) extends Observer:
   controller.add(this) // fügt TUI in die Liste hinzu, sodass update funktioniert
 
   var goOn = true
+  var rounds = 0
+  val num_of_rounds = controller.pitch.col_num * 2
  
   def run =
     println(controller.pitch.toString)
@@ -25,6 +27,9 @@ class TUI(controller: Controller) extends Observer:
       e match
         case Event.Quit => goOn = false
         case Event.Crossed => println(controller.pitch.toString) 
+                              rounds += 1
+                              if rounds == num_of_rounds then goOn = false
+                              println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Diced => println("Wo moechtest du ankreuzen? x Zahl Zahl")
         case Event.Undone => println("Ankreuzen rueckgaengig gemacht")
         case Event.Redone => println("Ankreuzen wiederhergestellt")
