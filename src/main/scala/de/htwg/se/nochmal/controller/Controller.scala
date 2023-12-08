@@ -31,21 +31,21 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     notifyObservers(Event.Crossed)
 
   def publishDice() =
-    println(dice())
+    //println(dice())
     notifyObservers(Event.Diced)
    
   def publishQuit() =
-    println(beQuit())
+    //println(beQuit())
     notifyObservers(Event.Quit)
 
   // NEU wegen undo
   def publishUndo() = 
-    println(undo())
+    //println(undo())
     notifyObservers(Event.Undone)
 
   // NEU wegen redo
   def publishRedo() = 
-    println(redo())
+    //println(redo())
     notifyObservers(Event.Redone)
     
 /*   // Methode set soll mit Undo kompatibel sein
