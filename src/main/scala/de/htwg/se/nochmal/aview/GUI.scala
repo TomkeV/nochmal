@@ -7,13 +7,26 @@ import controller.Controller
 import util.Observer
 import util.Event
 import model.Color
-import java.awt.Color
+import java.awt.Color as jColor
 import model.Filling
+import javax.swing.BorderFactory
+
+// "globale" Variablen
+val defaultBackgroundColor = 32 * 65536 + 32 * 256 + 32
+val defaultButtonColor = 192 * 65536 + 192 * 256 + 192
+val defaultTextColor = 224 * 65536 + 224 * 256 + 244
+
 
 class GUI(controller: Controller) extends Frame with Observer {
   controller.add(this)
 
+  var rounds = 0
+  val num_of_rounds = controller.pitch.col_num * 2
+  val rows = controller.pitch.row_num
+  val cols = controller.pitch.col_num
+
   override def update(e: Event): Unit = 
+  // Methode update -> braucht noch Implementierungen!
     e match {
       case Event.Quit => this.dispose()
       case Event.Diced => 
@@ -24,70 +37,109 @@ class GUI(controller: Controller) extends Frame with Observer {
 
   val firstFrame = {
     title = "Nochmal!"
+
+    preferredSize = new Dimension(800, 450) 
+
     contents = new BoxPanel(Orientation.Vertical) {
-      val start_button = new Button("neues Spiel")
-      contents += start_button
-      val t = " A   B   C   D   E   F"
-      val title_label = new Label(t)
-      contents += title_label
-
-      val rows = 4
-      val cols = 7
-
+      
+      border = BorderFactory.createEmptyBorder(20, 20, 20, 20)
+            
+      val titleLine = createTitle(cols)
+      contents += titleLine
       val pitch = createPitch(rows, cols)
-
       contents += pitch
 
-      val wuerfelTitel = new Label("Deine Würfel: ")
+      val diceTitel = createCenteredLabel("Deine Würfel: ")
+      contents += diceTitel
 
-      contents += wuerfelTitel
+      val dicePanel = createDice(6)
+      contents += dicePanel
 
-      val dice = new GridPanel(2, 3) {
-        contents += new Label("1")
-        contents += new Label("2")
-        contents += new Label("3")
-        contents += new Label("4")
-        contents += new Label("5")
-        contents += new Label("6")
-      }
-      contents += dice
-
-      val wuerfelButton = new Button("neu wuerfeln")
-
-      contents += wuerfelButton
-
-    }
-    
-    // Feld mit x Zeilen mit Buttons erzeugen
-    def createPitch(rowNum:Int, colNum:Int): GridPanel = {
-      val pitch = new GridPanel(rowNum, 1) {
-        for (i <- 0 to rowNum-1) {
-          contents += createRow(colNum)
+      val diceButton = new GridPanel(1, 1) {
+        contents += new Button("wuerfeln") {
+          background = jColor(defaultButtonColor)
+          preferredSize = new Dimension(200, 30)
         }
+        visible = true
       }
-      return pitch
+      contents += diceButton
+
+      val counter = createCenteredLabel("Runde " + rounds + " von " + num_of_rounds)
+      contents += counter
     }
 
-    // Zeile mit Buttons erzeugen
-    def createRow(col:Int):GridPanel = {
-      val myPanel = new GridPanel(1, col) {
-        for (i <- 0 to col-1)  {
-          contents += createButton(Filling.empty)
-        }
-      }
-      return myPanel
-    }
-
-    // neuen Button mit Filling MIT FARBWAHL ERGÄNZEN!
-    def createButton(fill:Filling): Button = {
-      val myButton = new Button(fill.toString) {
-        //background = java.awt.Color(c.getRGB)
-      }
-      return myButton
-    }
   }
   
   pack()
   centerOnScreen()
   open()
+}
+
+
+
+    
+// Feld mit x Zeilen mit Buttons erzeugen
+def createPitch(rowNum:Int, colNum:Int): GridPanel = {
+  val pitch = new GridPanel(rowNum, 1) {
+    // Titel hinzufügen
+    for (i <- 0 to rowNum-1) {
+      contents += createRow(colNum)
+    }
+  }
+  return pitch
+}
+
+// Titelzeile erzeugen
+def createTitle(col:Int):GridPanel = {
+  val myTitle = new GridPanel(1, col) {
+    background = jColor(defaultBackgroundColor)
+    for (i <- 0 to col-1) {
+      contents += new Label((('A' + i).toChar).toString()) {
+        foreground = jColor(defaultTextColor)
+      }
+    }
+  }
+  return myTitle
+}
+
+// Zeile mit Buttons erzeugen
+def createRow(col:Int):GridPanel = {
+  val myPanel = new GridPanel(1, col) {
+    for (i <- 0 to col-1)  {
+      contents += createButton(Filling.empty) 
+    }
+  }
+  return myPanel
+}
+
+// neuen Button mit Filling MIT FARBWAHL ERGÄNZEN!
+def createButton(fill:Filling): Button = {
+  val myButton = new Button(fill.toString) {
+    preferredSize = new Dimension(30, 30)
+    //background = jColor(c.getRGB)
+  }
+  return myButton
+}
+
+// Würfel erzeugen
+def createDice(n:Int):GridPanel = {
+  val diceGrid = new GridPanel(1, n) {
+    background = jColor(defaultBackgroundColor)
+    for (i <- 0 to n-1) {
+      contents += new Label("w"+i.toString) {
+        foreground = jColor(defaultTextColor)
+      }
+    }
+  }
+  return diceGrid
+}
+
+// zentrierte Label erzeugen
+def createCenteredLabel(text:String): GridPanel = {
+  new GridPanel(1, 1) {
+        background = jColor(defaultBackgroundColor)
+        contents += new Label(text) {
+          foreground = jColor(defaultTextColor)
+        }
+      }
 }

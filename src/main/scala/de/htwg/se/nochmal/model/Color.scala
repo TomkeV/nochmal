@@ -5,6 +5,7 @@ package model
 enum Color(s:String, rgb:Int):
   override def toString(): String = s
   def getRGB: Int = rgb
+  // rgb = r * 65536 + g * 256 + b
   case red extends Color("r", 255*65536+0*256+0)
   case orange extends Color("o", 255*65536 + 140 * 256 + 0)
   case yellow extends Color("y", 255*65536+255*256+0)
