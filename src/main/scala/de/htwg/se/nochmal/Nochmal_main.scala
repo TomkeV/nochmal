@@ -17,8 +17,9 @@ import aview.GUI
   val myNumdice = Numbers_dice(3)
   val myColorsdice = Colors_dice(3)
   val myController = Controller(myPitch, myNumdice, myColorsdice)
-  val myTui = TUI(myController)
 
-  val gui = new GUI(controller)
+  val myGui = GUI(myController)
+
+  val myTui = TUI(myController)
 
   myTui.run
