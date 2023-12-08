@@ -8,6 +8,7 @@ import util.Observer
 import util.Event
 import model.Color
 import java.awt.Color
+import model.Filling
 
 class GUI(controller: Controller) extends Frame with Observer {
   controller.add(this)
@@ -37,8 +38,27 @@ class GUI(controller: Controller) extends Frame with Observer {
 
       contents += pitch
 
+      val wuerfelTitel = new Label("Deine Würfel: ")
+
+      contents += wuerfelTitel
+
+      val dice = new GridPanel(2, 3) {
+        contents += new Label("1")
+        contents += new Label("2")
+        contents += new Label("3")
+        contents += new Label("4")
+        contents += new Label("5")
+        contents += new Label("6")
+      }
+      contents += dice
+
+      val wuerfelButton = new Button("neu wuerfeln")
+
+      contents += wuerfelButton
+
     }
     
+    // Feld mit x Zeilen mit Buttons erzeugen
     def createPitch(rowNum:Int, colNum:Int): GridPanel = {
       val pitch = new GridPanel(rowNum, 1) {
         for (i <- 0 to rowNum-1) {
@@ -48,26 +68,26 @@ class GUI(controller: Controller) extends Frame with Observer {
       return pitch
     }
 
+    // Zeile mit Buttons erzeugen
     def createRow(col:Int):GridPanel = {
       val myPanel = new GridPanel(1, col) {
         for (i <- 0 to col-1)  {
-          contents += new Button(" ")
+          contents += createButton(Filling.empty)
         }
       }
       return myPanel
     }
 
-    def createButton(fill:String, c:model.Color) = {
-      val myButton = new Button(fill) {
-        background = java.awt.Color(c.getRGB)
+    // neuen Button mit Filling MIT FARBWAHL ERGÄNZEN!
+    def createButton(fill:Filling): Button = {
+      val myButton = new Button(fill.toString) {
+        //background = java.awt.Color(c.getRGB)
       }
+      return myButton
     }
-
-
   }
   
   pack()
   centerOnScreen()
   open()
-
 }
