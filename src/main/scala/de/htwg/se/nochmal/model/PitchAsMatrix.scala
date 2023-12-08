@@ -25,33 +25,29 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def getIndex(row:Int, col:Int):Filling =
     matrix(row)(col)
 
-	// Methode zum Füllen von Feldern - NEU MIT TRY
-  def fillCell(row:Int, col:Int): Try[PitchAsMatrix] = 
-    if(row > 0 && col > 0) then
-      Success(copy(matrix.updated(row, matrix(row).updated(col, Filling.filled))))
-    else 
-      Failure(new Error("Diese Koordinaten sind ungültig!"))
+	// Methode zum Füllen von Feldern
+  def fillCell(row:Int, col:Int): PitchAsMatrix = 
+    copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
-/*   // Methode zum Füllen mehrerer Felder:
-  def fillCells(l:List[Cross]): PitchAsMatrix = 
-    for (i <- 0 to l.length) {
-      val row = l(i).x
-      val col = l(i).y
-      copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
-
-      if (l(i+1)) {
-
-      }
-    }
-    this */
+  // Methode zum Füllen mehrerer Felder:
+  def fillCellsList(l:List[Option[Cross]], p:PitchAsMatrix): PitchAsMatrix = 
+    var tmpMatrix = p
+    for (cross <- l) yield cross match {
+      case Some(c) => tmpMatrix = tmpMatrix.fillCell(c.x-1, c.y-1)
+      case None => }
+    tmpMatrix
 
  
-  // Methode zum Leeren von Feldern (nötig für Undo) - NEU MIT TRY
-  def unfillCell(row:Int, col:Int): Try[PitchAsMatrix] =
-    if (row > 0 && col > 0) then
-      Success(copy(matrix.updated(row, matrix(row).updated(col, Filling.empty))))
-    else
-      Failure(new Error("Ungültige Koordinaten"))
+  // Methode zum Leeren von Feldern (nötig für Undo)
+  def unfillCell(row:Int, col:Int): PitchAsMatrix =
+    copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
+
+  def unfillCellsList(l:List[Option[Cross]], p:PitchAsMatrix): PitchAsMatrix =
+    var tmpMatrix = p
+    for (cross <- l) yield cross match {
+      case Some(c) => tmpMatrix = tmpMatrix.unfillCell(c.x-1, c.y-1)
+      case None => }
+    tmpMatrix
 
   def pitchToString(cellWidth:Int = 3): String =
     val result = Pitch.builder(cellWidth, col_num)

@@ -1,4 +1,5 @@
 import scala.collection.mutable.ListBuffer
+/* import scala.collection.mutable.ListBuffer
 import de.htwg.se.nochmal.controller.Controller
 import de.htwg.se.nochmal.util.ChainHandler
 // Umwandlung der analyseInput() Funktion aus TUI bzw. InputChain in FP:
@@ -84,7 +85,7 @@ def setMove(s:String):Move =
   }
   Move(l(0), l(1), l(2), l(3), l(4))
 
-setMove("x12")
+//setMove("x12")
 
 
 val ergebnis = r.map(i =>
@@ -95,4 +96,27 @@ val ergebnis = r.map(i =>
   } else {
     "skip"
   }
-  ).toList
+  ).toList */
+
+import de.htwg.se.nochmal.model.Cross
+// import de.htwg.se.nochmal.model.Move
+
+var s = " "
+
+var l = new ListBuffer[Option[Cross]]
+
+val input = "x11 x 2 2 x (3, 3) x 4, 4"
+val mychars = input.toString().toList
+val inputString = mychars.filter(_.isLetterOrDigit).mkString
+val splitArray = inputString.split("""x""")
+
+val range = Range(0, splitArray.length)
+var res = range.map(x =>
+  if(splitArray(x).length() > 1) {
+    val line = splitArray(x)(0).toString().toInt
+    val col = splitArray(x)(1).toString().toInt
+    Some(new Cross(line, col))
+  } else {
+    None
+  }).toList
+

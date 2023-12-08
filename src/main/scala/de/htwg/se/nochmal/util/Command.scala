@@ -6,10 +6,10 @@ import scala.util.Try
 import scala.util.Success
 
 trait Command[T] {
-  def noMove(t: T): Try[T] //wenn nichts getan wurde unverändertes T zurückliefern
-  def doMove(t: T): Try[T]
-  def undoMove(t: T): Try[T]
-  def redoMove(t: T): Try[T]
+  def noMove(t: T): T//wenn nichts getan wurde unverändertes T zurückliefern
+  def doMove(t: T): T
+  def undoMove(t: T): T
+  def redoMove(t: T): T
 }
 
 
@@ -22,9 +22,9 @@ class UndoManager[T] {
     command.doMove(t)
   }
 
-  def undoMove(t: T): Try[T] = {
+  def undoMove(t: T): T = {
     undoStack match {
-      case Nil => Success(t)
+      case Nil =>t
       case head::stack => 
         val result = head.undoMove(t)
         undoStack = stack
@@ -34,9 +34,9 @@ class UndoManager[T] {
     }
   }
 
-  def redoMove(t: T): Try[T] = {
+  def redoMove(t: T): T = {
     redoStack match {
-      case Nil => Success(t)
+      case Nil => t
       case head :: stack => {
         val result = head.redoMove(t)
         redoStack = stack

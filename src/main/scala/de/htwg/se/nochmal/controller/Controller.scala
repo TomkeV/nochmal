@@ -9,9 +9,7 @@ import model.Colors_dice
 import util.Event
 import util.UndoManager
 import model.Cross
-import scala.util.Try
-import scala.util.Success
-import scala.util.Failure
+
 
 
 case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
@@ -21,24 +19,24 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
   def publishCross(input:String) = 
     // Command erzeugen, Move ausführen
     val splitArray = input.split("""x""")
-     for (i <- 0 to splitArray.length-1) {
+/*      for (i <- 0 to splitArray.length-1) {
         if (splitArray(i).toString.length() > 1) {
             val line = splitArray(i)(0).toString().toInt
             val col = splitArray(i)(1).toString().toInt
             pitch = set(line, col)
         }
-      } 
-    notifyObservers(Event.Crossed)
-    /*     val r = Range(0, splitArray.length)
-    val res = r.map(i =>
-      if(splitArray(i).length() > 1) {
-        val line = splitArray(i)(0).toString().toInt
-        val col = splitArray(i)(1).toString().toInt
-        new Cross(line, col)
+      }  */
+    val range = Range(0, splitArray.length)
+    var res = range.map(x =>
+      if(splitArray(x).length() > 1) {
+        val line = splitArray(x)(0).toString().toInt
+        val col = splitArray(x)(1).toString().toInt
+        Some(new Cross(line, col))
       } else {
-        "skip"
-      }).toList.filter(_.isInstanceOf[Cross])
-    pitch = set(res.filter(_.isInstanceOf[Crro])) */
+        None
+      }).toList
+    pitch = setList(res)
+    notifyObservers(Event.Crossed)
 
   def publishDice() =
     println(dice())
@@ -58,18 +56,15 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     println(redo())
     notifyObservers(Event.Redone)
     
-  // Methode set soll mit Undo kompatibel sein
-  def set(line:Int, col:Int): Try[PitchAsMatrix]=
-    if (line >= 0 && col >= 0) then
-      Success(undoManager.doMove(pitch, SetCommand(line, col)))
-    else 
-      Failure(new Error("Feler in Controller.set"))
-    //pitch.fillCell(line-1, col-1)
+/*   // Methode set soll mit Undo kompatibel sein
+  def set(line:Int, col:Int): PitchAsMatrix =
+    undoManager.doMove(pitch, SetCommand(line, col))
+    //pitch.fillCell(line-1, col-1) */
 
-/*   // set zum ankreuzen mehrerer Felder
-  def set(crosses:List[Cross]) =
+  // set zum ankreuzen mehrerer Felder
+  def setList(crosses:List[Option[Cross]]) =
     undoManager.doMove(pitch, SetCommand(crosses)) 
- */
+ 
   def dice(): String = 
     val n = nums.roll_dice()
     val c = colors.roll_dice()
@@ -81,10 +76,10 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 
 
   // NEU für Undo-Manager
-  def undo(): Try[PitchAsMatrix] =
+  def undo(): PitchAsMatrix =
     undoManager.undoMove(pitch)
 
-  def redo(): Try[PitchAsMatrix] =
+  def redo(): PitchAsMatrix =
     undoManager.redoMove(pitch)
 
   override def toString = pitch.pitchToString()

@@ -32,32 +32,17 @@ class TUI(controller: Controller) extends Observer:
                               println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Diced => println("Wo moechtest du ankreuzen? x Zahl Zahl")
         case Event.Undone => println("Ankreuzen rueckgaengig gemacht")
+                            rounds -= 1
+                            if rounds > num_of_rounds then goOn = true
+                            println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Redone => println("Ankreuzen wiederhergestellt")
+                            rounds += 1
+                            if rounds == num_of_rounds then goOn = false
+                            println("Runde " + rounds + " von " + num_of_rounds)
 
   def inputGetAndAnalysis():Unit =
     val input = readLine 
     InputHandler.handle(input, controller)
-/*     input match
-      case "q" => controller.publishQuit()
-      case "w" => controller.publishDice()
-      case _ => {
-        val chars = input.toLowerCase().toCharArray()
-        val inputString = analyseChars(chars)
-        chars(0) match
-          case 'x' => controller.publishCross(inputString)
-          case ' ' => 
-            chars(1) match
-              case 'x' => controller.publishCross(inputString)
-          case _ => println("Ungueltige Eingabe!") */
-        
-        
-        // TODO: controller.cross so umschreiben, dass String verarbeitet wird!
-/*           chars(0) match 
-            case 'x' => 
-              val line = chars(2).toString.toInt
-              val col = chars(4).toString.toInt
-              controller.publishCross(line, col) */
-      //}
     if goOn then inputGetAndAnalysis()
 
 
