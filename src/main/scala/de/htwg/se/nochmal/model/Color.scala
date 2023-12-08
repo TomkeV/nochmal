@@ -2,10 +2,11 @@ package de.htwg.se.nochmal
 package model
 
 // --- Enum Filling ---
-enum Color(s:String):
+enum Color(s:String, rgb:Int):
   override def toString(): String = s
-  case red extends Color("r")
-  case orange extends Color("o")
-  case yellow extends Color("y")
-  case green extends Color("g")
-  case blue extends Color("b")
+  def getRGB: Int = rgb
+  case red extends Color("r", 255*65536+0*256+0)
+  case orange extends Color("o", 255*65536 + 140 * 256 + 0)
+  case yellow extends Color("y", 255*65536+255*256+0)
+  case green extends Color("g", 0*65536+255*256+0)
+  case blue extends Color("b", 0*65536+0*256+255)

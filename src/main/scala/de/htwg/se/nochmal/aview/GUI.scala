@@ -6,6 +6,7 @@ import scala.swing._
 import controller.Controller
 import util.Observer
 import util.Event
+import model.Color
 import java.awt.Color
 
 class GUI(controller: Controller) extends Frame with Observer {
@@ -14,7 +15,10 @@ class GUI(controller: Controller) extends Frame with Observer {
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
-      case _ => 
+      case Event.Diced => 
+      case Event.Crossed =>
+      case Event.Undone =>
+      case Event.Redone =>
     }
 
   val firstFrame = {
@@ -28,39 +32,38 @@ class GUI(controller: Controller) extends Frame with Observer {
 
       val rows = 4
       val cols = 7
-      val pitch = new GridPanel(rows, cols) {
-        //title = "test"
 
-        val redButton = new Button(" ") {
-          background = Color(255*65536+0*256+0)
-        }
-        val blueButton = new Button(" ") {
-          background = Color(0*65536+0*256+255)
-
-        }
-        val greenButton = new Button(" ") {
-          background = Color(0*65536+255*256+0)
-        }
-        val orangeButton = new Button(" "){
-          background = Color(255*65536 + 140 * 256 + 0)
-          //(R*65536)+(G*256)+B
-        }
-
-        val yellowButton = new Button(" ") {
-          background = Color(255*65536+255*256+0)
-        }
-
-        contents += redButton
-        contents += blueButton
-        contents += greenButton
-        contents += orangeButton
-        contents += yellowButton
-
-        visible = true
-      }
+      val pitch = createPitch(rows, cols)
 
       contents += pitch
+
     }
+    
+    def createPitch(rowNum:Int, colNum:Int): GridPanel = {
+      val pitch = new GridPanel(rowNum, 1) {
+        for (i <- 0 to rowNum-1) {
+          contents += createRow(colNum)
+        }
+      }
+      return pitch
+    }
+
+    def createRow(col:Int):GridPanel = {
+      val myPanel = new GridPanel(1, col) {
+        for (i <- 0 to col-1)  {
+          contents += new Button(" ")
+        }
+      }
+      return myPanel
+    }
+
+    def createButton(fill:String, c:model.Color) = {
+      val myButton = new Button(fill) {
+        background = java.awt.Color(c.getRGB)
+      }
+    }
+
+
   }
   
   pack()
