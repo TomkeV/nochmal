@@ -2,8 +2,6 @@ package de.htwg.se.nochmal
 package util
 
 import controller.Controller
-import scala.util.Try
-import scala.util.Success
 
 trait Command[T] {
   def noMove(t: T): T//wenn nichts getan wurde unverändertes T zurückliefern
@@ -24,7 +22,7 @@ class UndoManager[T] {
 
   def undoMove(t: T): T = {
     undoStack match {
-      case Nil =>t
+      case Nil => t
       case head::stack => 
         val result = head.undoMove(t)
         undoStack = stack

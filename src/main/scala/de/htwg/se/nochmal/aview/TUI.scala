@@ -29,8 +29,7 @@ class TUI(controller: Controller) extends Observer:
                               println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Diced => val d = controller.dice()
                             println(d)
-        case Event.Undone => //println("Ankreuzen rueckgaengig gemacht")
-                            println(controller.undo())
+        case Event.Undone => println(controller.undo())
                             rounds -= 1
                             if rounds > num_of_rounds then goOn = true
                             println("Runde " + rounds + " von " + num_of_rounds)
