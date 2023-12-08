@@ -11,7 +11,6 @@ import util.UndoManager
 import model.Cross
 
 
-
 case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
 
   val undoManager = new UndoManager[PitchAsMatrix]
@@ -19,13 +18,6 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
   def publishCross(input:String) = 
     // Command erzeugen, Move ausführen
     val splitArray = input.split("""x""")
-/*      for (i <- 0 to splitArray.length-1) {
-        if (splitArray(i).toString.length() > 1) {
-            val line = splitArray(i)(0).toString().toInt
-            val col = splitArray(i)(1).toString().toInt
-            pitch = set(line, col)
-        }
-      }  */
     val range = Range(0, splitArray.length)
     var res = range.map(x =>
       if(splitArray(x).length() > 1) {
@@ -88,3 +80,12 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 /*   def publishCross(line:Int, col:Int) =
     pitch = set(line, col)
     notifyObservers(Event.Crossed) */
+
+// ehemals publishCross
+/*      for (i <- 0 to splitArray.length-1) {
+        if (splitArray(i).toString.length() > 1) {
+            val line = splitArray(i)(0).toString().toInt
+            val col = splitArray(i)(1).toString().toInt
+            pitch = set(line, col)
+        }
+      }  */
