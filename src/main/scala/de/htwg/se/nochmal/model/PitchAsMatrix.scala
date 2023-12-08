@@ -2,6 +2,9 @@ package de.htwg.se.nochmal
 package model
 
 import util.*
+import scala.util.Try
+import scala.util.Success
+import scala.util.Failure
 
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   
@@ -22,9 +25,12 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def getIndex(row:Int, col:Int):Filling =
     matrix(row)(col)
 
-	// Methode zum Füllen von Feldern:
-  def fillCell(row:Int, col:Int):PitchAsMatrix = 
-    copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
+	// Methode zum Füllen von Feldern - NEU MIT TRY
+  def fillCell(row:Int, col:Int): Try[PitchAsMatrix] = 
+    if(row > 0 && col > 0) then
+      Success(copy(matrix.updated(row, matrix(row).updated(col, Filling.filled))))
+    else 
+      Failure(new Error("Diese Koordinaten sind ungültig!"))
 
 /*   // Methode zum Füllen mehrerer Felder:
   def fillCells(l:List[Cross]): PitchAsMatrix = 
@@ -40,9 +46,12 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
     this */
 
  
-  // Methode zum Leeren von Feldern (nötig für Undo):
-  def unfillCell(row:Int, col:Int):PitchAsMatrix =
-    copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
+  // Methode zum Leeren von Feldern (nötig für Undo) - NEU MIT TRY
+  def unfillCell(row:Int, col:Int): Try[PitchAsMatrix] =
+    if (row > 0 && col > 0) then
+      Success(copy(matrix.updated(row, matrix(row).updated(col, Filling.empty))))
+    else
+      Failure(new Error("Ungültige Koordinaten"))
 
   def pitchToString(cellWidth:Int = 3): String =
     val result = Pitch.builder(cellWidth, col_num)
