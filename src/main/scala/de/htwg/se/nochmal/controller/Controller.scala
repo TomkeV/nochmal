@@ -54,7 +54,7 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     //pitch.fillCell(line-1, col-1) */
 
   // set zum ankreuzen mehrerer Felder
-  def setList(crosses:List[Option[Cross]]) =
+  def setList(crosses:List[Option[Cross]])  =
     undoManager.doMove(pitch, SetCommand(crosses)) 
  
   def dice(): String = 

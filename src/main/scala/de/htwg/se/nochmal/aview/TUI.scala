@@ -7,6 +7,8 @@ import controller.Controller
 import util.InputHandler
 import util.Observer
 import util.Event
+import scala.util.Try
+import scala.util.Failure
 
 
 class TUI(controller: Controller) extends Observer:

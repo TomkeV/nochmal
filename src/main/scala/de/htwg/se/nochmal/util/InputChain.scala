@@ -70,7 +70,7 @@ class RestHandler() extends ChainHandler {
           case ' ' => 
             chars(1) match
               case 'x' => controller.publishCross(inputString)
-          case _ => println("Ungueltige Eingabe!")
+          //case _ => println("Ungueltige Eingabe!")
     }
 
 
