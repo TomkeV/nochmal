@@ -29,7 +29,8 @@ class GUI(controller: Controller) extends Frame with Observer {
   // Methode update -> braucht noch Implementierungen!
     e match {
       case Event.Quit => this.dispose()
-      case Event.Diced => 
+      case Event.Diced => val d = controller.dice()
+                          displayDice(d)
       case Event.Crossed =>
       case Event.Undone =>
       case Event.Redone =>
@@ -168,7 +169,15 @@ class GUI(controller: Controller) extends Frame with Observer {
             foreground = jColor(defaultTextColor)
           }
         }
-}
+  }
+
+  def displayDice(d:String) =
+    val chars = d.toCharArray()
+    val charsCutted = d.drop(25)
+    val StringArray = charsCutted.split(""" """)
+    for (x <- 0 to StringArray.length-1) {
+      println(StringArray(x))
+    }
   
   pack()
   centerOnScreen()

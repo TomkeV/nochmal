@@ -120,3 +120,11 @@ var res = range.map(x =>
     None
   }).toList
 
+// GUI tests:
+val d = "Deine Wuerfelergebnisse: 2 2 2 Gruen Gelb Rot"
+val chars = d.toCharArray()
+val charsCutted = d.drop(25)
+val StringArray = charsCutted.split(""" """)
+for (x <- 0 to StringArray.length-1) {
+  println(StringArray(x))
+}

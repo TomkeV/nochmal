@@ -31,7 +31,7 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     notifyObservers(Event.Crossed)
 
   def publishDice() =
-    println(dice())
+    //println(dice())
     notifyObservers(Event.Diced)
    
   def publishQuit() =
