@@ -8,7 +8,7 @@ import model.Numbers_dice
 import model.PitchAsMatrix
 import controller.Controller
 import aview.TUI
-import aview.GUI
+import aview.myGUI
 
 @main def nochmal: Unit =
   println("Herzlich Willkommen zu Nochmal!")
@@ -18,7 +18,7 @@ import aview.GUI
   val myColorsdice = Colors_dice(3)
   val myController = Controller(myPitch, myNumdice, myColorsdice)
 
-  val myGui = GUI(myController)
+  val myGui = myGUI(myController)
 
   val myTui = TUI(myController)
 
