@@ -121,10 +121,12 @@ var res = range.map(x =>
   }).toList
 
 // GUI tests:
-val d = "Deine Wuerfelergebnisse: 2 2 2 Gruen Gelb Rot"
-val chars = d.toCharArray()
-val charsCutted = d.drop(25)
-val StringArray = charsCutted.split(""" """)
-for (x <- 0 to StringArray.length-1) {
-  println(StringArray(x))
+val eol = sys.props("line.separator")
+val n = "1" + eol + "2" + eol + "!"
+val c = "gruen" + eol + "rot" + eol + "Joker!"
+val d = "Deine Wuerfelergebnisse: " + eol + n + eol + c
+val dicedArray = d.split("""\R""")
+
+for (i <- 0 to dicedArray.length-1) {
+  println(dicedArray(i))
 }
