@@ -66,10 +66,10 @@ class RestHandler() extends ChainHandler {
         val chars = input.toString().toList
         val inputString = chars.filter(_.isLetterOrDigit).mkString
         chars(0) match
-          case 'x' => controller.publishCross(inputString)
+          case 'x' => controller.publishCross(input)
           case ' ' => 
             chars(1) match
-              case 'x' => controller.publishCross(inputString)
+              case 'x' => controller.publishCross(input)
           case _ => println("Ungueltige Eingabe!")
     }
 
