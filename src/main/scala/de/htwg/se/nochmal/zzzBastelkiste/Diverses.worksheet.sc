@@ -130,3 +130,14 @@ val dicedArray = d.split("""\R""")
 for (i <- 0 to dicedArray.length-1) {
   println(dicedArray(i))
 }
+
+// 
+val cols = 9
+val num = 1
+for (i <- 0 to cols-1) {
+        val colChar = ('A' + i).toChar
+        val cross = "x" + colChar + (num).toString()
+        println(colChar.toString() + " : " + cross)
+        //val cross = "x" + num.toString() + (i+1).toString()
+        //contents += createButton(colors(i), cross)
+      }

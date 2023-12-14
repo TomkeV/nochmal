@@ -7,3 +7,4 @@ enum Event:
     case Crossed
     case Undone
     case Redone
+    case Applied

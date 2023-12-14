@@ -42,7 +42,6 @@ class RedoHandler() extends ChainHandler {
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "r") {
             controller.publishRedo()
-            //println("Redo!")
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -50,7 +49,7 @@ class RedoHandler() extends ChainHandler {
 }
 
 class DiceHandler() extends ChainHandler {
-    var nextHandler = RestHandler()
+    var nextHandler = ApplyHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "w") {
             controller.publishDice()
@@ -60,19 +59,16 @@ class DiceHandler() extends ChainHandler {
     }
 }
 
-/* class RestHandler() extends ChainHandler {
-    var nextHandler = null;
-    override def handleInput(input: String, controller:Controller): Unit = {
-        val chars = input.toString().toList
-        val inputString = chars.filter(_.isLetterOrDigit).mkString
-        chars(0) match
-          case 'x' => controller.publishCross(inputString)
-          case ' ' => 
-            chars(1) match
-              case 'x' => controller.publishCross(inputString)
-          case _ => println("Ungueltige Eingabe!")
-    }
-} */
+class ApplyHandler() extends ChainHandler {
+    var nextHandler = RestHandler()
+
+    override def handleInput(input: String, controller: Controller): Unit = 
+        if(input == "a") {
+            controller.publishApply()
+        } else {
+            nextHandler.handleInput(input, controller)
+        }
+}
 
 class RestHandler() extends ChainHandler {
     var nextHandler = null;
@@ -116,3 +112,17 @@ object InputHandler {
         }
         }
         return resString */
+
+/* class RestHandler() extends ChainHandler {
+    var nextHandler = null;
+    override def handleInput(input: String, controller:Controller): Unit = {
+        val chars = input.toString().toList
+        val inputString = chars.filter(_.isLetterOrDigit).mkString
+        chars(0) match
+          case 'x' => controller.publishCross(inputString)
+          case ' ' => 
+            chars(1) match
+              case 'x' => controller.publishCross(inputString)
+          case _ => println("Ungueltige Eingabe!")
+    }
+} */

@@ -19,33 +19,18 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 
   val undoManager = new UndoManager[PitchAsMatrix]
     
-/*   def publishCross(input:String) = 
-    // Command erzeugen, Move ausführen
-    val splitArray = input.split("""x""")
-    val range = Range(0, splitArray.length)
-    var res = range.map(x =>
-      if(splitArray(x).length() > 1) {
-        val line = splitArray(x)(0).toString().toInt
-        val col = splitArray(x)(1).toString().toInt
-        Some(new Cross(line, col))
-      } else {
-        None
-      }).toList
-    pitch = setList(res)
-    notifyObservers(Event.Crossed) */
-
-      // Publish Cross mit mehr Zeilen
+  // Publish Cross für Spalten > 9
   def publishCross(input: List[Char]) = {
     val x = input(1) match
     case 'A' | 'a' | '1' => Try(1)
-    case 'B' | 'b' | '2' => Try(2)
-    case 'C' | 'c' | '3' => Try(3)
-    case 'D' | 'd' | '4' => Try(4)
-    case 'E' | 'e' | '5' => Try(5)
-    case 'F' | 'f' | '6' => Try(6)
-    case 'G' | 'g' | '7' => Try(7)
-    case 'H' | 'h' | '8' => Try(8)
-    case 'I' | 'i' | '9' => Try(9)
+    case 'B' | 'b' => Try(2)
+    case 'C' | 'c' => Try(3)
+    case 'D' | 'd' => Try(4)
+    case 'E' | 'e' => Try(5)
+    case 'F' | 'f' => Try(6)
+    case 'G' | 'g' => Try(7)
+    case 'H' | 'h' => Try(8)
+    case 'I' | 'i' => Try(9)
     case 'J' | 'j' => Try(10)
     case 'K' | 'k' => Try(11)
     case 'L' | 'l' => Try(12)
@@ -56,43 +41,33 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 
     val cross = x match 
       case Failure(exception) => None
-      case Success(value) => val line = value
-                             val col = input(2).toString().toInt
+      case Success(value) => val col = value
+                             val line = input(2).toString().toInt
                              Some(new Cross(line, col))
       pitch = setCross(cross)
       notifyObservers(Event.Crossed)
   }
 
   def publishDice() =
-    //println(dice())
     notifyObservers(Event.Diced)
    
   def publishQuit() =
     println(beQuit())
     notifyObservers(Event.Quit)
 
-  // NEU wegen undo
   def publishUndo() = 
     println(undo())
     notifyObservers(Event.Undone)
 
-  // NEU wegen redo
   def publishRedo() = 
     println(redo())
     notifyObservers(Event.Redone)
     
-/*   // Methode set soll mit Undo kompatibel sein
-  def set(line:Int, col:Int): PitchAsMatrix =
-    undoManager.doMove(pitch, SetCommand(line, col))
-    //pitch.fillCell(line-1, col-1) */
-
-  // set zum ankreuzen mehrerer Felder
-/*   def setList(crosses:List[Option[Cross]]) =
-    undoManager.doMove(pitch, SetCommand(crosses))  */
-
-    // Ankreuzen einzelner Felder mit Try
+  // Ankreuzen einzelner Felder mit Try
   def setCross(c:Option[Cross]) = 
+    undoManager.undoAllowed = true
     undoManager.doMove(pitch, SetCommand(List(c)))
+    
  
   def dice(): String = 
     val n = nums.roll_dice()
@@ -109,13 +84,20 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
   def beQuit(): String =
     "Danke fuers Spielen!"
 
-
-  // NEU für Undo-Manager
   def undo(): PitchAsMatrix =
     undoManager.undoMove(pitch)
 
   def redo(): PitchAsMatrix =
     undoManager.redoMove(pitch)
+
+
+// NEU für Apply
+  def publishApply() = 
+    apply()
+    notifyObservers(Event.Applied)
+
+  def apply(): Unit = 
+    undoManager.undoAllowed = false
 
   override def toString = pitch.pitchToString()
 
@@ -132,3 +114,28 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
             pitch = set(line, col)
         }
       }  */
+
+// Raus seit 14.12.: 
+  /*   def publishCross(input:String) = 
+    // Command erzeugen, Move ausführen
+    val splitArray = input.split("""x""")
+    val range = Range(0, splitArray.length)
+    var res = range.map(x =>
+      if(splitArray(x).length() > 1) {
+        val line = splitArray(x)(0).toString().toInt
+        val col = splitArray(x)(1).toString().toInt
+        Some(new Cross(line, col))
+      } else {
+        None
+      }).toList
+    pitch = setList(res)
+    notifyObservers(Event.Crossed) */
+
+    /*   // Methode set soll mit Undo kompatibel sein
+  def set(line:Int, col:Int): PitchAsMatrix =
+    undoManager.doMove(pitch, SetCommand(line, col))
+    //pitch.fillCell(line-1, col-1) */
+
+  // set zum ankreuzen mehrerer Felder
+/*   def setList(crosses:List[Option[Cross]]) =
+    undoManager.doMove(pitch, SetCommand(crosses))  */

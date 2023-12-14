@@ -23,6 +23,8 @@ import model.Color as myColor
 import model.Filling
 
 
+// globale Variablen:
+val redoButton = new Button("Redo")
 
 class myGUI(controller: Controller) extends Frame with Observer {
   controller.add(this)
@@ -32,6 +34,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
       case Event.Quit => this.dispose()
       case Event.Diced => controller.singleDice() //dicedValues = controller.dice()
       case Event.Crossed => 
+      case Event.Applied => rounds += 1
       case Event.Undone => 
       case Event.Redone =>
     }
@@ -40,8 +43,6 @@ class myGUI(controller: Controller) extends Frame with Observer {
   val num_of_rounds = controller.pitch.col_num * 2
   val rows = controller.pitch.row_num
   val cols = controller.pitch.col_num
-
-  //var dicedValues = ""
 
   val myFrame = {
     preferredSize = new Dimension(800, 600)
@@ -99,33 +100,34 @@ class myGUI(controller: Controller) extends Frame with Observer {
       }
 
       // es fehlen:
-
-      // Vergrößerung
-      // -> umbau ankreuzen auf A B C ,... ? 
-
       // Bei Würfelergebnissen Farben darstellen
 
       // Rundenzähler -> apply/... um mehrere Kreuze zu ermöglichen?
-        /* -> InputChain Eingabe a 
-         * -> Kreuze einzeln auf Stack
-         * -> kein Redo mehr nach Apply
-         * -> Rundenzähler erst mit Apply bzw neuem Würfeln hochzählen
-         */
       
       contents += new GridPanel(1, 5) {
         background = jColor.darkGray
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
-        contents += new Button("Apply")
+        contents += new Button("Apply") {
+          reactions += {case event.ButtonClicked(_) =>
+            InputHandler.handle("a", controller)
+            redoButton.enabled = false
+            //rounds += 1
+            roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
+            roundPanel.repaint()
+          }
+        }
         contents += new Label()
-        contents += new Button("Redo")
+        contents += redoButton
         contents += new Label()
       }  
 
-      contents += new GridPanel(1,1) {
+      val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
+      val roundPanel = new GridPanel(1,1) {
         background = jColor.WHITE
-        contents += new Label("Runde " + rounds + " von " + num_of_rounds)
+        contents += roundLabel
       }
+      contents += roundPanel
       
     }
 
@@ -167,7 +169,9 @@ class myGUI(controller: Controller) extends Frame with Observer {
   def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = {
     val myPanel = new GridPanel(1, cols) {
       for (i <- 0 to cols-1) {
-        val cross = "x" + num.toString() + (i+1).toString()
+        val colChar = ('A' + i).toChar
+        val cross = "x" + colChar.toString() + num.toString()
+        //val cross = "x" + num.toString() + (i+1).toString()
         contents += createButton(colors(i), cross)
       }
     }
@@ -186,6 +190,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
             InputHandler.handle(myName, controller)
             text = Filling.filled.toString()
             enabled = false
+            redoButton.enabled = true
         }
       }
     return myButton

@@ -28,7 +28,10 @@ class TUI(controller: Controller) extends Observer:
       e match
         case Event.Quit => goOn = false
         case Event.Crossed => println(controller.pitch.toString) 
-                              rounds += 1
+                              //rounds += 1
+                              //if rounds == num_of_rounds then goOn = false
+                              //println("Runde " + rounds + " von " + num_of_rounds)
+        case Event.Applied => rounds += 1
                               if rounds == num_of_rounds then goOn = false
                               println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Diced => controller.singleDice()
