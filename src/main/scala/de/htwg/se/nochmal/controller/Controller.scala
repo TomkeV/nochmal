@@ -9,6 +9,9 @@ import model.Colors_dice
 import util.Event
 import util.UndoManager
 import model.Cross
+import scala.util.Try
+import scala.util.Failure
+import scala.util.Success
 
 var diceResult = ""
 
@@ -16,7 +19,7 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
 
   val undoManager = new UndoManager[PitchAsMatrix]
     
-  def publishCross(input:String) = 
+/*   def publishCross(input:String) = 
     // Command erzeugen, Move ausführen
     val splitArray = input.split("""x""")
     val range = Range(0, splitArray.length)
@@ -29,7 +32,36 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
         None
       }).toList
     pitch = setList(res)
-    notifyObservers(Event.Crossed)
+    notifyObservers(Event.Crossed) */
+
+      // Publish Cross mit mehr Zeilen
+  def publishCross(input: List[Char]) = {
+    val x = input(1) match
+    case 'A' | 'a' => Try(1)
+    case 'B' | 'b' => Try(2)
+    case 'C' | 'c' => Try(3)
+    case 'D' | 'd' => Try(4)
+    case 'E' | 'e' => Try(5)
+    case 'F' | 'f' => Try(6)
+    case 'G' | 'g' => Try(7)
+    case 'H' | 'h' => Try(8)
+    case 'I' | 'i' => Try(9)
+    case 'J' | 'j' => Try(10)
+    case 'K' | 'k' => Try(11)
+    case 'L' | 'l' => Try(12)
+    case 'M' | 'm' => Try(13)
+    case 'N' | 'n' => Try(14)
+    case 'O' | 'o' => Try(15)
+    case _ => Failure(new Error("Keine gueltige Zeile!"))
+
+    val cross = x match 
+      case Failure(exception) => None
+      case Success(value) => val line = value
+                             val col = input(2).toString().toInt
+                             Some(new Cross(line, col))
+      pitch = setCross(cross)
+      notifyObservers(Event.Crossed)
+  }
 
   def publishDice() =
     //println(dice())
