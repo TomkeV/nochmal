@@ -60,7 +60,7 @@ class DiceHandler() extends ChainHandler {
     }
 }
 
-class RestHandler() extends ChainHandler {
+/* class RestHandler() extends ChainHandler {
     var nextHandler = null;
     override def handleInput(input: String, controller:Controller): Unit = {
         val chars = input.toString().toList
@@ -72,7 +72,14 @@ class RestHandler() extends ChainHandler {
               case 'x' => controller.publishCross(inputString)
           case _ => println("Ungueltige Eingabe!")
     }
+} */
 
+class RestHandler() extends ChainHandler {
+    var nextHandler = null;
+    override def handleInput(input: String, controller: Controller): Unit = {
+        val chars = input.toString().toList
+        val inputString = chars.filter(_.isLetterOrDigit)
+    }
 
 }
 
