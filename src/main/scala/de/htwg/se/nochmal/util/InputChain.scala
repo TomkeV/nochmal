@@ -62,17 +62,22 @@ class DiceHandler() extends ChainHandler {
 
 class RestHandler() extends ChainHandler {
     var nextHandler = null;
-    override def handleInput(input: String, controller:Controller): Unit = {
-        val chars = input.toString().toList
-        val inputString = chars.filter(_.isLetterOrDigit).mkString
-        chars(0) match
-          case 'x' => controller.publishCross(input)
-          case ' ' => 
-            chars(1) match
-              case 'x' => controller.publishCross(input)
-          case _ => println("Ungueltige Eingabe!")
-    }
+    // override def handleInput(input: String, controller:Controller): Unit = {
+    //     val chars = input.toString().toList
+    //     val inputString = chars.filter(_.isLetterOrDigit).mkString
+    //     chars(0) match
+    //       case 'x' => controller.publishCross(input)
+    //       case ' ' => 
+    //         chars(1) match
+    //           case 'x' => controller.publishCross(input)
+    //       case _ => println("Ungueltige Eingabe!")
+    // }
 
+    // handleInput mit mehr Zeilen:
+    override def handleInput(input: String, controller: Controller): Unit = {
+        val chars = input.toString().toList
+        val inputString = chars.filter(_.isLetterOrDigit)
+    }
 
 }
 
