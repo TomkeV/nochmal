@@ -2,10 +2,13 @@ package de.htwg.se.nochmal
 package util
 
 import model.PitchAsMatrix
+import model.myPitchWithColors
+import model.Filling
 
 trait Builder:
     def createTitle(t:Title): Builder
     def createMatrix(m:Matrix): Builder
+    def createMatrixWithColors(mc:MatrixWithColors): Builder
     def createPoints(p:Points): Builder
 
 class Title(cellWidth:Int, colNum:Int) {
@@ -31,6 +34,27 @@ class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchAsMatrix) {
         ("+" + "-" * cellWidth) * colNum + "+" + eol
 }
 
+class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchAsMatrix) {
+    val myColors = myPitchWithColors
+    val eol = sys.props("line.separator")
+    val numOfRows = Range(0, rowNum)
+    val numOfCells = Range(0, colNum)
+
+    val res = columns(cellWidth, colNum) + numOfRows.map(x =>
+      (numOfCells.map(y =>
+        if (pitch.getIndex(x, y) == Filling.empty) {
+            "|" + " " * (cellWidth/2) + myColors.getStrIndex(x, y)+ " " * (cellWidth/2)
+        } else {
+            "|" + " " * (cellWidth/2) + pitch.getIndex(x, y).toString() + " " * (cellWidth/2)
+        }).mkString)
+        + "|" + eol + columns(cellWidth, colNum)).mkString 
+
+
+    def columns(cellWidth:Int = 3, colNum:Int = 7) = 
+        ("+" + "-" * cellWidth) * colNum + "+" + eol
+
+}
+
 class Points(cellWidth:Int, colNum:Int) {
     val eol = sys.props("line.separator")
     val res = if (colNum%2 == 0) { // für gerade Zahlen: 
@@ -43,6 +67,7 @@ class Points(cellWidth:Int, colNum:Int) {
 class PitchBuilder() extends Builder {
     private var title : String = _
     private var matrix : String = _
+    private var colorMatrix : String = _
     private var points : String = _
 
     override def createTitle(t:Title) : PitchBuilder= 
@@ -52,13 +77,24 @@ class PitchBuilder() extends Builder {
     override def createMatrix(m: Matrix) : PitchBuilder = 
         matrix = m.res
         this
+    
+    override def createMatrixWithColors(mc: MatrixWithColors): Builder = 
+        colorMatrix = mc.res
+        this
 
     override def createPoints(p: Points) : PitchBuilder = 
         points = p.res
         this
 
     override def toString(): String = 
-        title + matrix + points
+        if (matrix != null) {
+            title + matrix + points
+        } else if (colorMatrix != null) {
+            title + colorMatrix + points
+        } else {
+            title + points
+        }
+        
 }
 
 object Pitch {

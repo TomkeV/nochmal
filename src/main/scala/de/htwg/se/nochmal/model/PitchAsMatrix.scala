@@ -52,7 +52,8 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
   def pitchToString(cellWidth:Int = 3): String =
     val result = Pitch.builder(cellWidth, col_num)
       .createTitle(Title(cellWidth, col_num))
-      .createMatrix(Matrix(cellWidth, col_num, row_num, this))
+      .createMatrixWithColors(MatrixWithColors(cellWidth, col_num, row_num, this))
+      //.createMatrix(Matrix(cellWidth, col_num, row_num, this))
       .createPoints(Points(cellWidth, col_num))
     return result.toString()
 
