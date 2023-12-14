@@ -78,9 +78,14 @@ class RestHandler() extends ChainHandler {
     var nextHandler = null;
     override def handleInput(input: String, controller: Controller): Unit = {
         val chars = input.toString().toList
-        val inputString = chars.filter(_.isLetterOrDigit)
+        val inputList = chars.filter(_.isLetterOrDigit)
+        chars(0) match
+          case 'x' => controller.publishCross(inputList)
+          case ' ' => 
+            chars(1) match
+              case 'x' => controller.publishCross(inputList)
+          case _ => println("Ungueltige Eingabe!")
     }
-
 }
 
 
