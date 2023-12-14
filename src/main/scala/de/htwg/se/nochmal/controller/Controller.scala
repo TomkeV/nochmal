@@ -10,6 +10,7 @@ import util.Event
 import util.UndoManager
 import model.Cross
 
+var diceResult = ""
 
 case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
 
@@ -62,6 +63,12 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     val c = colors.roll_dice()
     val eol = sys.props("line.separator")
     "Deine Wuerfelergebnisse: " + eol + n + eol + c
+
+  def singleDice(): Unit = 
+    val n = nums.roll_dice()
+    val c = colors.roll_dice()
+    val eol = sys.props("line.separator")
+    diceResult = "Deine Wuerfelergebnisse: " + eol + n + eol + c
 
   def beQuit(): String =
     "Danke fuers Spielen!"

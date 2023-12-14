@@ -10,6 +10,7 @@ import model.PitchAsMatrix
 import model.Colors_dice
 import model.Numbers_dice
 import util.InputHandler
+import controller.diceResult
 
 
 class TUI(controller: Controller) extends Observer:
@@ -30,8 +31,10 @@ class TUI(controller: Controller) extends Observer:
                               rounds += 1
                               if rounds == num_of_rounds then goOn = false
                               println("Runde " + rounds + " von " + num_of_rounds)
-        case Event.Diced => val d = controller.dice()
-                            println(d)
+        case Event.Diced => controller.singleDice()
+                            println(diceResult)
+                            //val d = controller.dice()
+                            // println(d)
         case Event.Undone => println(controller.undo())
                             rounds -= 1
                             if rounds > num_of_rounds then goOn = true

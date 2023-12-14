@@ -9,16 +9,18 @@ import java.awt.Color as jColor
 
 // eigene imports:
 import controller.Controller
+import controller.diceResult
+
 import util.Observer
-import de.htwg.se.nochmal.util.Event
-import model.Color as myColor
-import model.Filling
+import util.Event
 import util.InputHandler
 import util.EvenOdd
 import util.EvenEvent
 import util.OddEvent
-import java.awt.Color
 
+import model.myPitchWithColors
+import model.Color as myColor
+import model.Filling
 
 
 
@@ -28,7 +30,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
-      case Event.Diced => dicedValues = controller.dice()
+      case Event.Diced => controller.singleDice() //dicedValues = controller.dice()
       case Event.Crossed => 
       case Event.Undone => 
       case Event.Redone =>
@@ -39,10 +41,10 @@ class myGUI(controller: Controller) extends Frame with Observer {
   val rows = controller.pitch.row_num
   val cols = controller.pitch.col_num
 
-  var dicedValues = ""
+  //var dicedValues = ""
 
   val myFrame = {
-    preferredSize = new Dimension(800, 450)
+    preferredSize = new Dimension(800, 600)
 
     title = "Nochmal"
 
@@ -62,22 +64,32 @@ class myGUI(controller: Controller) extends Frame with Observer {
       val die5 = new Label() { text = "" }
       val die6 = new Label() { text = "" }
 
-      contents += new Button("wuerfeln") {
-        reactions += {
-          case event.ButtonClicked(_) =>
-            InputHandler.handle("w", controller)
+      contents += new GridPanel(1,5) {
+        border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
+        background = jColor.darkGray
+        contents += new Label() 
+        contents += new Label() 
+        contents += new Button("wuerfeln") {
+            preferredSize = new Dimension(50, 30)
+            reactions += {
+              case event.ButtonClicked(_) =>
+                InputHandler.handle("w", controller)
 
-            val dicedArray = dicedValues.split("""\R""")
-            die1.text = dicedArray(1)
-            die2.text = dicedArray(2)
-            die3.text = dicedArray(3)
-            die4.text = dicedArray(4)
-            die5.text = dicedArray(5)
-            die6.text = dicedArray(6)
-        }
-      }
+                val dicedArray = diceResult.split("""\R""") //dicedValues.split("""\R""")
+                die1.text = dicedArray(1)
+                die2.text = dicedArray(2)
+                die3.text = dicedArray(3)
+                die4.text = dicedArray(4)
+                die5.text = dicedArray(5)
+                die6.text = dicedArray(6)
+            }
+          }
+        contents += new Label()
+        contents += new Label() 
+      } 
 
       contents += new GridPanel(1, 6) {
+        preferredSize = new Dimension(800, 50)
         contents += die1
         contents += die2
         contents += die3 
@@ -91,8 +103,30 @@ class myGUI(controller: Controller) extends Frame with Observer {
       // Vergrößerung
       // -> umbau ankreuzen auf A B C ,... ? 
 
-      // Rundenzähler -> apply/... um mehrere Kreuze zu ermöglichen?
+      // Bei Würfelergebnissen Farben darstellen
 
+      // Rundenzähler -> apply/... um mehrere Kreuze zu ermöglichen?
+        /* -> InputChain Eingabe a 
+         * -> Kreuze einzeln auf Stack
+         * -> kein Redo mehr nach Apply
+         * -> Rundenzähler erst mit Apply bzw neuem Würfeln hochzählen
+         */
+      
+      contents += new GridPanel(1, 5) {
+        background = jColor.darkGray
+        border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
+        contents += new Label()
+        contents += new Button("Apply")
+        contents += new Label()
+        contents += new Button("Redo")
+        contents += new Label()
+      }  
+
+      contents += new GridPanel(1,1) {
+        background = jColor.WHITE
+        contents += new Label("Runde " + rounds + " von " + num_of_rounds)
+      }
+      
     }
 
   }
@@ -122,25 +156,8 @@ class myGUI(controller: Controller) extends Frame with Observer {
     val pitch = new GridPanel(rowNum, 1) {
       border = BorderFactory.createMatteBorder(0, 20, 20, 20, jColor.BLACK)
 
-      val r = myColor.red
-      val y = myColor.yellow
-      val or = myColor.orange
-      val gr = myColor.green
-      val b = myColor.blue
-      
-      val firstRowColors = List(gr, gr, gr, y, y, y, y, gr, b, b, b, or, y, y, y)
-      val secondRowColors = List(or, gr, y, gr, y, y, or, or, r, b, b, or, or, gr, gr)
-      val thirdRowColors = List(b, gr, r, gr, gr, gr, gr, r, r, r, y, y, or, gr, gr)
-      val fourthRowColors = List(b, r, r, gr, or, or, b, b, gr, gr, y, y, or, r, b)
-      val fifthRowColors = List(r, or, or, or, or, r, b, b, or, or, or, r, r, r, r)
-      val sixthRowColors = List(r, b, b, r, r, r, r, y, y, or, r, b, b, b, or)
-      val seventhRowColors = List(y, y, b, b, b, b, r, y, y, y, gr, gr, gr, or, or)
-
-      val ColorsList = List(firstRowColors, secondRowColors, thirdRowColors, 
-                            fourthRowColors, fifthRowColors, sixthRowColors, seventhRowColors)
-
       for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, ColorsList(i))
+        contents += createRow(colNum, i+1, myPitchWithColors.getLine(i))
       }
     }
     return pitch
