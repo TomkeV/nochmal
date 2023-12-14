@@ -23,9 +23,6 @@ import model.Color as myColor
 import model.Filling
 
 
-// globale Variablen:
-val redoButton = new Button("Redo")
-
 class myGUI(controller: Controller) extends Frame with Observer {
   controller.add(this)
 
@@ -33,16 +30,26 @@ class myGUI(controller: Controller) extends Frame with Observer {
     e match {
       case Event.Quit => this.dispose()
       case Event.Diced => controller.singleDice() //dicedValues = controller.dice()
-      case Event.Crossed => 
+                          //redoButton.enabled = false
+      case Event.Crossed => //redoButton.enabled = true
       case Event.Applied => rounds += 1
+                            //redoButton.enabled = false
       case Event.Undone => 
-      case Event.Redone =>
+      case Event.Redone => 
     }
 
   var rounds = 0
   val num_of_rounds = controller.pitch.col_num * 2
   val rows = controller.pitch.row_num
   val cols = controller.pitch.col_num
+
+/*   val redoButton = new Button("Redo") {
+    enabled = false
+    reactions += {
+      case event.ButtonClicked(_) =>
+              InputHandler.handle("r", controller)
+    }
+  } */
 
   val myFrame = {
     preferredSize = new Dimension(800, 600)
@@ -52,19 +59,37 @@ class myGUI(controller: Controller) extends Frame with Observer {
     contents = new BoxPanel(Orientation.Vertical) {
       border = BorderFactory.createMatteBorder(20, 20, 20, 20, jColor.darkGray)
       
+      // Titelzeile mit Buchstaben hinzufügen
       contents += createTitle(cols)
 
+      // Matrix des Spielfelds hinzufügen
       contents += createPitch(rows, cols)
 
+      // Zeile mit Punkten pro Spalte hinzufügen
       contents += createPoints(cols)
 
+      // Anlegen der 6 Würfel
       val die1 = new Label() { text = "" }
       val die2 = new Label() { text = "" }
       val die3 = new Label() { text = "" }
-      val die4 = new Label() { text = "" }
+      val die4 = new Label() { 
+        text = "" 
+        
+/*         background = text match 
+          case "rot" => jColor(myColor.red.getRGB)
+          case "orange" => jColor(myColor.orange.getRGB)
+          case "gelb" => jColor(myColor.yellow.getRGB)
+          case "gruen" => jColor(myColor.green.getRGB)
+          case "blau" => jColor(myColor.blue.getRGB)
+          case "Joker!" => jColor.BLACK 
+                          //foreground = jColor.WHITE
+          case _ => jColor.white
+        visible = true */
+      }
       val die5 = new Label() { text = "" }
       val die6 = new Label() { text = "" }
 
+      // Button zum Würfeln zentriert hinzufügen
       contents += new GridPanel(1,5) {
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         background = jColor.darkGray
@@ -89,6 +114,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
         contents += new Label() 
       } 
 
+      // Panel zur Darstellung der 6 Würfel
       contents += new GridPanel(1, 6) {
         preferredSize = new Dimension(800, 50)
         contents += die1
@@ -99,29 +125,26 @@ class myGUI(controller: Controller) extends Frame with Observer {
         contents += die6
       }
 
-      // es fehlen:
-      // Bei Würfelergebnissen Farben darstellen
 
-      // Rundenzähler -> apply/... um mehrere Kreuze zu ermöglichen?
-      
+      // Button Apply zentriert hinzufügen
       contents += new GridPanel(1, 5) {
         background = jColor.darkGray
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
-        contents += new Button("Apply") {
+        val applyButton = new Button("Apply") {
           reactions += {case event.ButtonClicked(_) =>
             InputHandler.handle("a", controller)
-            redoButton.enabled = false
-            //rounds += 1
             roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
             roundPanel.repaint()
           }
         }
-        contents += new Label()
-        contents += redoButton
+        contents += applyButton
+        //contents += new Label()
+        //contents += redoButton
         contents += new Label()
       }  
 
+      // Rundenzähler hinzufügen
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
       val roundPanel = new GridPanel(1,1) {
         background = jColor.WHITE
@@ -190,7 +213,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
             InputHandler.handle(myName, controller)
             text = Filling.filled.toString()
             enabled = false
-            redoButton.enabled = true
+            //redoButton.enabled = true
         }
       }
     return myButton
@@ -219,3 +242,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
   }
   
 }
+
+
+      // es fehlen:
+      // Bei Würfelergebnissen Farben darstellen
