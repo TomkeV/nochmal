@@ -18,21 +18,21 @@ import util.Event
 import util.UndoManager
 
 
-
 var diceResult = ""
 
 case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val colors:DiceInterface) extends Observable:
 
   val undoManager = new UndoManager[PitchAsMatrix]
 
-  def publish(c:Option[Cross], e:Event) = 
+  // Methode zum Ausführen einer beliebigen Operation
+  def publish(c:Option[Cross] = None, e:Event) = 
     e match
       case Event.Applied => apply()
       case Event.Crossed => if (c.isDefined) then {
                               val cross = c.get
                               pitch = setCross(cross)
                             }
-      case Event.Diced =>
+      case Event.Diced => singleDice()
       case Event.Quit => beQuit()
       case Event.Redone => redo()
       case Event.Undone => undo()
