@@ -22,21 +22,21 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
   // Publish Cross für Spalten > 9
   def publishCross(input: List[Char]) = {
     val x = input(1) match
-    case 'A' | 'a' | '1' => Try(1)
-    case 'B' | 'b' => Try(2)
-    case 'C' | 'c' => Try(3)
-    case 'D' | 'd' => Try(4)
-    case 'E' | 'e' => Try(5)
-    case 'F' | 'f' => Try(6)
-    case 'G' | 'g' => Try(7)
-    case 'H' | 'h' => Try(8)
-    case 'I' | 'i' => Try(9)
-    case 'J' | 'j' => Try(10)
-    case 'K' | 'k' => Try(11)
-    case 'L' | 'l' => Try(12)
-    case 'M' | 'm' => Try(13)
-    case 'N' | 'n' => Try(14)
-    case 'O' | 'o' => Try(15)
+    case 'A' | 'a' => Success(1)
+    case 'B' | 'b' => Success(2)
+    case 'C' | 'c' => Success(3)
+    case 'D' | 'd' => Success(4)
+    case 'E' | 'e' => Success(5)
+    case 'F' | 'f' => Success(6)
+    case 'G' | 'g' => Success(7)
+    case 'H' | 'h' => Success(8)
+    case 'I' | 'i' => Success(9)
+    case 'J' | 'j' => Success(10)
+    case 'K' | 'k' => Success(11)
+    case 'L' | 'l' => Success(12)
+    case 'M' | 'm' => Success(13)
+    case 'N' | 'n' => Success(14)
+    case 'O' | 'o' => Success(15)
     case _ => Failure(new Error("Keine gueltige Zeile!"))
 
     val cross = x match 
@@ -46,6 +46,7 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
                              Some(new Cross(line, col))
       pitch = setCross(cross)
       notifyObservers(Event.Crossed)
+    x
   }
 
   def publishDice() =
