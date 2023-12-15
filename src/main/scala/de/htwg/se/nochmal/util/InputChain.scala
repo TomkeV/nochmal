@@ -18,7 +18,7 @@ class QuitHandler() extends ChainHandler {
     var nextHandler = UndoHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "q") {
-            controller.publish(None, Event.Quit)
+            controller.publish(e = Event.Quit)
         } else {
             nextHandler.handleInput(input: String, controller:Controller)
         }
@@ -31,7 +31,7 @@ class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "u") {
-            controller.publish(None, Event.Undone)
+            controller.publish(e = Event.Undone)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -43,7 +43,7 @@ class RedoHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "r") {
-            controller.publish(None, Event.Redone)
+            controller.publish(e = Event.Redone)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -54,7 +54,7 @@ class DiceHandler() extends ChainHandler {
     var nextHandler = ApplyHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "w") {
-            controller.publish(None, Event.Diced)
+            controller.publish(e = Event.Diced)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -66,7 +66,7 @@ class ApplyHandler() extends ChainHandler {
 
     override def handleInput(input: String, controller: Controller): Unit = 
         if(input == "a") {
-            controller.publish(None, Event.Applied)
+            controller.publish(e = Event.Applied)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -117,40 +117,3 @@ object InputHandler {
     def handle(i: String, c: Controller) = 
         QuitHandler().handleInput(i, c)
 }
-
-
-// Alte Methode analyseChars:
-    //val chars = input.toLowerCase().toCharArray()
-    //val inputString = analyseChars(chars)
-    /*     def analyseChars(array:Array[Char]):String = 
-        val range = Range(0, array.length).toList
-        val tmpArray = range.map(i =>
-          if(array(i).isDigit) {
-            array(i)
-          } else if (array(i).isLetter) {
-            'x'
-          } else {
-
-          }
-          )
-        var resString = "" // noch nicht funktional programmiert!
-        for (i <- 0 to array.length-1) {
-            if (tmpArray(i) != ()) {
-                resString += tmpArray(i)
-        }
-        }
-        return resString */
-
-/* class RestHandler() extends ChainHandler {
-    var nextHandler = null;
-    override def handleInput(input: String, controller:Controller): Unit = {
-        val chars = input.toString().toList
-        val inputString = chars.filter(_.isLetterOrDigit).mkString
-        chars(0) match
-          case 'x' => controller.publishCross(inputString)
-          case ' ' => 
-            chars(1) match
-              case 'x' => controller.publishCross(inputString)
-          case _ => println("Ungueltige Eingabe!")
-    }
-} */
