@@ -26,7 +26,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
     matrix(row)(col)
 
 	// Methode zum Füllen von Feldern
-  def fillCell(row:Int, col:Int): PitchAsMatrix = 
+/*   def fillCell(row:Int, col:Int): PitchAsMatrix = 
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
   // Methode zum Füllen mehrerer Felder:
@@ -35,10 +35,15 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
     for (cross <- l) yield cross match {
       case Some(c) => tmpMatrix = tmpMatrix.fillCell(c.x-1, c.y-1)
       case None => }
-    tmpMatrix
+    tmpMatrix */
+  
+  def fillCellWithCross(c:Cross, p:PitchAsMatrix):PitchAsMatrix = 
+    val row = c.x-1
+    val col = c.y-1
+    copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
 
  
-  // Methode zum Leeren von Feldern (nötig für Undo)
+/*   // Methode zum Leeren von Feldern (nötig für Undo)
   def unfillCell(row:Int, col:Int): PitchAsMatrix =
     copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
 
@@ -47,7 +52,12 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
     for (cross <- l) yield cross match {
       case Some(c) => tmpMatrix = tmpMatrix.unfillCell(c.x-1, c.y-1)
       case None => }
-    tmpMatrix
+    tmpMatrix */
+
+  def unfillCellWithCross(cross:Cross, pitch:PitchAsMatrix):PitchAsMatrix = 
+    val row = cross.x-1
+    val col = cross.y-1
+    copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
 
   def pitchToString(cellWidth:Int = 3): String =
     val result = Pitch.builder(cellWidth, col_num)

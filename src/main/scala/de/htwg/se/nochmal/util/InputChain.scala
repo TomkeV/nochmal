@@ -2,6 +2,10 @@ package de.htwg.se.nochmal
 package util
 
 import controller.Controller
+import scala.util.Success
+import scala.util.Failure
+import de.htwg.se.nochmal.model.Cross
+import scala.util.Try
 
 trait HandlerInterface:
     def handleInput(input: String, controller:Controller): Unit
@@ -14,7 +18,7 @@ class QuitHandler() extends ChainHandler {
     var nextHandler = UndoHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "q") {
-            controller.publishQuit()
+            controller.publish(None, Event.Quit)
         } else {
             nextHandler.handleInput(input: String, controller:Controller)
         }
@@ -27,8 +31,7 @@ class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "u") {
-            controller.publishUndo()
-            //println("Undo!")
+            controller.publish(None, Event.Undone)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -36,12 +39,11 @@ class UndoHandler() extends ChainHandler {
 }
 
 
-// NEU für Redo-Manager
 class RedoHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
     override def handleInput(input: String, controller: Controller): Unit = {
         if (input == "r") {
-            controller.publishRedo()
+            controller.publish(None, Event.Redone)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -52,7 +54,7 @@ class DiceHandler() extends ChainHandler {
     var nextHandler = ApplyHandler()
     override def handleInput(input: String, controller:Controller): Unit = {
         if (input == "w") {
-            controller.publishDice()
+            controller.publish(None, Event.Diced)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -64,7 +66,7 @@ class ApplyHandler() extends ChainHandler {
 
     override def handleInput(input: String, controller: Controller): Unit = 
         if(input == "a") {
-            controller.publishApply()
+            controller.publish(None, Event.Applied)
         } else {
             nextHandler.handleInput(input, controller)
         }
@@ -76,11 +78,37 @@ class RestHandler() extends ChainHandler {
         val chars = input.toString().toList
         val inputList = chars.filter(_.isLetterOrDigit)
         chars(0) match
-          case 'x' => controller.publishCross(inputList)
-          case ' ' => 
-            chars(1) match
-              case 'x' => controller.publishCross(inputList)
+          case 'x' => val test = analyseInput(inputList)
+            if(test.isSuccess) {
+                val line = inputList(2).toString().toInt
+                val col = test.get 
+                val cross = new Cross(line, col)
+                controller.publish(Some(cross), Event.Crossed)
+            } else if (test.isFailure) {
+                println(test.toString())
+            }
           case _ => println("Ungueltige Eingabe!")
+    }
+
+    def analyseInput(input:List[Char]): Try[Int] = {
+        val x = input(1) match
+            case 'A' | 'a' => Success(1)
+            case 'B' | 'b' => Success(2)
+            case 'C' | 'c' => Success(3)
+            case 'D' | 'd' => Success(4)
+            case 'E' | 'e' => Success(5)
+            case 'F' | 'f' => Success(6)
+            case 'G' | 'g' => Success(7)
+            case 'H' | 'h' => Success(8)
+            case 'I' | 'i' => Success(9)
+            case 'J' | 'j' => Success(10)
+            case 'K' | 'k' => Success(11)
+            case 'L' | 'l' => Success(12)
+            case 'M' | 'm' => Success(13)
+            case 'N' | 'n' => Success(14)
+            case 'O' | 'o' => Success(15)
+            case _ => Failure(new Error("Keine gueltige Zeile!"))
+        return x
     }
 }
 

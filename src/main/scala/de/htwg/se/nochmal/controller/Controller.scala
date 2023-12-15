@@ -1,83 +1,46 @@
 package de.htwg.se.nochmal
 package controller
 
-import util.Observable
+import scala.util.Try
+import scala.util.Failure
+import scala.util.Success
+
+
 import model.PitchAsMatrix
 import model.Filling
-
+import model.Cross
 import model.dice.DiceInterface
 //import model.Numbers_dice
 //import model.dice.diceImplementierung.Colors_dice
 
+import util.Observable
 import util.Event
 import util.UndoManager
-import model.Cross
-import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
+
+
 
 var diceResult = ""
 
 case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val colors:DiceInterface) extends Observable:
 
   val undoManager = new UndoManager[PitchAsMatrix]
+
+  def publish(c:Option[Cross], e:Event) = 
+    e match
+      case Event.Applied => apply()
+      case Event.Crossed => if (c.isDefined) then {
+                              val cross = c.get
+                              pitch = setCross(cross)
+                            }
+      case Event.Diced =>
+      case Event.Quit => beQuit()
+      case Event.Redone => redo()
+      case Event.Undone => undo()
+    notifyObservers(e)
     
-  // Publish Cross für Spalten > 9
-  def publishCross(input: List[Char]) = {
-    val x = input(1) match
-    case 'A' | 'a' => Success(1)
-    case 'B' | 'b' => Success(2)
-    case 'C' | 'c' => Success(3)
-    case 'D' | 'd' => Success(4)
-    case 'E' | 'e' => Success(5)
-    case 'F' | 'f' => Success(6)
-    case 'G' | 'g' => Success(7)
-    case 'H' | 'h' => Success(8)
-    case 'I' | 'i' => Success(9)
-    case 'J' | 'j' => Success(10)
-    case 'K' | 'k' => Success(11)
-    case 'L' | 'l' => Success(12)
-    case 'M' | 'm' => Success(13)
-    case 'N' | 'n' => Success(14)
-    case 'O' | 'o' => Success(15)
-    case _ => Failure(new Error("Keine gueltige Zeile!"))
-
-    val cross = x match 
-      case Failure(exception) => None
-      case Success(value) => val col = value
-                             val line = input(2).toString().toInt
-                             Some(new Cross(line, col))
-      pitch = setCross(cross)
-      notifyObservers(Event.Crossed)
-    x
-  }
-
-  def publishDice() =
-    notifyObservers(Event.Diced)
-   
-  def publishQuit() =
-    println(beQuit())
-    notifyObservers(Event.Quit)
-
-  def publishUndo() = 
-    println(undo())
-    notifyObservers(Event.Undone)
-
-  def publishRedo() = 
-    println(redo())
-    notifyObservers(Event.Redone)
-    
-  // Ankreuzen einzelner Felder mit Try
-  def setCross(c:Option[Cross]) = 
+  def setCross(c:Cross) = 
     undoManager.undoAllowed = true
-    undoManager.doMove(pitch, SetCommand(List(c)))
-    
- 
-  def dice(): String = 
-    val n = nums.roll_dice()
-    val c = colors.roll_dice()
-    val eol = sys.props("line.separator")
-    "Deine Wuerfelergebnisse: " + eol + n + eol + c
+    undoManager.doMove(pitch, SetCommand(c))
 
   def singleDice(): Unit = 
     val n = nums.roll_dice()
@@ -93,12 +56,6 @@ case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val color
 
   def redo(): PitchAsMatrix =
     undoManager.redoMove(pitch)
-
-
-// NEU für Apply
-  def publishApply() = 
-    apply()
-    notifyObservers(Event.Applied)
 
   def apply(): Unit = 
     undoManager.undoAllowed = false
@@ -129,3 +86,58 @@ case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val color
   // set zum ankreuzen mehrerer Felder
 /*   def setList(crosses:List[Option[Cross]]) =
     undoManager.doMove(pitch, SetCommand(crosses))  */
+
+  /*   def dice(): String = 
+    val n = nums.roll_dice()
+    val c = colors.roll_dice()
+    val eol = sys.props("line.separator")
+    "Deine Wuerfelergebnisse: " + eol + n + eol + c */
+
+// Raus ab 15.12. durch einheitliches publish():
+/*   def publishApply() = 
+    apply()
+    notifyObservers(Event.Applied) */
+/*    def publishQuit() =
+    println(beQuit())
+    notifyObservers(Event.Quit)
+
+  def publishUndo() = 
+    println(undo())
+    notifyObservers(Event.Undone)
+
+  def publishRedo() = 
+    println(redo())
+    notifyObservers(Event.Redone) */
+  
+  /*   def publishDice() =
+    notifyObservers(Event.Diced) */
+
+    // Publish Cross für Spalten > 9
+/*   def publishCross(input: List[Char]) = {
+    val x = input(1) match
+    case 'A' | 'a' => Success(1)
+    case 'B' | 'b' => Success(2)
+    case 'C' | 'c' => Success(3)
+    case 'D' | 'd' => Success(4)
+    case 'E' | 'e' => Success(5)
+    case 'F' | 'f' => Success(6)
+    case 'G' | 'g' => Success(7)
+    case 'H' | 'h' => Success(8)
+    case 'I' | 'i' => Success(9)
+    case 'J' | 'j' => Success(10)
+    case 'K' | 'k' => Success(11)
+    case 'L' | 'l' => Success(12)
+    case 'M' | 'm' => Success(13)
+    case 'N' | 'n' => Success(14)
+    case 'O' | 'o' => Success(15)
+    case _ => Failure(new Error("Keine gueltige Zeile!"))
+
+    val cross = x match 
+      case Failure(exception) => None
+      case Success(value) => val col = value
+                             val line = input(2).toString().toInt
+                             Some(new Cross(line, col))
+      pitch = setCross(cross)
+      notifyObservers(Event.Crossed)
+    x
+  } */

@@ -8,16 +8,16 @@ import model.PitchAsMatrix
 import model.Cross
 
 
-class SetCommand(list:List[Option[Cross]]) extends Command[PitchAsMatrix] {
+class SetCommand(cross:Cross) extends Command[PitchAsMatrix] {
 
   override def noMove(pitch: PitchAsMatrix): PitchAsMatrix = pitch
 
   override def doMove(pitch: PitchAsMatrix): PitchAsMatrix = 
-    pitch.fillCellsList(list, p = pitch )
+    pitch.fillCellWithCross(cross, p = pitch )
 
   override def undoMove(pitch: PitchAsMatrix): PitchAsMatrix = 
-    pitch.unfillCellsList(list, pitch)
+    pitch.unfillCellWithCross(cross, pitch)
 
   override def redoMove(pitch: PitchAsMatrix): PitchAsMatrix = 
-    pitch.fillCellsList(list, pitch)
+    pitch.fillCellWithCross(cross, pitch)
 }
