@@ -14,10 +14,11 @@ import controller.diceResult
 class TUI(controller: Controller) extends Observer:
   controller.add(this) // fügt TUI in die Liste hinzu, sodass update funktioniert
 
-  var goOn = true
-  var rounds = 0
-  val num_of_rounds = controller.pitch.col_num * 2
- 
+  var goOn = true // speichert, ob noch Runden verfügbar sind
+  var rounds = 0 // speichert aktuelle Rundenzahl
+  val num_of_rounds = controller.pitch.col_num * 2 // speichert maximale Rundenzahl
+
+  // Methode zum Starten des Spiels
   def run =
     println(controller.pitch.toString)
     inputGetAndAnalysis()
@@ -32,10 +33,7 @@ class TUI(controller: Controller) extends Observer:
         case Event.Applied => rounds += 1
                               if rounds == num_of_rounds then goOn = false
                               println("Runde " + rounds + " von " + num_of_rounds)
-        case Event.Diced => controller.singleDice()
-                            println(diceResult)
-                            //val d = controller.dice()
-                            // println(d)
+        case Event.Diced => println(diceResult)
         case Event.Undone => println(controller.undo())
                             rounds -= 1
                             if rounds > num_of_rounds then goOn = true
@@ -45,7 +43,8 @@ class TUI(controller: Controller) extends Observer:
                             if rounds == num_of_rounds then goOn = false
                             println("Runde " + rounds + " von " + num_of_rounds)
 
-  def inputGetAndAnalysis():Unit =
+  // Methode zum Einlesen der Nutzereingaben
+  def inputGetAndAnalysis(): Unit =
     val input = readLine 
     InputHandler.handle(input, controller)
     if goOn then inputGetAndAnalysis()

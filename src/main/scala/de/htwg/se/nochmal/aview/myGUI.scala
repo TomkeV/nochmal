@@ -29,7 +29,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
-      case Event.Diced => controller.singleDice() //dicedValues = controller.dice()
+      case Event.Diced => 
                           //redoButton.enabled = false
       case Event.Crossed => //redoButton.enabled = true
       case Event.Applied => rounds += 1
@@ -38,9 +38,9 @@ class myGUI(controller: Controller) extends Frame with Observer {
       case Event.Redone => 
     }
 
-  var rounds = 0
-  val num_of_rounds = controller.pitch.col_num * 2
-  val rows = controller.pitch.row_num
+  var rounds = 0 // speichern der aktuellen Rundenzahl
+  val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl
+  val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
 
 /*   val redoButton = new Button("Redo") {
@@ -51,6 +51,7 @@ class myGUI(controller: Controller) extends Frame with Observer {
     }
   } */
 
+  // Anlegen des Hauptrahmens
   val myFrame = {
     preferredSize = new Dimension(800, 600)
 
@@ -69,12 +70,21 @@ class myGUI(controller: Controller) extends Frame with Observer {
       contents += createPoints(cols)
 
       // Anlegen der 6 Würfel
-      val die1 = new Label() { text = "" }
-      val die2 = new Label() { text = "" }
-      val die3 = new Label() { text = "" }
-      val die4 = new Label() { 
+      val die1 = new Button() { 
         text = "" 
-        
+        preferredSize = new Dimension(40, 20)
+      }
+      val die2 = new Button() { 
+        text = "" 
+        preferredSize = new Dimension(40, 20)
+      }
+      val die3 = new Button() { 
+        text = ""
+        preferredSize = new Dimension(40, 20)
+      }
+      val die4 = new Button() { 
+        text = "" 
+        preferredSize = new Dimension(40, 20)
 /*         background = text match 
           case "rot" => jColor(myColor.red.getRGB)
           case "orange" => jColor(myColor.orange.getRGB)
@@ -86,8 +96,14 @@ class myGUI(controller: Controller) extends Frame with Observer {
           case _ => jColor.white
         visible = true */
       }
-      val die5 = new Label() { text = "" }
-      val die6 = new Label() { text = "" }
+      val die5 = new Button() { 
+        text = ""
+        preferredSize = new Dimension(40, 20)
+      }
+      val die6 = new Button() { 
+        text = ""
+        preferredSize = new Dimension(40, 20)
+      }
 
       // Button zum Würfeln zentriert hinzufügen
       contents += new GridPanel(1,5) {
@@ -116,7 +132,8 @@ class myGUI(controller: Controller) extends Frame with Observer {
 
       // Panel zur Darstellung der 6 Würfel
       contents += new GridPanel(1, 6) {
-        preferredSize = new Dimension(800, 50)
+        preferredSize = new Dimension(800, 40)
+        //border = BorderFactory.createEmptyBorder(10, 10, 10, 10)
         contents += die1
         contents += die2
         contents += die3 
@@ -244,5 +261,10 @@ class myGUI(controller: Controller) extends Frame with Observer {
 }
 
 
-      // es fehlen:
-      // Bei Würfelergebnissen Farben darstellen
+// ToDos: 
+// Würfel als Buttons 
+  	// Auswahl + Kontrolle dieser
+    // Farben darstellen
+// Menüleiste
+    // Option zum Beenden (Event.Quit)
+    // Spielanleitung
