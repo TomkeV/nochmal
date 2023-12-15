@@ -9,6 +9,8 @@ import model.PitchAsMatrix
 import model.Filling
 import util.Event
 import util.Observer
+import model.dice.diceImplementierung.Colors_dice
+import model.dice.diceImplementierung.Numbers_dice
 
 class ControllerSpec extends AnyWordSpec {
   "The Controller" should {
