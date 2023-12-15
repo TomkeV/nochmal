@@ -1,7 +1,8 @@
 package de.htwg.se.nochmal
-package model
+package model.dice
+package diceImplementierung
 
-case class Colors_dice(dice_num:Int = 3):
+case class Colors_dice(dice_num:Int = 3) extends DiceInterface:
   val num_of_dices = dice_num
   
   def roll_dice(): String =

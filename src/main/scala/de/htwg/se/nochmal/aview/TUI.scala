@@ -7,8 +7,6 @@ import controller.Controller
 import util.Observer
 import util.Event
 import model.PitchAsMatrix
-import model.Colors_dice
-import model.Numbers_dice
 import util.InputHandler
 import controller.diceResult
 
@@ -51,32 +49,3 @@ class TUI(controller: Controller) extends Observer:
     val input = readLine 
     InputHandler.handle(input, controller)
     if goOn then inputGetAndAnalysis()
-
-
-  // def analyseChars(array:Array[Char]):String = 
-  //   val range = Range(0, array.length).toList
-  //   val tmpArray = range.map(i =>
-  //         if(array(i).isDigit) {
-  //           array(i)
-  //         } else if (array(i).isLetter) {
-  //           'x'
-  //         } else {
-
-  //         }
-  //         )
-  //   var resString = "" // noch nicht funktional programmiert!
-  //   for (i <- 0 to array.length-1) {
-  //     if (tmpArray(i) != ()) {
-  //       resString += tmpArray(i)
-  //     }
-  //   }
-  //   return resString
-
-
-// case _ vorher:
-/*   val chars = input.toCharArray()
-          chars(0) match 
-            case 'x' => 
-              val line = chars(2).toString.toInt
-              val col = chars(4).toString.toInt
-              controller.publishCross(line, col) */

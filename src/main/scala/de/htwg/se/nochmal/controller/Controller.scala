@@ -4,8 +4,11 @@ package controller
 import util.Observable
 import model.PitchAsMatrix
 import model.Filling
-import model.Numbers_dice
-import model.Colors_dice
+
+import model.dice.DiceInterface
+//import model.Numbers_dice
+//import model.dice.diceImplementierung.Colors_dice
+
 import util.Event
 import util.UndoManager
 import model.Cross
@@ -15,7 +18,7 @@ import scala.util.Success
 
 var diceResult = ""
 
-case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors:Colors_dice) extends Observable:
+case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val colors:DiceInterface) extends Observable:
 
   val undoManager = new UndoManager[PitchAsMatrix]
     
@@ -101,20 +104,6 @@ case class Controller(var pitch:PitchAsMatrix, val nums:Numbers_dice, val colors
     undoManager.undoAllowed = false
 
   override def toString = pitch.pitchToString()
-
-// old Stuff
-/*   def publishCross(line:Int, col:Int) =
-    pitch = set(line, col)
-    notifyObservers(Event.Crossed) */
-
-// ehemals publishCross
-/*      for (i <- 0 to splitArray.length-1) {
-        if (splitArray(i).toString.length() > 1) {
-            val line = splitArray(i)(0).toString().toInt
-            val col = splitArray(i)(1).toString().toInt
-            pitch = set(line, col)
-        }
-      }  */
 
 // Raus seit 14.12.: 
   /*   def publishCross(input:String) = 

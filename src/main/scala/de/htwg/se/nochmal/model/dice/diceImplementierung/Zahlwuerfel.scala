@@ -1,8 +1,9 @@
 package de.htwg.se.nochmal
-package model
+package model.dice
+package diceImplementierung
 
 // Klasse für Zahlenwürfel
-case class Numbers_dice(dice_num:Int = 3):
+case class Numbers_dice(dice_num:Int = 3) extends DiceInterface:
   val num_of_dices = dice_num
   
   def roll_dice(): String =
