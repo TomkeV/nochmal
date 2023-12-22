@@ -1,7 +1,6 @@
 package de.htwg.se.nochmal
 package controller
-
-import scala.collection.mutable.ListBuffer
+package controllerBaseImpl
 
 import util.Command
 import model.PitchAsMatrix

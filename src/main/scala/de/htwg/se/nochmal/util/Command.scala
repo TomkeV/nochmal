@@ -1,7 +1,8 @@
 package de.htwg.se.nochmal
 package util
 
-import controller.Controller
+//import controller.controllerBaseImpl.Controller
+import controller.ControllerInterface
 import scala.util.Try
 import scala.util.Success
 

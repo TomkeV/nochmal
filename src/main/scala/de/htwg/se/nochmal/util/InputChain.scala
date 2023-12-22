@@ -1,14 +1,15 @@
 package de.htwg.se.nochmal
 package util
 
-import controller.Controller
+//import controller.controllerBaseImpl.Controller
 import scala.util.Success
 import scala.util.Failure
 import de.htwg.se.nochmal.model.Cross
 import scala.util.Try
+import controller.ControllerInterface
 
 trait HandlerInterface:
-    def handleInput(input: String, controller:Controller): Unit
+    def handleInput(input: String, controller:ControllerInterface): Unit
 
 abstract class ChainHandler extends HandlerInterface:
     protected var nextHandler: ChainHandler
@@ -16,11 +17,11 @@ abstract class ChainHandler extends HandlerInterface:
 
 class QuitHandler() extends ChainHandler {
     var nextHandler = UndoHandler()
-    override def handleInput(input: String, controller:Controller): Unit = {
+    override def handleInput(input: String, controller:ControllerInterface): Unit = {
         if (input == "q") {
             controller.publish(e = Event.Quit)
         } else {
-            nextHandler.handleInput(input: String, controller:Controller)
+            nextHandler.handleInput(input: String, controller:ControllerInterface)
         }
     }
 }
@@ -29,7 +30,7 @@ class QuitHandler() extends ChainHandler {
 // NEU für Undo-Manager
 class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
-    override def handleInput(input: String, controller: Controller): Unit = {
+    override def handleInput(input: String, controller: ControllerInterface): Unit = {
         if (input == "u") {
             controller.publish(e = Event.Undone)
         } else {
@@ -41,7 +42,7 @@ class UndoHandler() extends ChainHandler {
 
 class RedoHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
-    override def handleInput(input: String, controller: Controller): Unit = {
+    override def handleInput(input: String, controller: ControllerInterface): Unit = {
         if (input == "r") {
             controller.publish(e = Event.Redone)
         } else {
@@ -52,7 +53,7 @@ class RedoHandler() extends ChainHandler {
 
 class DiceHandler() extends ChainHandler {
     var nextHandler = ApplyHandler()
-    override def handleInput(input: String, controller:Controller): Unit = {
+    override def handleInput(input: String, controller:ControllerInterface): Unit = {
         if (input == "w") {
             controller.publish(e = Event.Diced)
         } else {
@@ -64,7 +65,7 @@ class DiceHandler() extends ChainHandler {
 class ApplyHandler() extends ChainHandler {
     var nextHandler = RestHandler()
 
-    override def handleInput(input: String, controller: Controller): Unit = 
+    override def handleInput(input: String, controller: ControllerInterface): Unit = 
         if(input == "a") {
             controller.publish(e = Event.Applied)
         } else {
@@ -74,7 +75,7 @@ class ApplyHandler() extends ChainHandler {
 
 class RestHandler() extends ChainHandler {
     var nextHandler = null;
-    override def handleInput(input: String, controller: Controller): Unit = {
+    override def handleInput(input: String, controller: ControllerInterface): Unit = {
         val chars = input.toString().toList
         val inputList = chars.filter(_.isLetterOrDigit)
         chars(0) match
@@ -114,6 +115,6 @@ class RestHandler() extends ChainHandler {
 
 
 object InputHandler {
-    def handle(i: String, c: Controller) = 
+    def handle(i: String, c: ControllerInterface) = 
         QuitHandler().handleInput(i, c)
 }

@@ -3,15 +3,17 @@ package aview
 
 import scala.io.StdIn.readLine
 
-import controller.Controller
+import controller.controllerBaseImpl.Controller
 import util.Observer
 import util.Event
 import model.PitchAsMatrix
 import util.InputHandler
-import controller.diceResult
+import controller.controllerBaseImpl.diceResult
+
+import controller.ControllerInterface
 
 
-class TUI(controller: Controller) extends Observer:
+class TUI(controller: ControllerInterface) extends Observer:
   controller.add(this) // fügt TUI in die Liste hinzu, sodass update funktioniert
 
   var goOn = true // speichert, ob noch Runden verfügbar sind

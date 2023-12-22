@@ -8,7 +8,7 @@ import model.dice.diceImplementierung.Colors_dice
 import model.dice.diceImplementierung.Numbers_dice
 
 import model.PitchAsMatrix
-import controller.Controller
+import controller.controllerBaseImpl.Controller
 import aview.TUI
 import aview.myGUI
 

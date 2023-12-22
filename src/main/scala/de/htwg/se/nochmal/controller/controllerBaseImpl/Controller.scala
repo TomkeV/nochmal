@@ -1,10 +1,8 @@
 package de.htwg.se.nochmal
 package controller
+package controllerBaseImpl
 
-import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
-
+import scala.util.{Try, Failure, Success}
 
 import model.PitchAsMatrix
 import model.Filling
@@ -20,7 +18,7 @@ import util.UndoManager
 
 var diceResult = ""
 
-case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val colors:DiceInterface) extends Observable:
+case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface:
 
   val undoManager = new UndoManager[PitchAsMatrix]
 

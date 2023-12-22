@@ -8,8 +8,8 @@ import javax.swing.BorderFactory
 import java.awt.Color as jColor
 
 // eigene imports:
-import controller.Controller
-import controller.diceResult
+import controller.controllerBaseImpl.Controller
+import controller.controllerBaseImpl.diceResult
 
 import util.Observer
 import util.Event
