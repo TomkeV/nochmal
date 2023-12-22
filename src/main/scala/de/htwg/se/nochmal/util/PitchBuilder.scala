@@ -5,6 +5,7 @@ import model.pitchComponent.PitchInterface
 //import model.baseModel.PitchAsMatrix
 import model.PitchWithColors
 import model.Filling
+import model.blackColorsList
 
 trait Builder:
     def createTitle(t:Title): Builder
@@ -36,7 +37,7 @@ class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchInterface) {
 }
 
 class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchInterface) {
-    val myColors = PitchWithColors
+    val myColors = PitchWithColors(blackColorsList)
     val eol = sys.props("line.separator")
     val numOfRows = Range(0, rowNum)
     val numOfCells = Range(0, colNum)

@@ -20,6 +20,7 @@ import util.EvenEvent
 import util.OddEvent
 
 import model.PitchWithColors
+import model.blackColorsList
 import model.Color as myColor
 import model.Filling
 
@@ -196,11 +197,12 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
 
   // Feld mit x Zeilen mit Buttons erzeugen
   def createPitch(rowNum:Int, colNum:Int): GridPanel = {
+    val myColors = PitchWithColors(blackColorsList)
     val pitch = new GridPanel(rowNum, 1) {
       border = BorderFactory.createMatteBorder(0, 20, 20, 20, jColor.BLACK)
 
       for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, PitchWithColors.getLine(i))
+        contents += createRow(colNum, i+1, myColors.getLine(i))
       }
     }
     return pitch
