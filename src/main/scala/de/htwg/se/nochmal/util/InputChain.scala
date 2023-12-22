@@ -1,19 +1,23 @@
 package de.htwg.se.nochmal
 package util
 
-//import controller.controllerBaseImpl.Controller
-import scala.util.Success
-import scala.util.Failure
-import de.htwg.se.nochmal.model.Cross
-import scala.util.Try
+import scala.util.{Try, Success, Failure}
+
 import controller.ControllerInterface
+//import controller.controllerBaseImpl.Controller
+import model.Cross
+
 
 trait HandlerInterface:
     def handleInput(input: String, controller:ControllerInterface): Unit
 
+
+
 abstract class ChainHandler extends HandlerInterface:
     protected var nextHandler: ChainHandler
 
+
+    
 
 class QuitHandler() extends ChainHandler {
     var nextHandler = UndoHandler()

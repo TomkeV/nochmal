@@ -3,20 +3,20 @@ package controller
 package controllerBaseImpl
 
 import util.Command
-import model.PitchAsMatrix
+import model.PitchInterface
+//import model.baseModel.PitchAsMatrix
 import model.Cross
 
+class SetCommand(cross:Cross) extends Command[PitchInterface] {
 
-class SetCommand(cross:Cross) extends Command[PitchAsMatrix] {
+  override def noMove(pitch: PitchInterface): PitchInterface = pitch
 
-  override def noMove(pitch: PitchAsMatrix): PitchAsMatrix = pitch
+  override def doMove(pitch: PitchInterface): PitchInterface = 
+    pitch.fillCellWithCross(cross, pitch )
 
-  override def doMove(pitch: PitchAsMatrix): PitchAsMatrix = 
-    pitch.fillCellWithCross(cross, p = pitch )
-
-  override def undoMove(pitch: PitchAsMatrix): PitchAsMatrix = 
+  override def undoMove(pitch: PitchInterface): PitchInterface = 
     pitch.unfillCellWithCross(cross, pitch)
 
-  override def redoMove(pitch: PitchAsMatrix): PitchAsMatrix = 
+  override def redoMove(pitch: PitchInterface): PitchInterface = 
     pitch.fillCellWithCross(cross, pitch)
 }

@@ -1,10 +1,11 @@
 package de.htwg.se.nochmal
 package model
+package baseModel
 
 
 import util.*
 
-case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
+case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface:
   
 	// auxiliary construktor
   def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3) =
@@ -24,13 +25,13 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]):
     matrix(row)(col)
 
   // Methode zum Ankreuzen eines Felds
-  def fillCellWithCross(c:Cross, p:PitchAsMatrix):PitchAsMatrix = 
+  override def fillCellWithCross(c:Cross, p:PitchInterface):PitchAsMatrix = 
     val row = c.x-1
     val col = c.y-1
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
   
   // Methode zum Leeren eines Felds
-  def unfillCellWithCross(cross:Cross, pitch:PitchAsMatrix):PitchAsMatrix = 
+  def unfillCellWithCross(cross:Cross, pitch:PitchInterface):PitchAsMatrix = 
     val row = cross.x-1
     val col = cross.y-1
     copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))

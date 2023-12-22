@@ -3,14 +3,13 @@ package aview
 
 import scala.io.StdIn.readLine
 
-import controller.controllerBaseImpl.Controller
+import controller.ControllerInterface
+//import controller.controllerBaseImpl.Controller
+import controller.controllerBaseImpl.diceResult
 import util.Observer
 import util.Event
-import model.PitchAsMatrix
 import util.InputHandler
-import controller.controllerBaseImpl.diceResult
-
-import controller.ControllerInterface
+import model.baseModel.PitchAsMatrix
 
 
 class TUI(controller: ControllerInterface) extends Observer:

@@ -4,7 +4,8 @@ package controllerBaseImpl
 
 import scala.util.{Try, Failure, Success}
 
-import model.PitchAsMatrix
+import model.PitchInterface
+//import model.PitchAsMatrix
 import model.Filling
 import model.Cross
 import model.dice.DiceInterface
@@ -18,9 +19,9 @@ import util.UndoManager
 
 var diceResult = ""
 
-case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface:
+case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface:
 
-  val undoManager = new UndoManager[PitchAsMatrix]
+  val undoManager = new UndoManager[PitchInterface]
 
   // Methode zum Ausführen einer beliebigen Operation
   def publish(c:Option[Cross] = None, e:Event) = 
@@ -49,10 +50,10 @@ case class Controller(var pitch:PitchAsMatrix, val nums:DiceInterface, val color
   def beQuit(): String =
     "Danke fuers Spielen!"
 
-  def undo(): PitchAsMatrix =
+  def undo(): PitchInterface =
     undoManager.undoMove(pitch)
 
-  def redo(): PitchAsMatrix =
+  def redo(): PitchInterface =
     undoManager.redoMove(pitch)
 
   def apply(): Unit = 

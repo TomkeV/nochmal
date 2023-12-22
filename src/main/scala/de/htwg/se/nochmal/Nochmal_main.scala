@@ -3,11 +3,11 @@ package de.htwg.se.nochmal
 
 import scala.io.StdIn.readLine
 
-import model.dice.DiceInterface
+//import model.dice.DiceInterface
 import model.dice.diceImplementierung.Colors_dice
 import model.dice.diceImplementierung.Numbers_dice
 
-import model.PitchAsMatrix
+import model.baseModel.PitchAsMatrix
 import controller.controllerBaseImpl.Controller
 import aview.TUI
 import aview.myGUI

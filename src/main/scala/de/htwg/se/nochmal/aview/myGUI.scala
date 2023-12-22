@@ -8,7 +8,8 @@ import javax.swing.BorderFactory
 import java.awt.Color as jColor
 
 // eigene imports:
-import controller.controllerBaseImpl.Controller
+import controller.ControllerInterface
+//import controller.controllerBaseImpl.Controller
 import controller.controllerBaseImpl.diceResult
 
 import util.Observer
@@ -23,7 +24,7 @@ import model.Color as myColor
 import model.Filling
 
 
-class myGUI(controller: Controller) extends Frame with Observer {
+class myGUI(controller: ControllerInterface) extends Frame with Observer {
   controller.add(this)
 
   override def update(e: Event): Unit = 

@@ -5,11 +5,12 @@ import util.Observable
 import util.Event
 
 import model.Cross
-import model.PitchAsMatrix
+import model.PitchInterface
+//import model.baseModel.PitchAsMatrix
 
 trait ControllerInterface extends Observable:
-  var pitch:PitchAsMatrix
+  var pitch:PitchInterface
   def publish(c:Option[Cross] = None, e: Event) : Unit
-  def undo(): PitchAsMatrix
-  def redo(): PitchAsMatrix
+  def undo(): PitchInterface
+  def redo(): PitchInterface
   def beQuit(): String

@@ -1,13 +1,12 @@
 package de.htwg.se.nochmal
 package util
 
-//import controller.controllerBaseImpl.Controller
+
 import controller.ControllerInterface
-import scala.util.Try
-import scala.util.Success
+//import controller.controllerBaseImpl.Controller
 
 trait Command[T] {
-  def noMove(t: T): T//wenn nichts getan wurde unverändertes T zurückliefern
+  def noMove(t: T): T //wenn nichts getan wurde unverändertes T zurückliefern
   def doMove(t: T): T
   def undoMove(t: T): T
   def redoMove(t: T): T
