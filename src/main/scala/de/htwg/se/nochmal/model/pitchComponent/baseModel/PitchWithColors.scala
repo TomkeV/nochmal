@@ -1,5 +1,7 @@
 package de.htwg.se.nochmal
 package model
+package pitchComponent
+package baseModel
 
 /* object PitchWithColors {
   private val r = Color.red
@@ -32,7 +34,7 @@ package model
   }
 } */
 
-case class PitchWithColors(colorsList: List[List[Color]]):
+case class PitchWithColors(colorsList: List[List[Color]]) extends PitchWithColorsInterface:
   def getStrIndex(x:Int, y:Int):String = {
     colorsList(x)(y).toString()
   }

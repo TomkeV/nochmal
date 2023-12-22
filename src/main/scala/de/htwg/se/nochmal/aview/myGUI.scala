@@ -19,8 +19,8 @@ import util.EvenOdd
 import util.EvenEvent
 import util.OddEvent
 
-import model.PitchWithColors
-import model.blackColorsList
+import model.pitchComponent.baseModel.PitchWithColors
+import model.pitchComponent.baseModel.blackColorsList
 import model.Color as myColor
 import model.Filling
 
