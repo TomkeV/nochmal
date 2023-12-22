@@ -19,7 +19,7 @@ import util.EvenOdd
 import util.EvenEvent
 import util.OddEvent
 
-import model.myPitchWithColors
+import model.PitchWithColors
 import model.Color as myColor
 import model.Filling
 
@@ -200,7 +200,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       border = BorderFactory.createMatteBorder(0, 20, 20, 20, jColor.BLACK)
 
       for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, myPitchWithColors.getLine(i))
+        contents += createRow(colNum, i+1, PitchWithColors.getLine(i))
       }
     }
     return pitch

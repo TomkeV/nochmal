@@ -3,7 +3,7 @@ package util
 
 import model.pitchComponent.PitchInterface
 //import model.baseModel.PitchAsMatrix
-import model.myPitchWithColors
+import model.PitchWithColors
 import model.Filling
 
 trait Builder:
@@ -36,7 +36,7 @@ class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchInterface) {
 }
 
 class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchInterface) {
-    val myColors = myPitchWithColors
+    val myColors = PitchWithColors
     val eol = sys.props("line.separator")
     val numOfRows = Range(0, rowNum)
     val numOfCells = Range(0, colNum)
