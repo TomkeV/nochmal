@@ -9,7 +9,7 @@ import controller.controllerComponent.controllerBaseImpl.diceResult
 import util.Observer
 import util.Event
 import util.InputHandler
-import model.baseModel.PitchAsMatrix
+import model.pitchComponent.baseModel.PitchAsMatrix
 
 
 class TUI(controller: ControllerInterface) extends Observer:

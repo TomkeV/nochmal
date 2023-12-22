@@ -4,7 +4,7 @@ package controllerComponent
 package controllerBaseImpl
 
 import util.Command
-import model.PitchInterface
+import model.pitchComponent.PitchInterface
 //import model.baseModel.PitchAsMatrix
 import model.Cross
 

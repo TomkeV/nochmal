@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
 package model
+package pitchComponent
 
 trait PitchInterface:
   val row_num:Int

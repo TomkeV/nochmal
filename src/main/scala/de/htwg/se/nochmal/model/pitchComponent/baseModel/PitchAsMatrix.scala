@@ -1,9 +1,11 @@
 package de.htwg.se.nochmal
 package model
+package pitchComponent
 package baseModel
 
 
 import util.*
+import pitchComponent.PitchInterface
 
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface:
   

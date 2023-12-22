@@ -1,7 +1,7 @@
 package de.htwg.se.nochmal
 package util
 
-import model.PitchInterface
+import model.pitchComponent.PitchInterface
 //import model.baseModel.PitchAsMatrix
 import model.myPitchWithColors
 import model.Filling

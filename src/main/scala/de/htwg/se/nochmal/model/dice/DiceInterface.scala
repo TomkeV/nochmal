@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
-package model.dice
+package model
+package diceComponent
 
 trait DiceInterface:
     val num_of_dices:Int

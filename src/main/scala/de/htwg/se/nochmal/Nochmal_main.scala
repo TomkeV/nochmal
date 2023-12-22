@@ -4,10 +4,10 @@ package de.htwg.se.nochmal
 import scala.io.StdIn.readLine
 
 //import model.dice.DiceInterface
-import model.dice.diceImplementierung.Colors_dice
-import model.dice.diceImplementierung.Numbers_dice
+import model.diceComponent.diceImplementierung.Colors_dice
+import model.diceComponent.diceImplementierung.Numbers_dice
 
-import model.baseModel.PitchAsMatrix
+import model.pitchComponent.baseModel.PitchAsMatrix
 import controller.controllerComponent.controllerBaseImpl.Controller
 import aview.TUI
 import aview.myGUI

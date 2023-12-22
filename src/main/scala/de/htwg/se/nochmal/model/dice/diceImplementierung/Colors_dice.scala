@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
-package model.dice
+package model
+package diceComponent
 package diceImplementierung
 
 case class Colors_dice(dice_num:Int = 3) extends DiceInterface:

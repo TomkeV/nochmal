@@ -6,7 +6,7 @@ import util.Observable
 import util.Event
 
 import model.Cross
-import model.PitchInterface
+import model.pitchComponent.PitchInterface
 //import model.baseModel.PitchAsMatrix
 
 trait ControllerInterface extends Observable:

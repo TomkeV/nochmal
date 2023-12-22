@@ -5,11 +5,11 @@ package controllerBaseImpl
 
 import scala.util.{Try, Failure, Success}
 
-import model.PitchInterface
+import model.pitchComponent.PitchInterface
 //import model.PitchAsMatrix
 import model.Filling
 import model.Cross
-import model.dice.DiceInterface
+import model.diceComponent.DiceInterface
 //import model.Numbers_dice
 //import model.dice.diceImplementierung.Colors_dice
 

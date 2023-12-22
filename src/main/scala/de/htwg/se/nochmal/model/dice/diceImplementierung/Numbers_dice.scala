@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
-package model.dice
+package model
+package diceComponent
 package diceImplementierung
 
 // Klasse für Zahlenwürfel
