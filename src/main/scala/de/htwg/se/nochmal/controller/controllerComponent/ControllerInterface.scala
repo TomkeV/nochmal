@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
 package controller
+package controllerComponent
 
 import util.Observable
 import util.Event

@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
 package controller
+package controllerComponent
 package controllerBaseImpl
 
 import util.Command

@@ -8,9 +8,9 @@ import javax.swing.BorderFactory
 import java.awt.Color as jColor
 
 // eigene imports:
-import controller.ControllerInterface
+import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
-import controller.controllerBaseImpl.diceResult
+import controller.controllerComponent.controllerBaseImpl.diceResult
 
 import util.Observer
 import util.Event

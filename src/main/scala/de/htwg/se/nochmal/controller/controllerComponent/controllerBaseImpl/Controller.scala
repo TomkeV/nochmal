@@ -1,5 +1,6 @@
 package de.htwg.se.nochmal
 package controller
+package controllerComponent
 package controllerBaseImpl
 
 import scala.util.{Try, Failure, Success}
@@ -15,6 +16,7 @@ import model.dice.DiceInterface
 import util.Observable
 import util.Event
 import util.UndoManager
+import controllerComponent.ControllerInterface
 
 
 var diceResult = ""

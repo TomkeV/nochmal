@@ -3,7 +3,7 @@ package util
 
 import scala.util.{Try, Success, Failure}
 
-import controller.ControllerInterface
+import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 import model.Cross
 

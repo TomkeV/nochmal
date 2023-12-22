@@ -2,7 +2,7 @@ package de.htwg.se.nochmal
 package util
 
 
-import controller.ControllerInterface
+import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 
 trait Command[T] {

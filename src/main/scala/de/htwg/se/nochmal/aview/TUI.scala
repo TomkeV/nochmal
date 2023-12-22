@@ -3,9 +3,9 @@ package aview
 
 import scala.io.StdIn.readLine
 
-import controller.ControllerInterface
+import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
-import controller.controllerBaseImpl.diceResult
+import controller.controllerComponent.controllerBaseImpl.diceResult
 import util.Observer
 import util.Event
 import util.InputHandler
