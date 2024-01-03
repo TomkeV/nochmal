@@ -35,6 +35,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
                           //redoButton.enabled = false
       case Event.Crossed => //redoButton.enabled = true
       case Event.Applied => rounds += 1
+                            crossesSet = 0
                             //redoButton.enabled = false
       case Event.Undone => 
       case Event.Redone => 
@@ -44,6 +45,11 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
+
+  var number = ""
+  var color = ""
+  var crossesSet = 0
+
 
 /*   val redoButton = new Button("Redo") {
     enabled = false
@@ -64,47 +70,140 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       
       // Titelzeile mit Buchstaben hinzufügen
       contents += createTitle(cols)
-
       // Matrix des Spielfelds hinzufügen
       contents += createPitch(rows, cols)
-
       // Zeile mit Punkten pro Spalte hinzufügen
       contents += createPoints(cols)
 
       // Anlegen der 6 Würfel
+
+      // ------------------------------ ausgewählte Würfel speichern: 
+
       val die1 = new Button() { 
+        name = "die1"
         text = "" 
         preferredSize = new Dimension(40, 20)
+        enabled = false
+        reactions += {
+          case event.ButtonClicked(_) =>
+            number = dieChosen(this)
+        }
       }
+
       val die2 = new Button() { 
+        name = "die2"
         text = "" 
         preferredSize = new Dimension(40, 20)
+        enabled = false
+        reactions += {
+          case event.ButtonClicked(_) =>
+            number = dieChosen(this)
+        }
       }
+
       val die3 = new Button() { 
+        name = "die3"
         text = ""
         preferredSize = new Dimension(40, 20)
+        enabled = false
+        reactions += {
+          case event.ButtonClicked(_) =>
+            number = dieChosen(this)
+        }
       }
+
       val die4 = new Button() { 
+        name = "die4"
         text = "" 
         preferredSize = new Dimension(40, 20)
-/*         background = text match 
+        enabled = false
+        reactions += {
+          case event.ButtonClicked(_) =>
+            color = dieChosen(this)
+        }
+      }
+
+      val die5 = new Button() { 
+        name = "die5"
+        text = ""
+        preferredSize = new Dimension(40, 20)
+        enabled = false
+        reactions += {
+          case event.ButtonClicked(_) =>
+            color = dieChosen(this)
+        }
+      }
+
+      val die6 = new Button() { 
+        name = "die6"
+        text = ""
+        preferredSize = new Dimension(40, 20)
+        enabled = false
+        reactions += {
+          case event.ButtonClicked(_) =>
+            color = dieChosen(this)
+        }
+      }
+
+        
+      // -------------- Hilfsmethode Würfel auswählen ---------------
+      def dieChosen(d:Button) : String = {
+        if d.name == "die1" then 
+          die2.enabled = false
+          die3.enabled = false
+          die1.text
+        else if d.name == "die2" then
+          die1.enabled = false
+          die3.enabled = false
+          die2.text
+        else if d.name == "die3" then
+          die1.enabled = false
+          die2.enabled = false
+          die3.text
+        else if d.name == "die4" then
+          die5.enabled = false
+          die6.enabled = false
+          die4.text match 
+            case "rot" => myColor.red.getRGB.toString
+            case "orange" => myColor.orange.getRGB.toString
+            case "grün" => myColor.green.getRGB.toString
+            case "gelb" => myColor.yellow.getRGB.toString
+            case "blau" => myColor.blue.getRGB.toString
+            case _ => "Joker"
+        else if d.name == "die5" then
+          die4.enabled = false
+          die6.enabled = false
+          die5.text match 
+            case "rot" => myColor.red.getRGB.toString
+            case "orange" => myColor.orange.getRGB.toString
+            case "grün" => myColor.green.getRGB.toString
+            case "gelb" => myColor.yellow.getRGB.toString
+            case "blau" => myColor.blue.getRGB.toString
+            case _ => "Joker"
+        else 
+          die4.enabled = false
+          die5.enabled = false
+          die6.text match 
+            case "rot" => myColor.red.getRGB.toString
+            case "orange" => myColor.orange.getRGB.toString
+            case "grün" => myColor.green.getRGB.toString
+            case "gelb" => myColor.yellow.getRGB.toString
+            case "blau" => myColor.blue.getRGB.toString
+            case _ => "Joker"
+      }
+
+      // -------------- Hilfsmethode Farbgebung -----------------
+      def setBackground(d:Button) = {
+        val diceColor = d.text match
           case "rot" => jColor(myColor.red.getRGB)
           case "orange" => jColor(myColor.orange.getRGB)
           case "gelb" => jColor(myColor.yellow.getRGB)
           case "gruen" => jColor(myColor.green.getRGB)
           case "blau" => jColor(myColor.blue.getRGB)
           case "Joker!" => jColor.BLACK 
-                          //foreground = jColor.WHITE
           case _ => jColor.white
-        visible = true */
-      }
-      val die5 = new Button() { 
-        text = ""
-        preferredSize = new Dimension(40, 20)
-      }
-      val die6 = new Button() { 
-        text = ""
-        preferredSize = new Dimension(40, 20)
+        
+        d.background = diceColor        
       }
 
       // Button zum Würfeln zentriert hinzufügen
@@ -121,11 +220,20 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
 
                 val dicedArray = diceResult.split("""\R""") //dicedValues.split("""\R""")
                 die1.text = dicedArray(1)
+                die1.enabled = true
                 die2.text = dicedArray(2)
+                die2.enabled = true
                 die3.text = dicedArray(3)
+                die3.enabled = true
                 die4.text = dicedArray(4)
+                die4.enabled = true
+                setBackground(die4)
                 die5.text = dicedArray(5)
+                die5.enabled = true
+                setBackground(die5)
                 die6.text = dicedArray(6)
+                die6.enabled = true
+                setBackground(die6)
             }
           }
         contents += new Label()
@@ -151,10 +259,11 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
         val applyButton = new Button("Apply") {
-          reactions += {case event.ButtonClicked(_) =>
-            InputHandler.handle("a", controller)
-            roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-            roundPanel.repaint()
+          reactions += {
+            case event.ButtonClicked(_) =>
+              InputHandler.handle("a", controller)
+              roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
+              roundPanel.repaint()
           }
         }
         contents += applyButton
@@ -225,15 +334,44 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   def createButton(c:myColor, n:String): Button = {
     val s = 30 // Größe des Buttons
     val myButton = new Button() {
+      val thisColor = c.getRGB
         preferredSize = new Dimension(s, s)
-        background = jColor(c.getRGB)
-        val myName = n
+        background = jColor(thisColor)
+        name = n
         reactions += {
           case event.ButtonClicked(_) =>
-            InputHandler.handle(myName, controller)
-            text = Filling.filled.toString()
-            enabled = false
-            //redoButton.enabled = true
+            if (number != "!") 
+              && (crossesSet < number.toInt) 
+              && (thisColor.toString == color) then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+            else if (number != "!") 
+              && (crossesSet < number.toInt) 
+              && (color == "Joker") then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+            else if (number == "!")
+              && (crossesSet < 5)
+              && (thisColor.toString == color) then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+            else if (number == "!")
+              && (crossesSet < 5)
+              && (color == "Joker") then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
         }
       }
     return myButton
@@ -260,14 +398,10 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
     }
     return myPoints
   }
-  
 }
 
 
 // ToDos: 
-// Würfel als Buttons 
-  	// Auswahl + Kontrolle dieser
-    // Farben darstellen
 // Menüleiste
     // Option zum Beenden (Event.Quit)
     // Spielanleitung
