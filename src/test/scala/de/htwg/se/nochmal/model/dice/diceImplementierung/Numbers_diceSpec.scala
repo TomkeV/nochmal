@@ -1,10 +1,21 @@
+/**
+  * Numbers_diceSpec.scala
+  */
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package model
+package diceComponent
+package diceImplementierung
 
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-class ZahlwuerfelSpec extends AnyWordSpec {
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------ TEST
+class Numbers_diceSpec extends AnyWordSpec {
   "The dice of numbers " when {
     "created " should {
       "roll 3 dice if there is no argument " in {
