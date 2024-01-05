@@ -1,6 +1,15 @@
+/**
+  * PitchBuilder.scala
+  * Builder Pattern
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package util
 
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
 import model.pitchComponent.PitchInterface
 //import model.baseModel.PitchAsMatrix
 import model.pitchComponent.PitchWithColorsInterface
@@ -8,12 +17,16 @@ import model.pitchComponent.baseModel.PitchWithColors
 import model.Filling
 import model.pitchComponent.baseModel.blackColorsList
 
+// -----------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------- INTERFACE DEFINITION
 trait Builder:
     def createTitle(t:Title): Builder
     def createMatrix(m:Matrix): Builder
     def createMatrixWithColors(mc:MatrixWithColors): Builder
     def createPoints(p:Points): Builder
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class Title(cellWidth:Int, colNum:Int) {
     val eol = sys.props("line.separator")
     val list = Range(0, colNum).toList
@@ -24,6 +37,8 @@ class Title(cellWidth:Int, colNum:Int) {
                 " ").mkString + eol
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchInterface) {
     val eol = sys.props("line.separator")
     val numOfRows = Range(0, rowNum)
@@ -37,6 +52,8 @@ class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchInterface) {
         ("+" + "-" * cellWidth) * colNum + "+" + eol
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchInterface) {
     val myColors = new PitchWithColors(blackColorsList)
     val eol = sys.props("line.separator")
@@ -58,6 +75,8 @@ class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchInterf
 
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class Points(cellWidth:Int, colNum:Int) {
     val eol = sys.props("line.separator")
     val res = if (colNum%2 == 0) { // für gerade Zahlen: 
@@ -67,6 +86,8 @@ class Points(cellWidth:Int, colNum:Int) {
               }
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class PitchBuilder() extends Builder {
     private var title : String = _
     private var matrix : String = _
@@ -100,6 +121,8 @@ class PitchBuilder() extends Builder {
         
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------- OBJECT
 object Pitch {
     def builder(cellWidth: Int = 3, colNum: Int = 7): PitchBuilder = {
         new PitchBuilder()

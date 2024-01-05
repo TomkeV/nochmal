@@ -1,14 +1,21 @@
+/**
+  * PitchAsMatrix.scala
+  */
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package model
 package pitchComponent
 package baseModel
 
-
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
 import util.*
 import pitchComponent.PitchInterface
 
-case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface:
-  
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
+case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface {
 	// auxiliary construktor
   def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3) =
     this(Vector.tabulate(rows) {i =>
@@ -49,30 +56,4 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
   // Methode toString()
   override def toString = pitchToString()
-
-
-
-// ------------------------------------------------------------------------------------------
-// Raus ab 15.12.:
-	// Methode zum Füllen von Feldern
-/*   def fillCell(row:Int, col:Int): PitchAsMatrix = 
-    copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
-
-  // Methode zum Füllen mehrerer Felder:
-  def fillCellsList(l:List[Option[Cross]], p:PitchAsMatrix): PitchAsMatrix = 
-    var tmpMatrix = p
-    for (cross <- l) yield cross match {
-      case Some(c) => tmpMatrix = tmpMatrix.fillCell(c.x-1, c.y-1)
-      case None => }
-    tmpMatrix */
- 
-/*   // Methode zum Leeren von Feldern (nötig für Undo)
-  def unfillCell(row:Int, col:Int): PitchAsMatrix =
-    copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
-
-  def unfillCellsList(l:List[Option[Cross]], p:PitchAsMatrix): PitchAsMatrix =
-    var tmpMatrix = p
-    for (cross <- l) yield cross match {
-      case Some(c) => tmpMatrix = tmpMatrix.unfillCell(c.x-1, c.y-1)
-      case None => }
-    tmpMatrix */
+}

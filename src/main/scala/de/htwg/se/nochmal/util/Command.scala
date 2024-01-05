@@ -1,10 +1,19 @@
+/**
+  * Command.scala
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package util
 
-
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
 import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 
+// -----------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------- INTERFACE DEFINITION
 trait Command[T] {
   def noMove(t: T): T //wenn nichts getan wurde unverändertes T zurückliefern
   def doMove(t: T): T
@@ -12,7 +21,8 @@ trait Command[T] {
   def redoMove(t: T): T
 }
 
-
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class UndoManager[T] {
   var undoAllowed = false;
   private var undoStack: List[Command[T]] = Nil 

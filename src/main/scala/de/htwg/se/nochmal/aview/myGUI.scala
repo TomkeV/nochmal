@@ -1,13 +1,22 @@
-// a very difficult version but it hopefully works...
+/**
+  * myGUI.scala
+  * Class for graphic-based user-interface of the game "Nochmal!"
+  * Link to the game: https://www.schmidtspiele.de/details/produkt/noch-mal-.html
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package aview
 
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
 // Bibliotheksimports:
 import scala.swing._ 
 import javax.swing.BorderFactory
 import java.awt.Color as jColor
 
-// eigene imports:
+// interne imports:
 import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 import controller.controllerComponent.controllerBaseImpl.diceResult
@@ -24,15 +33,15 @@ import model.pitchComponent.baseModel.blackColorsList
 import model.Color as myColor
 import model.Filling
 
-
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class myGUI(controller: ControllerInterface) extends Frame with Observer {
   controller.add(this)
 
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
-      case Event.Diced => 
-                          //redoButton.enabled = false
+      case Event.Diced => //redoButton.enabled = false
       case Event.Crossed => //redoButton.enabled = true
       case Event.Applied => rounds += 1
                             crossesSet = 0
@@ -76,9 +85,6 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       contents += createPoints(cols)
 
       // Anlegen der 6 Würfel
-
-      // ------------------------------ ausgewählte Würfel speichern: 
-
       val die1 = new Button() { 
         name = "die1"
         text = "" 

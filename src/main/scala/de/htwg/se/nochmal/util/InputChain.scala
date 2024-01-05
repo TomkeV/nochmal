@@ -1,24 +1,36 @@
+/**
+  * InputChain.scala
+  * Chain of Responsibility Pattern is used to 
+  * analyse input given in TUI or GUI.
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package util
 
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
+// Bibliotheksimports
 import scala.util.{Try, Success, Failure}
 
+// interne imports
 import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 import model.Cross
 
-
+// -----------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------- INTERFACE DEFINITION
 trait HandlerInterface:
     def handleInput(input: String, controller:ControllerInterface): Unit
 
-
-
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 abstract class ChainHandler extends HandlerInterface:
     protected var nextHandler: ChainHandler
 
-
-    
-
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class QuitHandler() extends ChainHandler {
     var nextHandler = UndoHandler()
     override def handleInput(input: String, controller:ControllerInterface): Unit = {
@@ -30,8 +42,8 @@ class QuitHandler() extends ChainHandler {
     }
 }
 
-
-// NEU für Undo-Manager
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
     override def handleInput(input: String, controller: ControllerInterface): Unit = {
@@ -43,7 +55,8 @@ class UndoHandler() extends ChainHandler {
     }
 }
 
-
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class RedoHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
     override def handleInput(input: String, controller: ControllerInterface): Unit = {
@@ -55,6 +68,8 @@ class RedoHandler() extends ChainHandler {
     }
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class DiceHandler() extends ChainHandler {
     var nextHandler = ApplyHandler()
     override def handleInput(input: String, controller:ControllerInterface): Unit = {
@@ -66,6 +81,8 @@ class DiceHandler() extends ChainHandler {
     }
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class ApplyHandler() extends ChainHandler {
     var nextHandler = RestHandler()
 
@@ -77,6 +94,8 @@ class ApplyHandler() extends ChainHandler {
         }
 }
 
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class RestHandler() extends ChainHandler {
     var nextHandler = null;
     override def handleInput(input: String, controller: ControllerInterface): Unit = {
@@ -117,7 +136,8 @@ class RestHandler() extends ChainHandler {
     }
 }
 
-
+// -----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object InputHandler {
     def handle(i: String, c: ControllerInterface) = 
         QuitHandler().handleInput(i, c)

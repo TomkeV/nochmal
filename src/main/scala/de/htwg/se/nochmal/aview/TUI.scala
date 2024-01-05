@@ -1,8 +1,20 @@
+/**
+  * TUI.scala
+  * Class for text-based user-interface of the game "Nochmal!"
+  * Link to the game: https://www.schmidtspiele.de/details/produkt/noch-mal-.html
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package aview
 
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
+// Bibliotheks-Imports
 import scala.io.StdIn.readLine
 
+// interne Imports
 import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 import controller.controllerComponent.controllerBaseImpl.diceResult
@@ -11,9 +23,10 @@ import util.Event
 import util.InputHandler
 import model.pitchComponent.baseModel.PitchAsMatrix
 
-
-class TUI(controller: ControllerInterface) extends Observer:
-  controller.add(this) // fügt TUI in die Liste hinzu, sodass update funktioniert
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
+class TUI(controller: ControllerInterface) extends Observer {
+  controller.add(this) // ermöglicht update
 
   var goOn = true // speichert, ob noch Runden verfügbar sind
   var rounds = 0 // speichert aktuelle Rundenzahl
@@ -44,8 +57,9 @@ class TUI(controller: ControllerInterface) extends Observer:
                             if rounds == num_of_rounds then goOn = false
                             println("Runde " + rounds + " von " + num_of_rounds)
 
-  // Methode zum Einlesen der Nutzereingaben
+  // rekursive Methode zum Einlesen der Nutzereingaben
   def inputGetAndAnalysis(): Unit =
     val input = readLine 
     InputHandler.handle(input, controller)
     if goOn then inputGetAndAnalysis()
+}
