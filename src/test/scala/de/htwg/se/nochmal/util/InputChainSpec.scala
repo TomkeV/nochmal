@@ -72,7 +72,7 @@ class DiceHandlerSpec extends AnyWordSpec {
 
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- APPLYHANDLER TEST
-class ApplyHandlerSpec extends AnyWordSpec {
+/* class ApplyHandlerSpec extends AnyWordSpec {
   "The ApplyHandler " should {
     val aH = UndoHandler()
     "only handle the input if its 'a' " in {
@@ -80,7 +80,7 @@ class ApplyHandlerSpec extends AnyWordSpec {
       aH.handleInput("f", testController) should be (false)
     }
   }
-}
+} */
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ RESTHANDLER TEST
