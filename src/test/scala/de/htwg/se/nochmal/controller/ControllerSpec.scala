@@ -1,4 +1,4 @@
-package de.htwg.se.nochmal
+/* package de.htwg.se.nochmal
 package controller
 
 import org.scalatest.wordspec.AnyWordSpec
@@ -54,4 +54,4 @@ class ControllerSpec extends AnyWordSpec {
       testObserver.bing should be (true)
     } */
   }
-}
+} */

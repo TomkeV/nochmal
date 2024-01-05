@@ -1,12 +1,26 @@
+/**
+  * TUISpec.scala
+  * Class for testing the text-based user-interface of the game "Nochmal!"
+  * Link to the game: https://www.schmidtspiele.de/details/produkt/noch-mal-.html
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package aview
 
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
+// Bibliotheks-Imports
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
-import de.htwg.se.nochmal.model.PitchAsMatrix
-import de.htwg.se.nochmal.model.Numbers_dice
-import de.htwg.se.nochmal.model.Colors_dice
-import controller.Controller
+
+// interne imports
+import de.htwg.se.nochmal.controller.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.nochmal.model.pitchComponent.baseModel.PitchAsMatrix
+import de.htwg.se.nochmal.model.diceComponent.diceImplementierung.Numbers_dice
+import de.htwg.se.nochmal.model.diceComponent.diceImplementierung.Colors_dice
+
 
 class TUISpec extends AnyWordSpec {
   "The TUI" when {

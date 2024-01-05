@@ -26,7 +26,7 @@ class Numbers_diceSpec extends AnyWordSpec {
         val testDice = Numbers_dice(1)
         testDice.num_of_dices should be(1)
       }
-      "save its number of dices to roll for the argument it's called with " in {
+      "save its number of dice to roll for the argument it's called with " in {
         val testDice = Numbers_dice(1)
         testDice.num_of_dices should be(1)
       }
@@ -43,5 +43,10 @@ class Numbers_diceSpec extends AnyWordSpec {
         s should fullyMatch regex """([1-5!]\R){2}[1-5!]"""
       }
     }
+    /* "implemented " should {
+      "have an Interface which must not be instantiated " in {
+        val dice = DiceInterface() shouldNot compile
+      }
+    } */
   }
 }
