@@ -22,7 +22,7 @@ import model.Cross
 // -----------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------- INTERFACE DEFINITION
 trait HandlerInterface:
-    def handleInput(input: String, controller:ControllerInterface): Unit
+    def handleInput(input: String, controller:ControllerInterface): Boolean
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -33,11 +33,13 @@ abstract class ChainHandler extends HandlerInterface:
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class QuitHandler() extends ChainHandler {
     var nextHandler = UndoHandler()
-    override def handleInput(input: String, controller:ControllerInterface): Unit = {
+    override def handleInput(input: String, controller:ControllerInterface): Boolean = {
         if (input == "q") {
             controller.publish(e = Event.Quit)
+            true
         } else {
             nextHandler.handleInput(input: String, controller:ControllerInterface)
+            false
         }
     }
 }
@@ -46,11 +48,13 @@ class QuitHandler() extends ChainHandler {
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
-    override def handleInput(input: String, controller: ControllerInterface): Unit = {
+    override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         if (input == "u") {
             controller.publish(e = Event.Undone)
+            true
         } else {
             nextHandler.handleInput(input, controller)
+            false
         }
     }
 }
@@ -59,11 +63,13 @@ class UndoHandler() extends ChainHandler {
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class RedoHandler() extends ChainHandler {
     var nextHandler = DiceHandler()
-    override def handleInput(input: String, controller: ControllerInterface): Unit = {
+    override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         if (input == "r") {
             controller.publish(e = Event.Redone)
+            true
         } else {
             nextHandler.handleInput(input, controller)
+            false
         }
     }
 }
@@ -72,11 +78,13 @@ class RedoHandler() extends ChainHandler {
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class DiceHandler() extends ChainHandler {
     var nextHandler = ApplyHandler()
-    override def handleInput(input: String, controller:ControllerInterface): Unit = {
+    override def handleInput(input: String, controller:ControllerInterface): Boolean = {
         if (input == "w") {
             controller.publish(e = Event.Diced)
+            true
         } else {
             nextHandler.handleInput(input, controller)
+            false
         }
     }
 }
@@ -86,11 +94,13 @@ class DiceHandler() extends ChainHandler {
 class ApplyHandler() extends ChainHandler {
     var nextHandler = RestHandler()
 
-    override def handleInput(input: String, controller: ControllerInterface): Unit = 
+    override def handleInput(input: String, controller: ControllerInterface): Boolean = 
         if(input == "a") {
             controller.publish(e = Event.Applied)
+            true
         } else {
             nextHandler.handleInput(input, controller)
+            false
         }
 }
 
@@ -98,7 +108,7 @@ class ApplyHandler() extends ChainHandler {
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class RestHandler() extends ChainHandler {
     var nextHandler = null;
-    override def handleInput(input: String, controller: ControllerInterface): Unit = {
+    override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         val chars = input.toString().toList
         val inputList = chars.filter(_.isLetterOrDigit)
         chars(0) match
@@ -111,7 +121,9 @@ class RestHandler() extends ChainHandler {
             } else if (test.isFailure) {
                 println(test.toString())
             }
+            true
           case _ => println("Ungueltige Eingabe!")
+                    false
     }
 
     def analyseInput(input:List[Char]): Try[Int] = {
@@ -139,6 +151,10 @@ class RestHandler() extends ChainHandler {
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object InputHandler {
-    def handle(i: String, c: ControllerInterface) = 
-        QuitHandler().handleInput(i, c)
+    def handle(i: String, c: ControllerInterface): Boolean = 
+        if (i.isEmpty()) then
+            false
+        else 
+            QuitHandler().handleInput(i, c)
+            true
 }
