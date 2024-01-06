@@ -12,19 +12,26 @@ import scala.io.StdIn.readLine
 import aview.TUI
 import aview.myGUI
 
-//import Default.ControllerInterface
-import Orange.ControllerInterface
+import com.google.inject.Injector
+import com.google.inject.Guice
 import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
+
+// imports für Scala-DI (Branch Dev_10-DI)
+// import Default.ControllerInterface
+// import Orange.ControllerInterface
+// import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
+
+
 
 
 @main def nochmal: Unit =
   println("Herzlich Willkommen zu Nochmal!")
 
-  //val myPitch = new PitchAsMatrix(7, 15)
-  //val myNumdice = Numbers_dice(3)
-  //val myColorsdice = Colors_dice(3)
-  //val myController = Controller(myPitch, myNumdice, myColorsdice)
-  val myController = summon[ControllerInterface]
+  // Inhalte für Guice:
+  val injector: Injector = Guice.createInjector(new Modules())
+  val myController = injector.getInstance(classOf[ControllerInterface])
+
+  //val myController = summon[ControllerInterface]
 
   val myGui = myGUI(myController)
 
