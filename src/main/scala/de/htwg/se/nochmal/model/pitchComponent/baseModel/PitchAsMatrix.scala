@@ -17,7 +17,7 @@ import pitchComponent.PitchInterface
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface {
 	// auxiliary construktor
-  def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3) =
+  def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3 /*, color:PitchWithColors = PitchWithColors(blackColorsList)*/) =
     this(Vector.tabulate(rows) {i =>
     Vector.tabulate(columns) {j => Filling.empty}
     })

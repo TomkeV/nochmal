@@ -45,3 +45,6 @@ private val seventhRowColors = List(y, y, b, b, b, b, r, y, y, y, gr, gr, gr, or
 
 val blackColorsList = List(firstRowColors, secondRowColors, thirdRowColors, 
                     fourthRowColors, fifthRowColors, sixthRowColors, seventhRowColors)
+
+val orangeColorsList = List(List(r, r, r, r, r, r, r, r, r, r, r, r, r, r, r), secondRowColors, thirdRowColors, 
+                              fourthRowColors, fifthRowColors, sixthRowColors, seventhRowColors)
