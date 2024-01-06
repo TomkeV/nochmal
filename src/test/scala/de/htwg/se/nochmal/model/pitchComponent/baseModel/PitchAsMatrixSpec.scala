@@ -33,16 +33,16 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       "be able to return the content of one cell " in {
         testM.getIndex(0,0) should be(Filling.empty)
       }
-/*       "be able to change its cells from 'empty' to 'filled' " in {
+      "be able to change its cells from 'empty' to 'filled' " in {
         val returnedM = testM.fillCellWithCross(myCross, testM)
-        returnedM.getIndex(1, 1) should be(Filling.filled)
-      } */
+        returnedM.getIndex(0, 0) should be(Filling.filled)
+      }
       "be able to change its cells from 'filled' to 'empty' to undo a move " in {
         val returnedM_filled = testM.fillCellWithCross(myCross, testM)
         val returnedM_emptied = returnedM_filled.unfillCellWithCross(myCross, returnedM_filled)
         returnedM_emptied.getIndex(1, 1) should be (Filling.empty)
       }
-/*       val eol = sys.props("line.separator")
+      val eol = sys.props("line.separator")
       "have a pitch in the form " + 
       " A " +
       "+-+" +
@@ -61,7 +61,7 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       "  5  " in {
         val testM = new PitchAsMatrix(1, 1)
         testM.toString should be("  A " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5 " + eol)
-      } */ 
+      }
     }
   }  
 }
