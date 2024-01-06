@@ -311,7 +311,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
 
   // Feld mit x Zeilen mit Buttons erzeugen
   def createPitch(rowNum:Int, colNum:Int): GridPanel = {
-    val myColors = PitchWithColors(blackColorsList)
+    val myColors = controller.pitch.myColor
     val pitch = new GridPanel(rowNum, 1) {
       border = BorderFactory.createMatteBorder(0, 20, 20, 20, jColor.BLACK)
 

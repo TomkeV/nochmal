@@ -24,14 +24,14 @@ object Default {
   
 }
 
-/* object Orange {
+object Orange {
   
   given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(orangeColorsList))
 
   given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
   given ColorDiceInterface: DiceInterface = Colors_dice(3)
 
-  given ControllerInterface(using pitch : PitchInterface): ControllerInterface 
+  given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
   
-} */
+}

@@ -12,7 +12,8 @@ import scala.io.StdIn.readLine
 import aview.TUI
 import aview.myGUI
 
-import Default.ControllerInterface
+//import Default.ControllerInterface
+import Orange.ControllerInterface
 import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
 
 

@@ -16,11 +16,15 @@ import pitchComponent.PitchInterface
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface {
+
+  var myColor: PitchWithColorsInterface = PitchWithColors(blackColorsList)
+
 	// auxiliary construktor
-  def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3 /*, color:PitchWithColors = PitchWithColors(blackColorsList)*/) =
+  def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3, color:PitchWithColors = PitchWithColors(blackColorsList)) = {
     this(Vector.tabulate(rows) {i =>
-    Vector.tabulate(columns) {j => Filling.empty}
-    })
+      Vector.tabulate(columns) {j => Filling.empty}})
+    myColor = color
+  }
   
   val row_num = matrix.size 			// Anzahl Zeilen der Matrix
   val col_num = matrix.head.size	// Anzahl Spalten der Matrix

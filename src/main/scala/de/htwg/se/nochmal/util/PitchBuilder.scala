@@ -55,7 +55,7 @@ class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchInterface) {
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchInterface) {
-    val myColors = new PitchWithColors(blackColorsList)
+    val myColors = pitch.myColor
     val eol = sys.props("line.separator")
     val numOfRows = Range(0, rowNum)
     val numOfCells = Range(0, colNum)
