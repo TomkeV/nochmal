@@ -46,21 +46,21 @@ class PitchAsMatrixSpec extends AnyWordSpec {
       "have a pitch in the form " + 
       " A " +
       "+-+" +
-      "| |" + 
+      "|g|" + 
       "+-+" + 
       " 5 " in {
         val testM = new PitchAsMatrix(1, 1, 1)
         val s = testM.pitchToString(1)
-        s should be(" A " + eol + "+-+" + eol + "| |" + eol + "+-+" + eol + " 5 " + eol )
+        s should be(" A " + eol + "+-+" + eol + "|g|" + eol + "+-+" + eol + " 5 " + eol )
       }
       "have an overwritten toString-method which also returns a pitch in the form " +
       "  A  " +
       "+---+" +
-      "|   |" + 
+      "| g |" + 
       "+---+" + 
       "  5  " in {
         val testM = new PitchAsMatrix(1, 1)
-        testM.toString should be("  A " + eol + "+---+" + eol + "|   |" + eol + "+---+" + eol + "  5 " + eol)
+        testM.toString should be("  A " + eol + "+---+" + eol + "| g |" + eol + "+---+" + eol + "  5 " + eol)
       }
     }
   }  
