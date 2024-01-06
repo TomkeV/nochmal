@@ -85,16 +85,25 @@ class ApplyHandlerSpec extends AnyWordSpec {
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ RESTHANDLER TEST
 class RestHandlerSpec extends AnyWordSpec {
-  "The RestHandler " should {
+  "The RestHandler " when {
     val rH = RestHandler()
-    "handle the input if it starts with 'x' " in {
-      rH.handleInput("x11", testController) should be (true)
+    "the input starts with 'x' " should {
+      "handle it" in {
+      rH.handleInput("xA1", testController) should be (true)
+      }
+      "check if the given coordinates are a valid cross " in {
+        val inputList = List('A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 
+                              'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
+                              'M', 'm', 'N', 'n', 'O', 'o')
+        for element <- inputList do
+          rH.analyseInput(List('x', element)).isSuccess
+        rH.analyseInput(List('x', 'Z')).isFailure
+      } 
     }
-    /* "check if the given coordinates are a valid cross " in {
-      rH.analyseInput(List('x', 'a')) shouldBe
-    } */
-    "but also if it does not match any of the handlers" in {
-      rH.handleInput("f", testController) should be (false)
+    "the input does not match any of the handlers" should {
+      "also handle it without any action " in{
+        rH.handleInput("f", testController) should be (false)
+      }
     }
   }
 }

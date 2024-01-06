@@ -12,7 +12,8 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
 // interne imports
-import de.htwg.se.nochmal.model.pitchComponent.baseModel.PitchAsMatrix
+import model.pitchComponent.baseModel.PitchAsMatrix
+import model.Cross
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------- VARIABLEN
@@ -75,12 +76,21 @@ class MatrixSpec extends AnyWordSpec {
         testMC.columns(3, 1) should be("+---+" + eol)
       }
       "create a String representation with a color inside in the form" +
-        "+---+" +
-        "| g |" +
-        "+---+" +
-        "when the cell is not crossed " in {
+      "+---+" +
+      "| g |" +
+      "+---+" +
+      "when the cell is not crossed " in {
           testMC.res should be ("+---+" + eol + "| g |" + eol + "+---+" + eol)
-        }
+      }
+      "create a String representation with a cross inside in the form" +
+      "+---+" +
+      "| X |" +
+      "+---+" +
+      "when the cell is crossed " in {
+        val crossedPitch = testPitch.fillCellWithCross(Cross(1, 1), testPitch)
+        val MCcrossed = MatrixWithColors(3, 1, 1, crossedPitch)
+        MCcrossed.res should be("+---+" + eol + "| X |" + eol + "+---+" + eol)
+      }
     }
   }
 }
