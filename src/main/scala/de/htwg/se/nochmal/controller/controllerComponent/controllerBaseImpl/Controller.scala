@@ -21,7 +21,6 @@ import model.Cross
 import model.diceComponent.DiceInterface
 //import model.Numbers_dice
 //import model.dice.diceImplementierung.Colors_dice
-
 import util.Observable
 import util.Event
 import util.UndoManager
@@ -29,12 +28,14 @@ import controllerComponent.ControllerInterface
 
 
 var diceResult = ""
+var rounds = 0
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface {
 
   val undoManager = new UndoManager[PitchInterface]
+  var undoAllowed = false
 
   // Methode zum Ausführen einer beliebigen Operation
   def publish(c:Option[Cross] = None, e:Event) = 
@@ -48,13 +49,18 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
       case Event.Quit => beQuit()
       case Event.Redone => redo()
       case Event.Undone => undo()
+        /* if(undoAllowed)
+          undo()
+        else 
+          println("Nicht moeglich!") */
     notifyObservers(e)
     
   def setCross(c:Cross) = 
-    undoManager.undoAllowed = true
+    undoAllowed = true
     undoManager.doMove(pitch, SetCommand(c))
 
   def singleDice(): Unit = 
+    undoAllowed = false
     val n = nums.roll_dice()
     val c = colors.roll_dice()
     val eol = sys.props("line.separator")
@@ -63,14 +69,21 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
   def beQuit(): String =
     "Danke fuers Spielen!"
 
-  def undo(): PitchInterface =
-    undoManager.undoMove(pitch)
+/*   def undo(): PitchInterface =
+    undoManager.undoMove(pitch) */
+
+  def undo(): String =
+    if (undoAllowed) then 
+      undoManager.undoMove(pitch).toString()
+    else 
+      "Nicht moeglich!"
 
   def redo(): PitchInterface =
     undoManager.redoMove(pitch)
 
   def apply(): Unit = 
-    undoManager.undoAllowed = false
+    undoAllowed = false
+    rounds += 1
 
   override def toString = pitch.pitchToString()
 }

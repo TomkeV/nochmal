@@ -20,6 +20,7 @@ import java.awt.Color as jColor
 import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 import controller.controllerComponent.controllerBaseImpl.diceResult
+import controller.controllerComponent.controllerBaseImpl.rounds
 
 import util.Observer
 import util.Event
@@ -43,14 +44,12 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       case Event.Quit => this.dispose()
       case Event.Diced => //redoButton.enabled = false
       case Event.Crossed => //redoButton.enabled = true
-      case Event.Applied => rounds += 1
-                            crossesSet = 0
+      case Event.Applied => crossesSet = 0
                             //redoButton.enabled = false
       case Event.Undone => 
       case Event.Redone => 
     }
 
-  var rounds = 0 // speichern der aktuellen Rundenzahl
   val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num

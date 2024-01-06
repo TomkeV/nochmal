@@ -18,6 +18,7 @@ import scala.io.StdIn.readLine
 import controller.controllerComponent.ControllerInterface
 //import controller.controllerBaseImpl.Controller
 import controller.controllerComponent.controllerBaseImpl.diceResult
+import controller.controllerComponent.controllerBaseImpl.rounds
 import util.Observer
 import util.Event
 import util.InputHandler
@@ -29,7 +30,6 @@ class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this) // ermöglicht update
 
   var goOn = true // speichert, ob noch Runden verfügbar sind
-  var rounds = 0 // speichert aktuelle Rundenzahl
   val num_of_rounds = controller.pitch.col_num * 2 // speichert maximale Rundenzahl
 
   // Methode zum Starten des Spiels
@@ -41,21 +41,17 @@ class TUI(controller: ControllerInterface) extends Observer {
       e match
         case Event.Quit => goOn = false
         case Event.Crossed => println(controller.pitch.toString) 
-                              //rounds += 1
                               //if rounds == num_of_rounds then goOn = false
                               //println("Runde " + rounds + " von " + num_of_rounds)
-        case Event.Applied => rounds += 1
-                              if rounds == num_of_rounds then goOn = false
+        case Event.Applied => if rounds == num_of_rounds then goOn = false
                               println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Diced => println(diceResult)
         case Event.Undone => println(controller.undo())
-                            rounds -= 1
-                            if rounds > num_of_rounds then goOn = true
-                            println("Runde " + rounds + " von " + num_of_rounds)
+                            //if rounds > num_of_rounds then goOn = true
+                            //println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Redone => println(controller.redo())
-                            rounds += 1
-                            if rounds == num_of_rounds then goOn = false
-                            println("Runde " + rounds + " von " + num_of_rounds)
+                            //if rounds == num_of_rounds then goOn = false
+                            //println("Runde " + rounds + " von " + num_of_rounds)
 
   // rekursive Methode zum Einlesen der Nutzereingaben
   def inputGetAndAnalysis(): Unit =

@@ -24,7 +24,6 @@ trait Command[T] {
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class UndoManager[T] {
-  var undoAllowed = false;
   private var undoStack: List[Command[T]] = Nil 
   private var redoStack: List[Command[T]] = Nil
 
