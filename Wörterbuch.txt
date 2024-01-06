@@ -1,6 +1,0 @@
-Deutsch                     | Englisch
------------------------------------------------------------
-Spielfeld                   | pitch
-Zeile                       | row
-Spalte                      | column
-Breite                      | width
