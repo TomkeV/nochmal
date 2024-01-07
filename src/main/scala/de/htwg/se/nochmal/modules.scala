@@ -1,17 +1,30 @@
+/**
+  * modules.scala
+  * Part of Dependency Injection
+  */
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
+
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
+import controller.controllerComponent.ControllerInterface
+import controller.controllerComponent.controllerBaseImpl.Controller
+
+import model.diceComponent.DiceInterface
+import model.diceComponent.diceImplementierung.Numbers_dice
+import model.diceComponent.diceImplementierung.Colors_dice
 
 import model.pitchComponent.baseModel.PitchAsMatrix
 import model.pitchComponent.PitchInterface
+import model.pitchComponent.baseModel.PitchWithColors
+import model.pitchComponent.baseModel.orangeColorsList
+import model.pitchComponent.baseModel.blueColorsList
+import model.pitchComponent.baseModel.yellowColorsList
 
-import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
-import de.htwg.se.nochmal.controller.controllerComponent.controllerBaseImpl.Controller
-
-import de.htwg.se.nochmal.model.diceComponent.DiceInterface
-import de.htwg.se.nochmal.model.diceComponent.diceImplementierung.Numbers_dice
-import de.htwg.se.nochmal.model.diceComponent.diceImplementierung.Colors_dice
-import de.htwg.se.nochmal.model.pitchComponent.baseModel.PitchWithColors
-import de.htwg.se.nochmal.model.pitchComponent.baseModel.orangeColorsList
-
+// -----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object Default {
 
   given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15)
@@ -24,8 +37,9 @@ object Default {
   
 }
 
-object Orange {
-  
+// -----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------- OBJECT DEFINITION
+object OrangePitch {
   given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(orangeColorsList))
 
   given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
@@ -34,4 +48,28 @@ object Orange {
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
   
+}
+
+// -----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------- OBJECT DEFINITION
+object BluePitch {
+  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(blueColorsList))
+
+  given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
+  given ColorDiceInterface: DiceInterface = Colors_dice(3)
+
+  given ControllerInterface: ControllerInterface 
+    = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
+}
+
+// -----------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------- OBJECT DEFINITION
+object YellowPitch {
+  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(yellowColorsList))
+
+  given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
+  given ColorDiceInterface: DiceInterface = Colors_dice(3)
+
+  given ControllerInterface: ControllerInterface 
+    = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
 }
