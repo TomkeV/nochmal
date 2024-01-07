@@ -53,10 +53,12 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
+  val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
 
   var number = ""
   var color = ""
   var crossesSet = 0
+  var summe = 0
 
 
 /*   val redoButton = new Button("Redo") {
@@ -88,6 +90,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         name = "die1"
         text = "" 
         preferredSize = new Dimension(40, 20)
+        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
         enabled = false
         reactions += {
           case event.ButtonClicked(_) =>
@@ -99,6 +102,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         name = "die2"
         text = "" 
         preferredSize = new Dimension(40, 20)
+        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
         enabled = false
         reactions += {
           case event.ButtonClicked(_) =>
@@ -110,6 +114,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         name = "die3"
         text = ""
         preferredSize = new Dimension(40, 20)
+        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
         enabled = false
         reactions += {
           case event.ButtonClicked(_) =>
@@ -121,6 +126,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         name = "die4"
         text = "" 
         preferredSize = new Dimension(40, 20)
+        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
         enabled = false
         reactions += {
           case event.ButtonClicked(_) =>
@@ -132,6 +138,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         name = "die5"
         text = ""
         preferredSize = new Dimension(40, 20)
+        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
         enabled = false
         reactions += {
           case event.ButtonClicked(_) =>
@@ -143,6 +150,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         name = "die6"
         text = ""
         preferredSize = new Dimension(40, 20)
+        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
         enabled = false
         reactions += {
           case event.ButtonClicked(_) =>
@@ -264,11 +272,13 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
         val applyButton = new Button("Apply") {
+          preferredSize = new Dimension(50, 30)
           reactions += {
             case event.ButtonClicked(_) =>
               InputHandler.handle("a", controller)
               roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-              roundPanel.repaint()
+              sumLabel.text = "Summe: " + summe
+              gameStatePanel.repaint()
           }
         }
         contents += applyButton
@@ -278,12 +288,14 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       }  
 
       // Rundenzähler hinzufügen
+      val sumLabel = new Label("Summe: " + summe)
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
-      val roundPanel = new GridPanel(1,1) {
+      val gameStatePanel = new GridPanel(1,2) {
         background = jColor.WHITE
         contents += roundLabel
+        contents += sumLabel
       }
-      contents += roundPanel
+      contents += gameStatePanel
       
     }
 
@@ -298,11 +310,12 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   // Titelzeile erzeugen
   def createTitle(col:Int):GridPanel = {
     val myTitle = new GridPanel(1, col) {
-      background = jColor.BLACK
-      border = BorderFactory.createMatteBorder(0, 20, 0, 20, jColor.BLACK)
+      //background = jColor.WHITE
+      border = BorderFactory.createMatteBorder(10, 20, 10, 20, pitchBackground) //jColor.BLACK
       for (i <- 0 to col-1) {
         contents += new Label((('A' + i).toChar).toString()) {
-          foreground = jColor.LIGHT_GRAY
+          background = jColor.WHITE
+          foreground = jColor.BLACK
         }
       }
     }
@@ -313,7 +326,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   def createPitch(rowNum:Int, colNum:Int): GridPanel = {
     val myColors = controller.pitch.myColor
     val pitch = new GridPanel(rowNum, 1) {
-      border = BorderFactory.createMatteBorder(0, 20, 20, 20, jColor.BLACK)
+      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground) //jColor.BLACK
 
       for (i <- 0 to rowNum-1) {
         contents += createRow(colNum, i+1, myColors.getLine(i))
@@ -386,8 +399,8 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   def createPoints(col:Int):GridPanel = {
     val cellWidth = 3
     val myPoints = new GridPanel(1, col) {
-      background = jColor.BLACK
-      border = BorderFactory.createMatteBorder(0, 20, 20, 20, jColor.BLACK)
+      //background = jColor.BLACK
+      border = BorderFactory.createMatteBorder(0, 20, 20, 20, pitchBackground) //jColor.BLACK
       val pointStringArray = if (col%2 == 0) { // für gerade Spaltenanzahl: 
                                 EvenOdd.handle(EvenEvent())(cellWidth, col).toCharArray()
                               } else { // für ungerade Spaltenanzahl:
@@ -395,8 +408,16 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
                               }
       for (i <- 0 to pointStringArray.length-1) {
         if (pointStringArray(i).isDigit) {
-          contents += new Label(pointStringArray(i).toString()) {
-            foreground = jColor.LIGHT_GRAY
+          contents += new Button(pointStringArray(i).toString()) {
+            name = pointStringArray(i).toString()
+            foreground = jColor.BLACK
+            background = jColor.WHITE
+            border = BorderFactory.createMatteBorder(0, 10, 0, 10, pitchBackground)
+            reactions += {
+              case event.ButtonClicked(_) =>
+                summe += name.toInt
+                this.enabled = false
+            }
           }
         }
       }

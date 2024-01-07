@@ -11,7 +11,7 @@ package baseModel
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
-case class PitchWithColors(colorsList: List[List[Color]]) extends PitchWithColorsInterface {
+case class PitchWithColors(colorsList:List[List[Color]], background:Color = Color.black) extends PitchWithColorsInterface {
   def getStrIndex(x:Int, y:Int):String = {
     colorsList(x)(y).toString()
   }

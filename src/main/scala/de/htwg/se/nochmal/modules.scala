@@ -23,6 +23,8 @@ import model.pitchComponent.baseModel.orangeColorsList
 import model.pitchComponent.baseModel.blueColorsList
 import model.pitchComponent.baseModel.yellowColorsList
 
+import model.Color
+
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object Default {
@@ -40,7 +42,7 @@ object Default {
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object OrangePitch {
-  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(orangeColorsList))
+  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(orangeColorsList, Color.orange))
 
   given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
   given ColorDiceInterface: DiceInterface = Colors_dice(3)
@@ -53,7 +55,7 @@ object OrangePitch {
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object BluePitch {
-  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(blueColorsList))
+  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(blueColorsList, Color.blue))
 
   given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
   given ColorDiceInterface: DiceInterface = Colors_dice(3)
@@ -65,7 +67,7 @@ object BluePitch {
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object YellowPitch {
-  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(yellowColorsList))
+  given PitchInterface: PitchInterface = new PitchAsMatrix(7, 15, color = PitchWithColors(yellowColorsList, Color.yellow))
 
   given NumbersDiceInterface: DiceInterface = Numbers_dice(3)
   given ColorDiceInterface: DiceInterface = Colors_dice(3)
