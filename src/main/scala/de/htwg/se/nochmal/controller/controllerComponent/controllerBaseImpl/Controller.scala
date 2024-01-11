@@ -29,6 +29,7 @@ import controllerComponent.ControllerInterface
 
 var diceResult = ""
 var rounds = 0
+var moveDone = false
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -40,10 +41,11 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
   // Methode zum Ausführen einer beliebigen Operation
   def publish(c:Option[Cross] = None, e:Event) = 
     e match
-      case Event.Applied => apply()
+      case Event.Applied => if(moveDone) then apply()
       case Event.Crossed => if (c.isDefined) then {
                               val cross = c.get
                               pitch = setCross(cross)
+                              moveDone = true
                             }
       case Event.Diced => singleDice()
       case Event.Quit => beQuit()
@@ -83,6 +85,7 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
 
   def apply(): Unit = 
     undoAllowed = false
+    moveDone = false
     rounds += 1
 
   override def toString = pitch.pitchToString()

@@ -85,6 +85,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       // Zeile mit Punkten pro Spalte hinzufügen
       contents += createPoints(cols)
 
+
       // Anlegen der 6 Würfel
       val die1 = new Button() { 
         name = "die1"
@@ -158,7 +159,6 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         }
       }
 
-        
       // -------------- Hilfsmethode Würfel auswählen ---------------
       def dieChosen(d:Button) : String = {
         if d.name == "die1" then 
@@ -204,7 +204,6 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
             case "blau" => myColor.blue.getRGB.toString
             case _ => "Joker"
       }
-
       // -------------- Hilfsmethode Farbgebung -----------------
       def setBackground(d:Button) = {
         val diceColor = d.text match
@@ -266,12 +265,15 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       }
 
 
+
+
       // Button Apply zentriert hinzufügen
       contents += new GridPanel(1, 5) {
         background = jColor.darkGray
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
-        val applyButton = new Button("Apply") {
+        val applyButton = new Button("Bestaetigen") {
+          //enabled = false
           preferredSize = new Dimension(50, 30)
           reactions += {
             case event.ButtonClicked(_) =>
