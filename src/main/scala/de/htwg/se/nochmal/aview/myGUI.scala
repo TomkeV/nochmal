@@ -87,122 +87,59 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
 
 
       // Anlegen der 6 Würfel
-      val die1 = new Button() { 
-        name = "die1"
-        text = "" 
-        preferredSize = new Dimension(40, 20)
-        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-        enabled = false
-        reactions += {
-          case event.ButtonClicked(_) =>
-            number = dieChosen(this)
+      val die1 = createDie("die1", 'n')
+      val die2 = createDie("die2", 'n')
+      val die3 = createDie("die3", 'n')
+      val die4 = createDie("die4", 'c')
+      val die5 = createDie("die5", 'c')
+      val die6 = createDie("die6", 'c')
+
+      // Methode zum Erzeugen der Würfel
+      def createDie(n:String, typ:Char):Button = {
+        new Button {
+          name = n
+          text = ""
+          preferredSize = new Dimension(40, 20)
+          border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
+          enabled = false
+          reactions += {
+            case event.ButtonClicked(_) =>
+              typ match
+                case 'c' => color = dieChosen(this)
+                case 'n' => number = dieChosen(this)
+          }
         }
       }
-
-      val die2 = new Button() { 
-        name = "die2"
-        text = "" 
-        preferredSize = new Dimension(40, 20)
-        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-        enabled = false
-        reactions += {
-          case event.ButtonClicked(_) =>
-            number = dieChosen(this)
-        }
-      }
-
-      val die3 = new Button() { 
-        name = "die3"
-        text = ""
-        preferredSize = new Dimension(40, 20)
-        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-        enabled = false
-        reactions += {
-          case event.ButtonClicked(_) =>
-            number = dieChosen(this)
-        }
-      }
-
-      val die4 = new Button() { 
-        name = "die4"
-        text = "" 
-        preferredSize = new Dimension(40, 20)
-        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-        enabled = false
-        reactions += {
-          case event.ButtonClicked(_) =>
-            color = dieChosen(this)
-        }
-      }
-
-      val die5 = new Button() { 
-        name = "die5"
-        text = ""
-        preferredSize = new Dimension(40, 20)
-        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-        enabled = false
-        reactions += {
-          case event.ButtonClicked(_) =>
-            color = dieChosen(this)
-        }
-      }
-
-      val die6 = new Button() { 
-        name = "die6"
-        text = ""
-        preferredSize = new Dimension(40, 20)
-        border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-        enabled = false
-        reactions += {
-          case event.ButtonClicked(_) =>
-            color = dieChosen(this)
-        }
-      }
-
       // -------------- Hilfsmethode Würfel auswählen ---------------
       def dieChosen(d:Button) : String = {
-        if d.name == "die1" then 
-          die2.enabled = false
-          die3.enabled = false
-          die1.text
-        else if d.name == "die2" then
-          die1.enabled = false
-          die3.enabled = false
-          die2.text
-        else if d.name == "die3" then
-          die1.enabled = false
-          die2.enabled = false
-          die3.text
-        else if d.name == "die4" then
-          die5.enabled = false
-          die6.enabled = false
-          die4.text match 
-            case "rot" => myColor.red.getRGB.toString
-            case "orange" => myColor.orange.getRGB.toString
-            case "grün" => myColor.green.getRGB.toString
-            case "gelb" => myColor.yellow.getRGB.toString
-            case "blau" => myColor.blue.getRGB.toString
-            case _ => "Joker"
-        else if d.name == "die5" then
-          die4.enabled = false
-          die6.enabled = false
-          die5.text match 
-            case "rot" => myColor.red.getRGB.toString
-            case "orange" => myColor.orange.getRGB.toString
-            case "grün" => myColor.green.getRGB.toString
-            case "gelb" => myColor.yellow.getRGB.toString
-            case "blau" => myColor.blue.getRGB.toString
-            case _ => "Joker"
-        else 
-          die4.enabled = false
-          die5.enabled = false
-          die6.text match 
-            case "rot" => myColor.red.getRGB.toString
-            case "orange" => myColor.orange.getRGB.toString
-            case "grün" => myColor.green.getRGB.toString
-            case "gelb" => myColor.yellow.getRGB.toString
-            case "blau" => myColor.blue.getRGB.toString
-            case _ => "Joker"
+        d.name match 
+          case "die1" => die2.enabled = false
+                         die3.enabled = false
+                         die1.text
+          case "die2" => die1.enabled = false
+                         die3.enabled = false
+                         die2.text
+          case "die3" => die1.enabled = false
+                         die2.enabled = false
+                         die3.text
+          case "die4" => die5.enabled = false
+                         die6.enabled = false
+                         setColorsdieText(die4.text)
+          case "die5" => die4.enabled = false
+                         die6.enabled = false
+                         setColorsdieText(die5.text)
+          case _ => die4.enabled = false
+                    die5.enabled = false
+                    setColorsdieText(die6.text)
+      }
+      // -------------- Hilfsmethode Farbstring ----------------
+      def setColorsdieText(t:String):String = {
+        t match
+          case "rot" => myColor.red.getRGB.toString
+          case "orange" => myColor.orange.getRGB.toString
+          case "gruen" => myColor.green.getRGB.toString
+          case "gelb" => myColor.yellow.getRGB.toString
+          case "blau" => myColor.blue.getRGB.toString
       }
       // -------------- Hilfsmethode Farbgebung -----------------
       def setBackground(d:Button) = {
@@ -215,7 +152,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
           case "Joker!" => jColor.BLACK 
           case _ => jColor.white
         
-        d.background = diceColor        
+        d.background = diceColor
       }
 
       // Button zum Würfeln zentriert hinzufügen
@@ -355,45 +292,40 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
     val s = 30 // Größe des Buttons
     val myButton = new Button() {
       val thisColor = c.getRGB
-        preferredSize = new Dimension(s, s)
-        background = jColor(thisColor)
-        name = n
-        reactions += {
-          case event.ButtonClicked(_) =>
-            if (number != "!") 
-              && (crossesSet < number.toInt) 
-              && (thisColor.toString == color) then
+      preferredSize = new Dimension(s, s)
+      background = jColor(thisColor)
+      name = n
+      reactions += {
+        case event.ButtonClicked(_) =>
+          if (number != "!") {
+            if (crossesSet < number.toInt) {
+              if (thisColor.toString == color) then
                 InputHandler.handle(name, controller)
                 text = Filling.filled.toString()
                 enabled = false
                 crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-            else if (number != "!") 
-              && (crossesSet < number.toInt) 
-              && (color == "Joker") then
+              else 
                 InputHandler.handle(name, controller)
                 text = Filling.filled.toString()
                 enabled = false
                 crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-            else if (number == "!")
-              && (crossesSet < 5)
-              && (thisColor.toString == color) then
+            }
+          } else {
+            if (crossesSet < 5) {
+              if (thisColor.toString == color) then
                 InputHandler.handle(name, controller)
                 text = Filling.filled.toString()
                 enabled = false
                 crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-            else if (number == "!")
-              && (crossesSet < 5)
-              && (color == "Joker") then
+              else
                 InputHandler.handle(name, controller)
                 text = Filling.filled.toString()
                 enabled = false
                 crossesSet = crossesSet + 1
-                //redoButton.enabled = true
+            }
+          }
         }
-      }
+    }
     return myButton
   }
 
@@ -433,3 +365,40 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
 // Menüleiste
     // Option zum Beenden (Event.Quit)
     // Spielanleitung
+
+
+// raus ab 12.01.:
+/* if (number != "!") 
+              && (crossesSet < number.toInt) 
+              && (thisColor.toString == color) then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+            else if (number != "!") 
+              && (crossesSet < number.toInt) 
+              && (color == "Joker") then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+            else if (number == "!")
+              && (crossesSet < 5)
+              && (thisColor.toString == color) then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+            else if (number == "!")
+              && (crossesSet < 5)
+              && (color == "Joker") then
+                InputHandler.handle(name, controller)
+                text = Filling.filled.toString()
+                enabled = false
+                crossesSet = crossesSet + 1
+                //redoButton.enabled = true
+        }
+      } */
