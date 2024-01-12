@@ -18,16 +18,10 @@ import java.awt.Color as jColor
 
 // interne imports:
 import controller.controllerComponent.ControllerInterface
-//import controller.controllerBaseImpl.Controller
 import controller.controllerComponent.controllerBaseImpl.diceResult
 import controller.controllerComponent.controllerBaseImpl.rounds
 
-import util.Observer
-import util.Event
-import util.InputHandler
-import util.EvenOdd
-import util.EvenEvent
-import util.OddEvent
+import util.*
 
 import model.pitchComponent.baseModel.PitchWithColors
 import model.pitchComponent.baseModel.blackColorsList
@@ -201,9 +195,6 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         contents += die6
       }
 
-
-
-
       // Button Apply zentriert hinzufügen
       contents += new GridPanel(1, 5) {
         background = jColor.darkGray
@@ -300,10 +291,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
           if (number != "!") {
             if (crossesSet < number.toInt) {
               if (thisColor.toString == color) then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
+                handleClick(this)
               else 
                 InputHandler.handle(name, controller)
                 text = Filling.filled.toString()
@@ -327,6 +315,13 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         }
     }
     return myButton
+  }
+
+  def handleClick(b:Button) = {
+    InputHandler.handle(b.name, controller)
+    b.text = Filling.filled.toString()
+    b.enabled = false
+    crossesSet = crossesSet + 1
   }
 
   // Punktezeile erzeugen
@@ -365,6 +360,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
 // Menüleiste
     // Option zum Beenden (Event.Quit)
     // Spielanleitung
+    // Fehlerfall bei Farbjoker!!
 
 
 // raus ab 12.01.:
