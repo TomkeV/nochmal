@@ -19,11 +19,11 @@ class ColorSpec extends AnyWordSpec {
         field_blue.toString() should be("b")
     }
     "have an method to get the rgb-int-code " in {
-      field_red.getRGB should be(16711680)
-      field_orange.getRGB should be(16747520)
-      field_yellow.getRGB should be(16776960)
-      field_green.getRGB should be(65280)
-      field_blue.getRGB should be(255)
+      field_red.getRGB should be(220*65536 + 26 * 256 + 52)
+      field_orange.getRGB should be(255*65536 + 140 * 256 + 0)
+      field_yellow.getRGB should be(253*65536 + 219*256 + 0)
+      field_green.getRGB should be(85*65536 + 203*256 + 7)
+      field_blue.getRGB should be(0*65536 + 171*256 + 255)
     }
   }
 }
