@@ -1,5 +1,4 @@
-/**
-  * Nochmal_main.scala
+/** Nochmal_main.scala
   * Hauptklasse zum Starten des Programms.
   */
 
@@ -32,16 +31,3 @@ import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
   val myTui = TUI(myController)
 
   myTui.run
-
-
-// ------------------------- alte imports
-  //import model.dice.DiceInterface
-  //import model.diceComponent.diceImplementierung.Colors_dice
-  //import model.diceComponent.diceImplementierung.Numbers_dice
-  //import model.pitchComponent.baseModel.PitchAsMatrix
-  //import controller.controllerComponent.controllerBaseImpl.Controller
-// ----------------------- alte Bestandteile
-  //val myPitch = new PitchAsMatrix(7, 15)
-  //val myNumdice = Numbers_dice(3)
-  //val myColorsdice = Colors_dice(3)
-  //val myController = Controller(myPitch, myNumdice, myColorsdice)

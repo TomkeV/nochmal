@@ -13,6 +13,9 @@ package baseModel
 import util.*
 import pitchComponent.PitchInterface
 
+// Bibliotheksimports
+import play.api.libs.json.*
+
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface {
@@ -60,4 +63,17 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
   // Methode toString()
   override def toString = pitchToString()
+
+
+  // ---------------------------- File-IO:
+  override def saveToJson: JsValue = {
+    Json.obj(
+      // Values
+    )
+  }
+
+  override def loadFromJson: PitchInterface = {
+    // Values
+    return PitchAsMatrix()
+  }
 }
