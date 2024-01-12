@@ -28,7 +28,7 @@ import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
 
   val myController = summon[ControllerInterface]
 
-  val myGui = myGUI(myController)
+  //val myGui = myGUI(myController)
   val myTui = TUI(myController)
 
   myTui.run
