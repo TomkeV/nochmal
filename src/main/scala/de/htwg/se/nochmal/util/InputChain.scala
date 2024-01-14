@@ -32,19 +32,50 @@ abstract class ChainHandler extends HandlerInterface:
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class QuitHandler() extends ChainHandler {
-    var nextHandler = UndoHandler()
+    var nextHandler = SaveHandler()
     override def handleInput(input: String, controller:ControllerInterface): Boolean = {
         if (input == "q") {
             controller.publish(e = Event.Quit)
             true
         } else {
-            nextHandler.handleInput(input: String, controller:ControllerInterface)
+            nextHandler.handleInput(input, controller)
             false
         }
     }
 }
 
-// Save und Load einfügen
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
+class SaveHandler() extends ChainHandler {
+    var nextHandler = LoadHandler()
+
+    override def handleInput(input: String, controller: ControllerInterface): Boolean = {
+        if (input == "s") {
+            controller.publish(e = Event.Saved)
+            true
+        } else {
+            nextHandler.handleInput(input, controller)
+            false
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
+class LoadHandler() extends ChainHandler {
+    var nextHandler = UndoHandler()
+
+    override def handleInput(input: String, controller: ControllerInterface): Boolean = {
+        if (input == "l") {
+            controller.publish(e = Event.Loaded)
+            true
+        } else {
+            nextHandler.handleInput(input, controller)
+            false
+        }
+    }
+}
+
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION

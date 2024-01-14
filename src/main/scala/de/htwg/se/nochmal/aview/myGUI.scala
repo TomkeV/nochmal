@@ -40,8 +40,11 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       case Event.Crossed => //redoButton.enabled = true
       case Event.Applied => crossesSet = 0
                             //redoButton.enabled = false
+      case Event.Loaded => 
+      case Event.Saved => 
       case Event.Undone => 
       case Event.Redone => 
+
     }
 
   val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl

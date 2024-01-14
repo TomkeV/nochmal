@@ -12,7 +12,6 @@ package controllerBaseImpl
 // --------------------------------------------------------------------------------------------- IMPORTS
 import util.Command
 import model.pitchComponent.PitchInterface
-//import model.baseModel.PitchAsMatrix
 import model.Cross
 
 // -----------------------------------------------------------------------------------------------------

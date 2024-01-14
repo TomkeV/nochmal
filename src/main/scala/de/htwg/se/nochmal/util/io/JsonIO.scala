@@ -15,7 +15,7 @@ import scala.io.Source
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class JsonIO extends FileIOInterface {
 
-  override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromJson(file = Source.fromFile("save/spielstand.json").getLines.mkString)
+  override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromJson(file = Source.fromFile("saves/save1.json").getLines.mkString)
 
-  override def save(pitch: PitchInterface): Unit = pitch.saveToJson(file = "save/spielstand.json")
+  override def save(pitch: PitchInterface): Unit = pitch.saveToJson(file = "saves/save1.json")
 }

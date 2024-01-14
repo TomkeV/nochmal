@@ -52,6 +52,8 @@ class TUI(controller: ControllerInterface) extends Observer {
         case Event.Redone => println(controller.redo())
                             //if rounds == num_of_rounds then goOn = false
                             //println("Runde " + rounds + " von " + num_of_rounds)
+        case Event.Saved => 
+        case Event.Loaded => 
 
   // rekursive Methode zum Einlesen der Nutzereingaben
   def inputGetAndAnalysis(): Unit =
