@@ -70,7 +70,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
   // ------------------------------------------------------ File-IO:
   override def saveToJson(): Unit = {
-    val pw = new PrintWriter(new File("save1.json")) 
+    val pw = new PrintWriter(new File("saves/save1.json")) 
     pw.write(
       Json.obj(
         "pitch" -> matrixToString(matrix),
@@ -93,7 +93,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   }
 
   override def loadFromJson(): PitchInterface = {
-    val load = Source.fromFile("save1.json").mkString
+    val load = Source.fromFile("saves/save1.json").mkString
     val json = Json.parse(load)
     println(json)
     myColor = (json \ "color").as[String] match
