@@ -141,3 +141,40 @@ for (i <- 0 to cols-1) {
         //val cross = "x" + num.toString() + (i+1).toString()
         //contents += createButton(colors(i), cross)
       }
+
+
+val matrix = Vector(Vector(" ", "X", " "), Vector("X", " ", " "), Vector("X", "X", "X"))
+matrix.toString()
+
+var string = ""
+matrix(1).map(x => string += x.toString)
+println(string)
+def matrixToString(m:Vector[Vector[String]]):IndexedSeq[String] = {
+  val range = Range(0, m.length)
+  val res = range.map(x => vectorToString(m(x)))
+  return res
+}
+
+def vectorToString(v:Vector[String]):String = {
+  var res = ""
+  v.map(y => res += y.toString())
+  res
+}
+
+val test = matrixToString(matrix)
+
+def stringsToMatrix(seq:IndexedSeq[String]):Vector[Vector[String]] = {
+  seq.map(x => stringToVector(x)).toVector
+}
+
+def stringToVector(s:String):Vector[String] = {
+  val chars = s.toCharArray()
+  val range = Range(0, chars.length)
+
+  range.map(x => chars(x) match
+    case ' ' => " "
+    case 'X' => "X"
+  ).toVector
+}
+
+val test2 = stringsToMatrix(test)

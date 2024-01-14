@@ -8,17 +8,15 @@ package de.htwg.se.nochmal
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
-// Bibliotheksimports
-import scala.io.StdIn.readLine
-
-// interne imports
 import aview.TUI
 import aview.myGUI
+
+import controller.controllerComponent.ControllerInterface
 import Default.ControllerInterface
 //import OrangePitch.ControllerInterface
 //import BluePitch.ControllerInterface
 //import YellowPitch.ControllerInterface
-import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
+
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------ MAIN
@@ -27,7 +25,7 @@ import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
 
   val myController = summon[ControllerInterface]
 
-  val myGui = myGUI(myController)
+  //val myGui = myGUI(myController)
   val myTui = TUI(myController)
 
   myTui.run

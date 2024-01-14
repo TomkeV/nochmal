@@ -44,6 +44,8 @@ class QuitHandler() extends ChainHandler {
     }
 }
 
+// Save und Load einfügen
+
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class UndoHandler() extends ChainHandler {

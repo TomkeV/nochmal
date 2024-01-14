@@ -7,6 +7,7 @@ package de.htwg.se.nochmal
 package model
 package pitchComponent
 package baseModel
+import controller.controllerComponent.controllerBaseImpl.rounds
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
@@ -15,6 +16,7 @@ import pitchComponent.PitchInterface
 
 // Bibliotheksimports
 import play.api.libs.json.*
+import java.io.{PrintWriter, File}
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -66,14 +68,53 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
 
   // ---------------------------- File-IO:
-  override def saveToJson: JsValue = {
-    Json.obj(
-      // Values
+  override def saveToJson(file:String): Unit = {
+    val pw = new PrintWriter(new File(file)) 
+    pw.write(
+      Json.obj(
+        "pitch" -> matrixToString(matrix),
+        "rounds" -> rounds,
+        "color" -> myColor.background.toString()
+      ).toString
     )
+    pw.close()
   }
 
-  override def loadFromJson: PitchInterface = {
-    // Values
-    return PitchAsMatrix()
+  def matrixToString(m:Vector[Vector[Filling]]):IndexedSeq[String] = {
+    Range(0, m.length).map(x => vectorToString(m(x)))
+  }
+
+  // Hilfsmethode um Matrix umzuwandeln
+  def vectorToString(v:Vector[Filling]):String = {
+    var res = ""
+    v.map(y => res += y.toString())
+    return res
+  }
+
+  override def loadFromJson(file:String): PitchInterface = {
+    val json = Json.parse(file)
+    myColor = (json \ "color").as[String] match
+      case "black" => PitchWithColors(blackColorsList)
+      case "orange" => PitchWithColors(orangeColorsList)
+    
+    val p = (json \ "pitch").as[IndexedSeq[String]]
+    rounds = (json \ "rounds").as[Int]
+
+    val m = stringsToMatrix(p)
+
+    return PitchAsMatrix(m)
+  }
+
+  def stringsToMatrix(seq:IndexedSeq[String]):Vector[Vector[Filling]] = {
+    seq.map(x => stringToVector(x)).toVector
+  }
+
+  // Hilfsmethode um aus Strings Matrix zu machen
+  def stringToVector(s:String):Vector[Filling] = {
+    val chars = s.toCharArray()
+    Range(0, chars.length).map(x => chars(x) match
+      case ' ' => Filling.empty
+      case 'X' => Filling.filled
+    ).toVector
   }
 }
