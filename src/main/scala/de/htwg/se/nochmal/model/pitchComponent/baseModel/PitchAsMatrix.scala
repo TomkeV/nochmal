@@ -74,7 +74,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       Json.obj(
         "pitch" -> matrixToString(matrix),
         "rounds" -> rounds,
-        "color" -> myColor.background.toString()
+        "color" -> myColor.getColor()
       ).toString
     )
     pw.close()
@@ -94,8 +94,10 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   override def loadFromJson(file:String): PitchInterface = {
     val json = Json.parse(file)
     myColor = (json \ "color").as[String] match
-      case "black" => PitchWithColors(blackColorsList)
-      case "orange" => PitchWithColors(orangeColorsList)
+      case "black" => PitchWithColors(blackColorsList, Color.black)
+      case "orange" => PitchWithColors(orangeColorsList, Color.orange)
+      case "blue" => PitchWithColors(blueColorsList, Color.blue)
+      case "yellow" => PitchWithColors(yellowColorsList, Color.yellow)
     
     val p = (json \ "pitch").as[IndexedSeq[String]]
     rounds = (json \ "rounds").as[Int]

@@ -24,6 +24,10 @@ case class PitchWithColors(colorsList:List[List[Color]], background:Color = Colo
     colorsList(x)
   }
 
+  def getColor(): String = {
+    this.background.toString()
+  }
+
 }
 
 // -----------------------------------------------------------------------------------------------------
