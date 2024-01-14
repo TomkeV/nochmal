@@ -17,6 +17,7 @@ import pitchComponent.PitchInterface
 // Bibliotheksimports
 import play.api.libs.json.*
 import java.io.{PrintWriter, File}
+import scala.io.Source
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -68,8 +69,8 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
 
   // ------------------------------------------------------ File-IO:
-  override def saveToJson(file:String): Unit = {
-    val pw = new PrintWriter(new File(file)) 
+  override def saveToJson(): Unit = {
+    val pw = new PrintWriter(new File("save1.json")) 
     pw.write(
       Json.obj(
         "pitch" -> matrixToString(matrix),
@@ -91,14 +92,15 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
     return res
   }
 
-  override def loadFromJson(file:String): PitchInterface = {
-    val json = Json.parse(file)
+  override def loadFromJson(): PitchInterface = {
+    val load = Source.fromFile("save1.json").mkString
+    val json = Json.parse(load)
     println(json)
     myColor = (json \ "color").as[String] match
-      case "black" => PitchWithColors(blackColorsList, Color.black)
       case "orange" => PitchWithColors(orangeColorsList, Color.orange)
       case "blue" => PitchWithColors(blueColorsList, Color.blue)
       case "yellow" => PitchWithColors(yellowColorsList, Color.yellow)
+      case _ => PitchWithColors(blackColorsList, Color.black)
     
     val p = (json \ "pitch").as[IndexedSeq[String]]
     rounds = (json \ "rounds").as[Int]

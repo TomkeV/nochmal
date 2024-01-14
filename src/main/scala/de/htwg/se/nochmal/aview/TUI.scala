@@ -16,13 +16,11 @@ import scala.io.StdIn.readLine
 
 // interne Imports
 import controller.controllerComponent.ControllerInterface
-//import controller.controllerBaseImpl.Controller
 import controller.controllerComponent.controllerBaseImpl.diceResult
 import controller.controllerComponent.controllerBaseImpl.rounds
 import util.Observer
 import util.Event
 import util.InputHandler
-import model.pitchComponent.baseModel.PitchAsMatrix
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -40,20 +38,15 @@ class TUI(controller: ControllerInterface) extends Observer {
   override def update(e: Event) = 
       e match
         case Event.Quit => goOn = false
+                            println("Danke fuers Spielen!")
         case Event.Crossed => println(controller.pitch.toString) 
-                              //if rounds == num_of_rounds then goOn = false
-                              //println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Applied => if rounds == num_of_rounds then goOn = false
                               println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Diced => println(diceResult)
         case Event.Undone => println(controller.undo())
-                            //if rounds > num_of_rounds then goOn = true
-                            //println("Runde " + rounds + " von " + num_of_rounds)
         case Event.Redone => println(controller.redo())
-                            //if rounds == num_of_rounds then goOn = false
-                            //println("Runde " + rounds + " von " + num_of_rounds)
-        case Event.Saved => 
-        case Event.Loaded => 
+        case Event.Saved => println("Aktueller Spielstand wurde gespeichert.")
+        case Event.Loaded => println(controller.pitch.toString) 
 
   // rekursive Methode zum Einlesen der Nutzereingaben
   def inputGetAndAnalysis(): Unit =

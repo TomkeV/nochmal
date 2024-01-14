@@ -20,6 +20,6 @@ trait PitchInterface {
   def getIndex(row:Int, col:Int): Filling
 
   // File-IO
-  def loadFromJson(file:String):PitchInterface
-  def saveToJson(file:String):Unit
+  def loadFromJson():PitchInterface
+  def saveToJson():Unit
 }

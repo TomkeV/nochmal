@@ -90,11 +90,11 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     rounds += 1
 
   def load() = {
-    pitch.loadFromJson("saves/save1.json")
+    pitch = pitch.loadFromJson()
   }
 
   def save() = {
-    pitch.saveToJson("saves/save1.json")
+    pitch.saveToJson()
   }
 
   override def toString = pitch.pitchToString()
