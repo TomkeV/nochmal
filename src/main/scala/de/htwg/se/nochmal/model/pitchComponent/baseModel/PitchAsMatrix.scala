@@ -1,5 +1,7 @@
 /**
   * PitchAsMatrix.scala
+  * @author: Tomke Velten
+  * @version: 14.01.2024
   */
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
@@ -7,12 +9,13 @@ package de.htwg.se.nochmal
 package model
 package pitchComponent
 package baseModel
-import controller.controllerComponent.controllerBaseImpl.rounds
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
+// interne Imports
 import util.*
 import pitchComponent.PitchInterface
+import controller.controllerComponent.controllerBaseImpl.rounds
 
 // Bibliotheksimports
 import play.api.libs.json.*
@@ -22,19 +25,22 @@ import scala.io.Source
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface {
-
-  var myColor: PitchWithColorsInterface = PitchWithColors(blackColorsList)
-
-	// auxiliary construktor
+	/* Auxiliary-Constructor:
+   * Eigener Konstruktor zum Initialisieren eines leeren Spielfelds. 
+   */
   def this(rows:Int=4, columns:Int=7, width_of_cells:Int = 3, color:PitchWithColors = PitchWithColors(blackColorsList)) = {
     this(Vector.tabulate(rows) {i =>
       Vector.tabulate(columns) {j => Filling.empty}})
     myColor = color
   }
   
+  // --------------------------------------------------------------------- Variablen
+  var myColor: PitchWithColorsInterface = PitchWithColors(blackColorsList) // Farbe des Spielfelds
   val row_num = matrix.size 			// Anzahl Zeilen der Matrix
   val col_num = matrix.head.size	// Anzahl Spalten der Matrix
 
+
+  // --------------------------------------------------------------------- Funktionen
   // Methode für Zugriff auf Spalte:
   def getColumn(row:Int): Vector[Filling] =
     matrix(row)
@@ -68,7 +74,8 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   override def toString = pitchToString()
 
 
-  // ------------------------------------------------------ File-IO:
+  // -------------------------------------------------------------- Funktionen für File-IO
+  // Methode zum Speichern als JSON-File
   override def saveToJson(): Unit = {
     val pw = new PrintWriter(new File("saves/save1.json")) 
     pw.write(
@@ -81,6 +88,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
     pw.close()
   }
 
+  // Hilfsmethode zum Speichern der Matrix
   def matrixToString(m:Vector[Vector[Filling]]):IndexedSeq[String] = {
     Range(0, m.length).map(x => vectorToString(m(x)))
   }
@@ -92,14 +100,15 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
     return res
   }
 
+  // Methode zum Laden eines JSON-Files
   override def loadFromJson(): PitchInterface = {
     val load = Source.fromFile("saves/save1.json").mkString
     val json = Json.parse(load)
     println(json)
     myColor = (json \ "color").as[String] match
-      case "orange" => PitchWithColors(orangeColorsList, Color.orange)
-      case "blue" => PitchWithColors(blueColorsList, Color.blue)
-      case "yellow" => PitchWithColors(yellowColorsList, Color.yellow)
+      case "o" => PitchWithColors(orangeColorsList, Color.orange)
+      case "b" => PitchWithColors(blueColorsList, Color.blue)
+      case "y" => PitchWithColors(yellowColorsList, Color.yellow)
       case _ => PitchWithColors(blackColorsList, Color.black)
     
     val p = (json \ "pitch").as[IndexedSeq[String]]
@@ -110,6 +119,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
     return PitchAsMatrix(m)
   }
 
+  // Hilfsmethode zum Einlesen der Matrix
   def stringsToMatrix(seq:IndexedSeq[String]):Vector[Vector[Filling]] = {
     seq.map(x => stringToVector(x)).toVector
   }

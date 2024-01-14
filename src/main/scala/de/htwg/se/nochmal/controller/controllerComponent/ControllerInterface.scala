@@ -14,7 +14,6 @@ import util.Event
 
 import model.Cross
 import model.pitchComponent.PitchInterface
-//import model.baseModel.PitchAsMatrix
 
 // -----------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------- INTERFACE DEFINITION

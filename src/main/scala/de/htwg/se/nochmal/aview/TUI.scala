@@ -2,6 +2,7 @@
   * TUI.scala
   * Class for text-based user-interface of the game "Nochmal!"
   * Link to the game: https://www.schmidtspiele.de/details/produkt/noch-mal-.html
+  * @author: Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------

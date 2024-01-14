@@ -2,6 +2,7 @@
   * myGUI.scala
   * Class for graphic-based user-interface of the game "Nochmal!"
   * Link to the game: https://www.schmidtspiele.de/details/produkt/noch-mal-.html
+  * @author: Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------
@@ -11,11 +12,6 @@ package aview
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
-// Bibliotheksimports:
-import scala.swing._ 
-import javax.swing.BorderFactory
-import java.awt.Color as jColor
-
 // interne imports:
 import controller.controllerComponent.ControllerInterface
 import controller.controllerComponent.controllerBaseImpl.diceResult
@@ -28,25 +24,17 @@ import model.pitchComponent.baseModel.blackColorsList
 import model.Color as myColor
 import model.Filling
 
+// Bibliotheksimports:
+import scala.swing._ 
+import javax.swing.BorderFactory
+import java.awt.Color as jColor
+
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class myGUI(controller: ControllerInterface) extends Frame with Observer {
   controller.add(this)
 
-  override def update(e: Event): Unit = 
-    e match {
-      case Event.Quit => this.dispose()
-      case Event.Diced => //redoButton.enabled = false
-      case Event.Crossed => //redoButton.enabled = true
-      case Event.Applied => crossesSet = 0
-                            //redoButton.enabled = false
-      case Event.Loaded => 
-      case Event.Saved => 
-      case Event.Undone => 
-      case Event.Redone => 
-
-    }
-
+  // ------------------------------------------------------------- Variablen
   val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
@@ -57,6 +45,18 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   var crossesSet = 0
   var summe = 0
 
+  override def update(e: Event): Unit = 
+    e match {
+      case Event.Quit => this.dispose()
+      case Event.Diced => //redoButton.enabled = false
+      case Event.Crossed => //redoButton.enabled = true
+      case Event.Applied => crossesSet = 0
+                            //redoButton.enabled = false
+      case Event.Loaded => this.repaint()
+      case Event.Saved => 
+      case Event.Undone => 
+      case Event.Redone => 
+    }
 
 /*   val redoButton = new Button("Redo") {
     enabled = false
@@ -364,40 +364,3 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
     // Option zum Beenden (Event.Quit)
     // Spielanleitung
     // Fehlerfall bei Farbjoker!!
-
-
-// raus ab 12.01.:
-/* if (number != "!") 
-              && (crossesSet < number.toInt) 
-              && (thisColor.toString == color) then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-            else if (number != "!") 
-              && (crossesSet < number.toInt) 
-              && (color == "Joker") then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-            else if (number == "!")
-              && (crossesSet < 5)
-              && (thisColor.toString == color) then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-            else if (number == "!")
-              && (crossesSet < 5)
-              && (color == "Joker") then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-                //redoButton.enabled = true
-        }
-      } */
