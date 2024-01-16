@@ -42,11 +42,6 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
 
   val spielfeld = new GUISpielfeld(controller)
 
-/*   var number = ""
-  var color = ""
-  var crossesSet = 0
-  var summe = 0 */
-
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
@@ -83,7 +78,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         contents += new MenuItem(Action("Speichern") {
           InputHandler.handle("s", controller)
         })
-        contents += new MenuItem(Action("Laden") {
+        contents += new MenuItem(Action("Laden") { // funktioniert nicht!!!!
           InputHandler.handle("l", controller)
         })
       }
@@ -261,4 +256,3 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
 // Menüleiste
     // Option zum Beenden (Event.Quit)
     // Spielanleitung
-    // Fehlerfall bei Farbjoker!!

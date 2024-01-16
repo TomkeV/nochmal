@@ -14,24 +14,16 @@ package aview
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne Imports
 import controller.controllerComponent.ControllerInterface
-import util.Observer
-import util.Event
-import util.InputHandler
-import util.EvenOdd
-import util.EvenEvent
-import util.OddEvent
+import util.{Observer, Event, InputHandler, EvenOdd, EvenEvent, OddEvent}
 import model.Color as myColor
 import model.Filling
 
 // Bibliotheksimports
 import scala.swing.*
 import java.awt.Color as jColor
-import javax.swing.BorderFactory
-import javax.swing.BoxLayout
-import javax.swing.JOptionPane
+import javax.swing.{BorderFactory, BoxLayout, JOptionPane}
 import play.api.libs.json.Json
 import scala.io.Source
-
 
 
 
