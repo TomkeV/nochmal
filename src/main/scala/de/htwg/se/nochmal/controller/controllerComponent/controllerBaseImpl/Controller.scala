@@ -91,6 +91,9 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
 
   def load() = {
     pitch = pitch.loadFromJson()
+/*     for (i <- 0 to 6) {
+      println("Reihe " + i + ": " + pitch.getColumn(i).toString())
+    } */
   }
 
   def save() = {

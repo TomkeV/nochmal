@@ -31,7 +31,7 @@ import java.awt.Color as jColor
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
-class myGUI(controller: ControllerInterface) extends Frame with Observer {
+class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   controller.add(this)
 
   // ------------------------------------------------------------- Variablen
@@ -41,6 +41,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
 
   val spielfeld = new GUISpielfeld(controller)
+
 /*   var number = ""
   var color = ""
   var crossesSet = 0
@@ -53,7 +54,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       case Event.Crossed => //redoButton.enabled = true
       case Event.Applied => 
                             //redoButton.enabled = false
-      case Event.Loaded => this.repaint()
+      case Event.Loaded => //this.repaint()
       case Event.Saved => 
       case Event.Undone => 
       case Event.Redone => 
@@ -66,30 +67,45 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
               InputHandler.handle("r", controller)
     }
   } */
-  
+
 
   // Anlegen des Hauptrahmens
-  val myFrame = {
+  val myFrame = new Frame {
     preferredSize = new Dimension(800, 600)
 
     title = "Nochmal"
+
+    menuBar = new MenuBar {
+      contents += new Menu("Spiel") {
+        contents += new MenuItem(Action("Schliessen") {
+          sys.exit(0)
+        })
+        contents += new MenuItem(Action("Speichern") {
+          InputHandler.handle("s", controller)
+        })
+        contents += new MenuItem(Action("Laden") {
+          InputHandler.handle("l", controller)
+        })
+      }
+    }
 
     contents = new BoxPanel(Orientation.Vertical) {
       border = BorderFactory.createMatteBorder(20, 20, 20, 20, jColor.darkGray)
       
       contents += spielfeld.spielfeld
 
-      // Anlegen der 6 Würfel
-      val die1 = createDie("die1", 'n')
-      val die2 = createDie("die2", 'n')
-      val die3 = createDie("die3", 'n')
-      val die4 = createDie("die4", 'c')
-      val die5 = createDie("die5", 'c')
-      val die6 = createDie("die6", 'c')
+      // Anlegen der Würfel:
+      val dice = Range(0, 6).map(x =>
+        if (x <= 3) then
+          createDie("die"+(x+1), 'n')
+        else 
+          createDie("die"+(x+1), 'c')).toVector
+
 
       // Methode zum Erzeugen der Würfel
-      def createDie(n:String, typ:Char):Button = {
+      def createDie(n:String, t:Char):Button = {
         new Button {
+          val typ = t
           name = n
           text = ""
           preferredSize = new Dimension(40, 20)
@@ -97,42 +113,54 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
           enabled = false
           reactions += {
             case event.ButtonClicked(_) =>
+              println("Button " + name +" geklickt")
               typ match
-                case 'c' => spielfeld.color = dieChosen(this)
-                case 'n' => spielfeld.number = dieChosen(this)
+                case 'c' => 
+                  println("Farbwuerfel")
+                  spielfeld.color = dieChosen(this)
+                            println("Farbe gesetzt: " + spielfeld.color)
+                case 'n' => 
+                  println("Zahlwuerfel")
+                  spielfeld.number = dieChosen(this)
           }
         }
       }
       // -------------- Hilfsmethode Würfel auswählen ---------------
       def dieChosen(d:Button) : String = {
         d.name match 
-          case "die1" => die2.enabled = false
-                         die3.enabled = false
-                         die1.text
-          case "die2" => die1.enabled = false
-                         die3.enabled = false
-                         die2.text
-          case "die3" => die1.enabled = false
-                         die2.enabled = false
-                         die3.text
-          case "die4" => die5.enabled = false
-                         die6.enabled = false
-                         setColorsdieText(die4.text)
-          case "die5" => die4.enabled = false
-                         die6.enabled = false
-                         setColorsdieText(die5.text)
-          case _ => die4.enabled = false
-                    die5.enabled = false
-                    setColorsdieText(die6.text)
+          case "die1" => dice(1).enabled = false
+                         dice(2).enabled = false
+                         println(dice(0).text)
+                         dice(0).text
+          case "die2" => dice(0).enabled = false
+                         dice(2).enabled = false
+                         println(dice(1).text)
+                         dice(1).text
+          case "die3" => dice(0).enabled = false
+                         dice(1).enabled = false
+                        println(dice(2).text)
+                         dice(2).text
+          case "die4" => dice(4).enabled = false
+                         dice(5).enabled = false
+                         setColorsdieText(dice(3).text)
+          case "die5" => dice(3).enabled = false
+                         dice(5).enabled = false
+                         setColorsdieText(dice(4).text)
+          case "die6" => dice(3).enabled = false
+                         dice(4).enabled = false
+                         setColorsdieText(dice(5).text)
       }
+
       // -------------- Hilfsmethode Farbstring ----------------
       def setColorsdieText(t:String):String = {
+        println("Ausgewählt:" + t)
         t match
           case "rot" => myColor.red.getRGB.toString
           case "orange" => myColor.orange.getRGB.toString
           case "gruen" => myColor.green.getRGB.toString
           case "gelb" => myColor.yellow.getRGB.toString
           case "blau" => myColor.blue.getRGB.toString
+          case _ => "Joker!"
       }
       // -------------- Hilfsmethode Farbgebung -----------------
       def setBackground(d:Button) = {
@@ -161,21 +189,21 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
                 InputHandler.handle("w", controller)
 
                 val dicedArray = diceResult.split("""\R""")
-                die1.text = dicedArray(1)
-                die1.enabled = true
-                die2.text = dicedArray(2)
-                die2.enabled = true
-                die3.text = dicedArray(3)
-                die3.enabled = true
-                die4.text = dicedArray(4)
-                die4.enabled = true
-                setBackground(die4)
-                die5.text = dicedArray(5)
-                die5.enabled = true
-                setBackground(die5)
-                die6.text = dicedArray(6)
-                die6.enabled = true
-                setBackground(die6)
+                dice(0).text = dicedArray(1)
+                dice(0).enabled = true
+                dice(1).text = dicedArray(2)
+                dice(1).enabled = true
+                dice(2).text = dicedArray(3)
+                dice(2).enabled = true
+                dice(3).text = dicedArray(4)
+                dice(3).enabled = true
+                setBackground(dice(3))
+                dice(4).text = dicedArray(5)
+                dice(4).enabled = true
+                setBackground(dice(4))
+                dice(5).text = dicedArray(6)
+                dice(5).enabled = true
+                setBackground(dice(5))
             }
           }
         contents += new Label()
@@ -185,13 +213,8 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       // Panel zur Darstellung der 6 Würfel
       contents += new GridPanel(1, 6) {
         preferredSize = new Dimension(800, 40)
-        //border = BorderFactory.createEmptyBorder(10, 10, 10, 10)
-        contents += die1
-        contents += die2
-        contents += die3 
-        contents += die4 
-        contents += die5
-        contents += die6
+        Range(0, 6).map(x =>
+          contents += dice(x))
       }
 
       // Button Apply zentriert hinzufügen
@@ -225,13 +248,12 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
         contents += sumLabel
       }
       contents += gameStatePanel
-      
     }
+    
+    pack()
+    centerOnScreen()
+    open()
   }
-
-  pack()
-  centerOnScreen()
-  open()
 }
 
 

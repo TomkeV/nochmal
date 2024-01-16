@@ -29,6 +29,8 @@ import java.awt.Color as jColor
 import javax.swing.BorderFactory
 import javax.swing.BoxLayout
 import javax.swing.JOptionPane
+import play.api.libs.json.Json
+import scala.io.Source
 
 
 
@@ -39,11 +41,9 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
   // ------------------------------------------------------------------- VARIABLEN 
-  
-
   private val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
   private val titel = createTitle(controller.pitch.col_num)
-  private val matrix = createPitch(controller.pitch.row_num, controller.pitch.col_num)
+  private var matrix = createPitch(controller.pitch.row_num, controller.pitch.col_num)
   private val punkte = createPoints(controller.pitch.col_num)
 
   val spielfeld = setUpPitch(titel, matrix, punkte)
@@ -57,6 +57,8 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
   override def update(e: Event): Unit = {
     e match
       case Event.Applied => crossesSet = 0
+                            number = ""
+                            color = ""
       case Event.Crossed => 
       case Event.Diced => 
       case Event.Loaded => 
@@ -67,6 +69,28 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
     
   }
 
+  def updatePitch() = {
+    println("updatePitch aufgerufen")
+    val inhalt = loadPitchFromJson();
+    for (i <- 0 to 6) {
+      println("Inhalt: "+ inhalt(i).toString())
+    }
+    //this.matrix = createPitchAsLoaded(controller.pitch.row_num, controller.pitch.col_num, inhalt)
+  }
+
+  def loadPitchFromJson(): Vector[Vector[Filling]] = {
+    val json = Json.parse(Source.fromFile("saves/save1.json").mkString)
+    val pitch = (json \ "pitch").as[IndexedSeq[String]]
+    pitch.map(i =>
+      val chars = i.toCharArray()
+      Range(0, chars.length).map(y =>
+        chars(y) match
+          case ' ' => Filling.empty
+          case 'X' => Filling.filled
+        ).toVector).toVector
+  }
+
+  // Spielfeld zusammensetzen
   def setUpPitch(titel:GridPanel, feld:GridPanel, punkte:GridPanel): BoxPanel = {
     new BoxPanel(Orientation.Vertical) {
       contents += titel
@@ -90,21 +114,33 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
 
   // Feld mit x Zeilen mit Buttons erzeugen
   def createPitch(rowNum:Int, colNum:Int): GridPanel = {
+    println("createPitch aufgerufen")
     new GridPanel(rowNum, 1) {
-      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground) //jColor.BLACK
+      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
       for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i))
+        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i)) //, controller.pitch.getColumn(rowNum-1))
       }
     }
   }
 
+/*   def createPitchAsLoaded(rowNum:Int, colNum:Int, v:Vector[Vector[Filling]]) = {
+    println("createPitchAsLoaded aufgerufen")
+    new GridPanel(rowNum, 1) {
+      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
+      for (i <- 0 to rowNum-1) {
+        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i), v(i))
+      }
+    }
+  } */
+
   // Automatisiertes Erzeugen von Zeilen mit bunten Feldern
-  def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = {
+  def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = { //, fill:Vector[Filling]
+    //println("Zeile " + num + " wird erzeugt: " + fill.toString())
     new GridPanel(1, cols) {
       for (i <- 0 to cols-1) {
-        //val colChar = ('A' + i).toChar
         val cross = "x" + ('A' + i).toChar.toString() + num.toString()
-        contents += createButton(colors(i), cross)
+        contents += createButton(colors(i), cross) //, fill(i))
+        //println("Vektor: " + fill(i))
       }
     }
   }
@@ -115,13 +151,20 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
       preferredSize = new Dimension(30, 30)
       background = jColor(c.getRGB)
       name = n
+
       reactions += {
         case event.ButtonClicked(_) =>
-          if (number != "!") then {
+          if (number == "") then
+            JOptionPane.showMessageDialog(null, "Du musst eine Zahl auswählen!")
+          else if (color == "") then
+            JOptionPane.showMessageDialog(null, "Du musst eine Farbe auswählen!")
+          else if (number != "!") then {
             if (crossesSet < number.toInt) then {
               if (c.getRGB.toString == color) then
                 handleClick(this)
-              else 
+              else if (color == "Joker!") then
+                handleClick(this)
+              else
                 JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")
             }
           } else {
@@ -131,6 +174,8 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
                 text = Filling.filled.toString()
                 enabled = false
                 crossesSet = crossesSet + 1
+              else if (color == "Joker!") then
+                handleClick(this)
               else
                 JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")            
             }
@@ -139,6 +184,7 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
     }
   }
 
+  // Button ankreuzen
   def handleClick(b:Button) = {
     InputHandler.handle(b.name, controller)
     b.text = Filling.filled.toString()
@@ -156,10 +202,11 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
                               } else { // für ungerade Spaltenanzahl:
                                 EvenOdd.handle(OddEvent())(cellWidth, col).toCharArray()
                               }
-      for (i <- 0 to pointStringArray.length-1) {
-        if (pointStringArray(i).isDigit) {
-          contents += new Button(pointStringArray(i).toString()) {
-            name = pointStringArray(i).toString()
+
+      Range(0, pointStringArray.length-1).map(x => 
+        if (pointStringArray(x).isDigit) {
+          contents += new Button(pointStringArray(x).toString()) {
+            name = pointStringArray(x).toString()
             foreground = jColor.BLACK
             background = jColor.WHITE
             border = BorderFactory.createMatteBorder(0, 10, 0, 10, pitchBackground)
@@ -169,9 +216,8 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
                 this.enabled = false
             }
           }
-        }
-      }
+        })
     }
   }
-  
+
 }

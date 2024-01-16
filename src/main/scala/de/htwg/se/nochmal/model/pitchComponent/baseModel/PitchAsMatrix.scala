@@ -104,7 +104,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   override def loadFromJson(): PitchInterface = {
     val load = Source.fromFile("saves/save1.json").mkString
     val json = Json.parse(load)
-    println(json)
+    //println(json)
     myColor = (json \ "color").as[String] match
       case "o" => PitchWithColors(orangeColorsList, Color.orange)
       case "b" => PitchWithColors(blueColorsList, Color.blue)

@@ -67,7 +67,9 @@ class LoadHandler() extends ChainHandler {
 
     override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         if (input == "l") {
+            println("Controller aufgerufen")
             controller.publish(e = Event.Loaded)
+            println("load() ausgeführt")
             true
         } else {
             nextHandler.handleInput(input, controller)
