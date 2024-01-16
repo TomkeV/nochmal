@@ -19,6 +19,7 @@ trait PitchInterface {
   def unfillCellWithCross(cross:Cross, pitch:PitchInterface): PitchInterface
   def pitchToString(cellWidth:Int = 3): String
   def getIndex(row:Int, col:Int): Filling
+  def getColumn(row:Int):Vector[Filling]
 
   // File-IO
   def loadFromJson():PitchInterface

@@ -40,17 +40,18 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
   val cols = controller.pitch.col_num
   val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
 
-  var number = ""
+  val spielfeld = new GUISpielfeld(controller)
+/*   var number = ""
   var color = ""
   var crossesSet = 0
-  var summe = 0
+  var summe = 0 */
 
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
       case Event.Diced => //redoButton.enabled = false
       case Event.Crossed => //redoButton.enabled = true
-      case Event.Applied => crossesSet = 0
+      case Event.Applied => 
                             //redoButton.enabled = false
       case Event.Loaded => this.repaint()
       case Event.Saved => 
@@ -65,6 +66,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
               InputHandler.handle("r", controller)
     }
   } */
+  
 
   // Anlegen des Hauptrahmens
   val myFrame = {
@@ -75,13 +77,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
     contents = new BoxPanel(Orientation.Vertical) {
       border = BorderFactory.createMatteBorder(20, 20, 20, 20, jColor.darkGray)
       
-      // Titelzeile mit Buchstaben hinzufügen
-      contents += createTitle(cols)
-      // Matrix des Spielfelds hinzufügen
-      contents += createPitch(rows, cols)
-      // Zeile mit Punkten pro Spalte hinzufügen
-      contents += createPoints(cols)
-
+      contents += spielfeld.spielfeld
 
       // Anlegen der 6 Würfel
       val die1 = createDie("die1", 'n')
@@ -102,8 +98,8 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
           reactions += {
             case event.ButtonClicked(_) =>
               typ match
-                case 'c' => color = dieChosen(this)
-                case 'n' => number = dieChosen(this)
+                case 'c' => spielfeld.color = dieChosen(this)
+                case 'n' => spielfeld.number = dieChosen(this)
           }
         }
       }
@@ -164,7 +160,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
               case event.ButtonClicked(_) =>
                 InputHandler.handle("w", controller)
 
-                val dicedArray = diceResult.split("""\R""") //dicedValues.split("""\R""")
+                val dicedArray = diceResult.split("""\R""")
                 die1.text = dicedArray(1)
                 die1.enabled = true
                 die2.text = dicedArray(2)
@@ -210,7 +206,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
             case event.ButtonClicked(_) =>
               InputHandler.handle("a", controller)
               roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-              sumLabel.text = "Summe: " + summe
+              sumLabel.text = "Summe: " + spielfeld.summe
               gameStatePanel.repaint()
           }
         }
@@ -221,7 +217,7 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       }  
 
       // Rundenzähler hinzufügen
-      val sumLabel = new Label("Summe: " + summe)
+      val sumLabel = new Label("Summe: " + spielfeld.summe)
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
       val gameStatePanel = new GridPanel(1,2) {
         background = jColor.WHITE
@@ -231,131 +227,11 @@ class myGUI(controller: ControllerInterface) extends Frame with Observer {
       contents += gameStatePanel
       
     }
-
   }
 
   pack()
   centerOnScreen()
   open()
-
-// Allerlei wichtige Methoden
-
-  // Titelzeile erzeugen
-  def createTitle(col:Int):GridPanel = {
-    val myTitle = new GridPanel(1, col) {
-      //background = jColor.WHITE
-      border = BorderFactory.createMatteBorder(10, 20, 10, 20, pitchBackground) //jColor.BLACK
-      for (i <- 0 to col-1) {
-        contents += new Label((('A' + i).toChar).toString()) {
-          background = jColor.WHITE
-          foreground = jColor.BLACK
-        }
-      }
-    }
-    return myTitle
-  }
-
-  // Feld mit x Zeilen mit Buttons erzeugen
-  def createPitch(rowNum:Int, colNum:Int): GridPanel = {
-    val myColors = controller.pitch.myColor
-    val pitch = new GridPanel(rowNum, 1) {
-      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground) //jColor.BLACK
-
-      for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, myColors.getLine(i))
-      }
-    }
-    return pitch
-  }
-
-  // Automatisiertes Erzeugen von Zeilen mit bunten Feldern
-  def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = {
-    val myPanel = new GridPanel(1, cols) {
-      for (i <- 0 to cols-1) {
-        val colChar = ('A' + i).toChar
-        val cross = "x" + colChar.toString() + num.toString()
-        //val cross = "x" + num.toString() + (i+1).toString()
-        contents += createButton(colors(i), cross)
-      }
-    }
-    return myPanel
-  }
-
-  // Automatisiertes Erzeugen von bunten, ankreuzbaren Feldern
-  def createButton(c:myColor, n:String): Button = {
-    val s = 30 // Größe des Buttons
-    val myButton = new Button() {
-      val thisColor = c.getRGB
-      preferredSize = new Dimension(s, s)
-      background = jColor(thisColor)
-      name = n
-      reactions += {
-        case event.ButtonClicked(_) =>
-          if (number != "!") {
-            if (crossesSet < number.toInt) {
-              if (thisColor.toString == color) then
-                handleClick(this)
-              else 
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-            }
-          } else {
-            if (crossesSet < 5) {
-              if (thisColor.toString == color) then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-              else
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
-            }
-          }
-        }
-    }
-    return myButton
-  }
-
-  def handleClick(b:Button) = {
-    InputHandler.handle(b.name, controller)
-    b.text = Filling.filled.toString()
-    b.enabled = false
-    crossesSet = crossesSet + 1
-  }
-
-  // Punktezeile erzeugen
-  def createPoints(col:Int):GridPanel = {
-    val cellWidth = 3
-    val myPoints = new GridPanel(1, col) {
-      //background = jColor.BLACK
-      border = BorderFactory.createMatteBorder(0, 20, 20, 20, pitchBackground) //jColor.BLACK
-      val pointStringArray = if (col%2 == 0) { // für gerade Spaltenanzahl: 
-                                EvenOdd.handle(EvenEvent())(cellWidth, col).toCharArray()
-                              } else { // für ungerade Spaltenanzahl:
-                                EvenOdd.handle(OddEvent())(cellWidth, col).toCharArray()
-                              }
-      for (i <- 0 to pointStringArray.length-1) {
-        if (pointStringArray(i).isDigit) {
-          contents += new Button(pointStringArray(i).toString()) {
-            name = pointStringArray(i).toString()
-            foreground = jColor.BLACK
-            background = jColor.WHITE
-            border = BorderFactory.createMatteBorder(0, 10, 0, 10, pitchBackground)
-            reactions += {
-              case event.ButtonClicked(_) =>
-                summe += name.toInt
-                this.enabled = false
-            }
-          }
-        }
-      }
-    }
-    return myPoints
-  }
 }
 
 

@@ -42,11 +42,11 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
   // --------------------------------------------------------------------- Funktionen
   // Methode für Zugriff auf Spalte:
-  def getColumn(row:Int): Vector[Filling] =
+  override def getColumn(row:Int): Vector[Filling] =
     matrix(row)
 	
 	// Methode für Zugriff auf Index:
-  def getIndex(row:Int, col:Int):Filling =
+  override def getIndex(row:Int, col:Int):Filling =
     matrix(row)(col)
 
   // Methode zum Ankreuzen eines Felds
@@ -56,13 +56,13 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
     copy(matrix.updated(row, matrix(row).updated(col, Filling.filled)))
   
   // Methode zum Leeren eines Felds
-  def unfillCellWithCross(cross:Cross, pitch:PitchInterface):PitchAsMatrix = 
+  override def unfillCellWithCross(cross:Cross, pitch:PitchInterface):PitchAsMatrix = 
     val row = cross.x-1
     val col = cross.y-1
     copy(matrix.updated(row, matrix(row).updated(col, Filling.empty)))
 
   // Methode zum Zusammensetzen eines Felds mit PitchBuilder
-  def pitchToString(cellWidth:Int = 3): String =
+  override def pitchToString(cellWidth:Int = 3): String =
     val result = Pitch.builder(cellWidth, col_num)
       .createTitle(Title(cellWidth, col_num))
       .createMatrixWithColors(MatrixWithColors(cellWidth, col_num, row_num, this))
