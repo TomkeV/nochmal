@@ -110,6 +110,8 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
       preferredSize = new Dimension(30, 30)
       background = jColor(c.getRGB)
       name = n
+/*       val x = n.toCharArray()(2)
+      val y = n.toCharArray()(1) */
 
       reactions += {
         case event.ButtonClicked(_) =>
