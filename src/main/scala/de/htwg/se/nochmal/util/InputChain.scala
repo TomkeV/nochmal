@@ -16,7 +16,6 @@ import scala.util.{Try, Success, Failure}
 
 // interne imports
 import controller.controllerComponent.ControllerInterface
-//import controller.controllerBaseImpl.Controller
 import model.Cross
 
 // -----------------------------------------------------------------------------------------------------

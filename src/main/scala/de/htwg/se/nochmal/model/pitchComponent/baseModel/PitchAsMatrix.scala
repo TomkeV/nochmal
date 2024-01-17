@@ -21,6 +21,7 @@ import controller.controllerComponent.controllerBaseImpl.rounds
 import play.api.libs.json.*
 import java.io.{PrintWriter, File}
 import scala.io.Source
+import scala.xml.XML
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -75,6 +76,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
 
   // -------------------------------------------------------------- Funktionen für File-IO
+  // ------------------------------------------- File-IO mit JSON
   // Methode zum Speichern als JSON-File
   override def saveToJson(): Unit = {
     val pw = new PrintWriter(new File("saves/save1.json")) 
@@ -104,7 +106,6 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   override def loadFromJson(): PitchInterface = {
     val load = Source.fromFile("saves/save1.json").mkString
     val json = Json.parse(load)
-    //println(json)
     myColor = (json \ "color").as[String] match
       case "o" => PitchWithColors(orangeColorsList, Color.orange)
       case "b" => PitchWithColors(blueColorsList, Color.blue)
@@ -131,5 +132,45 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       case ' ' => Filling.empty
       case 'X' => Filling.filled
     ).toVector
+  }
+
+  // ------------------------------------------- File-IO mit XML
+  override def loadFromXML(): PitchInterface = {
+    val xml = XML.loadFile("saves/xml_save.xml").head
+    myColor = (xml \ "color").text match
+      case "o" => PitchWithColors(orangeColorsList, Color.orange)
+      case "b" => PitchWithColors(blueColorsList, Color.blue)
+      case "y" => PitchWithColors(yellowColorsList, Color.yellow)
+      case _ => PitchWithColors(blackColorsList, Color.black) 
+    val p = (xml \ "pitch").head.text
+    println("Feld: " + p)
+    rounds = (xml \ "rounds").text.toInt 
+    //val q = matrixFromXML(p)
+
+    return PitchAsMatrix(matrix)
+  }
+  // Hilfsmethode Matrix aus Strings:
+  def matrixFromXML(v:Vector[String]): Vector[Vector[Filling]] = {
+    v.map(x => 
+      stringToVector(x)).toVector
+  }
+
+  override def saveToXML(): Unit = {
+    val pw = new PrintWriter(new File("saves/xml_save.xml"))
+    pw.write(
+      "<state>" +
+        matrixToXML() +
+        "<rounds>" + rounds + "</rounds>" +
+        "<color>" + myColor.getColor() + "</color>" +
+      "</state>"
+    )
+    pw.close()
+  }
+
+  // Hilfsmethode Matrix speichern: 
+  def matrixToXML():String = {
+  "<pitch>" + 
+    Range(1, row_num+1).map(i => "<zeile" + i + ">" + matrix(i) + "</zeile" + i + ">").mkString(sep = "+")
+  "</pitch>"
   }
 }

@@ -90,13 +90,12 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     rounds += 1
 
   def load() = {
+    pitch.loadFromXML()
     pitch = pitch.loadFromJson()
-/*     for (i <- 0 to 6) {
-      println("Reihe " + i + ": " + pitch.getColumn(i).toString())
-    } */
   }
 
   def save() = {
+    pitch.saveToXML()
     pitch.saveToJson()
   }
 
