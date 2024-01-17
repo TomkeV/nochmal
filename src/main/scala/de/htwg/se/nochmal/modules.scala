@@ -25,6 +25,9 @@ import model.pitchComponent.baseModel.yellowColorsList
 
 import model.Color
 
+import util.FileIOInterface
+import util.io.JsonIO
+
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
 object Default {
@@ -37,6 +40,7 @@ object Default {
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
   
+  given FileIOInterface: FileIOInterface = new JsonIO()
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -50,6 +54,7 @@ object OrangePitch {
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
   
+  given FileIOInterface: FileIOInterface = new JsonIO()
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -62,6 +67,8 @@ object BluePitch {
 
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
+  
+  given FileIOInterface: FileIOInterface = new JsonIO()
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -74,4 +81,6 @@ object YellowPitch {
 
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
+
+  given FileIOInterface: FileIOInterface = new JsonIO()
 }

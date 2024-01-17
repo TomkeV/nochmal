@@ -14,6 +14,9 @@ package controllerBaseImpl
 // --------------------------------------------------------------------------------------------- IMPORTS
 import scala.util.{Try, Failure, Success}
 
+import Default.FileIOInterface
+import util.FileIOInterface
+
 import model.pitchComponent.PitchInterface
 import model.Cross
 import model.diceComponent.DiceInterface
@@ -34,6 +37,7 @@ var moveDone = false
 case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface {
 
   val undoManager = new UndoManager[PitchInterface]
+  val file_io = summon[FileIOInterface]
   var undoAllowed = false
 
   // Methode zum Ausführen einer beliebigen Operation
@@ -90,13 +94,11 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     rounds += 1
 
   def load() = {
-    pitch = pitch.loadFromXML()
-    //pitch = pitch.loadFromJson()
+    pitch = file_io.load(pitch)
   }
 
   def save() = {
-    pitch.saveToXML()
-    //pitch.saveToJson()
+    file_io.save(pitch)
   }
 
   override def toString = pitch.pitchToString()
