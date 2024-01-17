@@ -61,27 +61,6 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
     
   }
 
-  def updatePitch() = {
-    println("updatePitch aufgerufen")
-    val inhalt = loadPitchFromJson();
-    for (i <- 0 to 6) {
-      println("Inhalt: "+ inhalt(i).toString())
-    }
-    //this.matrix = createPitchAsLoaded(controller.pitch.row_num, controller.pitch.col_num, inhalt)
-  }
-
-  def loadPitchFromJson(): Vector[Vector[Filling]] = {
-    val json = Json.parse(Source.fromFile("saves/save1.json").mkString)
-    val pitch = (json \ "pitch").as[IndexedSeq[String]]
-    pitch.map(i =>
-      val chars = i.toCharArray()
-      Range(0, chars.length).map(y =>
-        chars(y) match
-          case ' ' => Filling.empty
-          case 'X' => Filling.filled
-        ).toVector).toVector
-  }
-
   // Spielfeld zusammensetzen
   def setUpPitch(titel:GridPanel, feld:GridPanel, punkte:GridPanel): BoxPanel = {
     new BoxPanel(Orientation.Vertical) {
@@ -110,29 +89,17 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
     new GridPanel(rowNum, 1) {
       border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
       for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i)) //, controller.pitch.getColumn(rowNum-1))
+        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i))
       }
     }
   }
 
-/*   def createPitchAsLoaded(rowNum:Int, colNum:Int, v:Vector[Vector[Filling]]) = {
-    println("createPitchAsLoaded aufgerufen")
-    new GridPanel(rowNum, 1) {
-      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
-      for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i), v(i))
-      }
-    }
-  } */
-
   // Automatisiertes Erzeugen von Zeilen mit bunten Feldern
-  def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = { //, fill:Vector[Filling]
-    //println("Zeile " + num + " wird erzeugt: " + fill.toString())
+  def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = {
     new GridPanel(1, cols) {
       for (i <- 0 to cols-1) {
         val cross = "x" + ('A' + i).toChar.toString() + num.toString()
-        contents += createButton(colors(i), cross) //, fill(i))
-        //println("Vektor: " + fill(i))
+        contents += createButton(colors(i), cross)
       }
     }
   }
@@ -146,11 +113,11 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
 
       reactions += {
         case event.ButtonClicked(_) =>
-          if (number == "") then
+          if (number == "") then {
             JOptionPane.showMessageDialog(null, "Du musst eine Zahl auswählen!")
-          else if (color == "") then
+          } else if (color == "") then {
             JOptionPane.showMessageDialog(null, "Du musst eine Farbe auswählen!")
-          else if (number != "!") then {
+          } else if (number != "!") then {
             if (crossesSet < number.toInt) then {
               if (c.getRGB.toString == color) then
                 handleClick(this)
@@ -159,7 +126,7 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
               else
                 JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")
             }
-          } else {
+          } else if (number == "!") {
             if (crossesSet < 5) then {
               if (c.getRGB.toString == color) then
                 InputHandler.handle(name, controller)
@@ -169,7 +136,7 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
               else if (color == "Joker!") then
                 handleClick(this)
               else
-                JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")            
+                JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")
             }
           }
         }
@@ -213,3 +180,17 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
   }
 
 }
+
+
+
+/*   def loadPitchFromJson(): Vector[Vector[Filling]] = {
+    val json = Json.parse(Source.fromFile("saves/save1.json").mkString)
+    val pitch = (json \ "pitch").as[IndexedSeq[String]]
+    pitch.map(i =>
+      val chars = i.toCharArray()
+      Range(0, chars.length).map(y =>
+        chars(y) match
+          case ' ' => Filling.empty
+          case 'X' => Filling.filled
+        ).toVector).toVector
+  } */

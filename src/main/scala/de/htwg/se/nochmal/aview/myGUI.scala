@@ -91,7 +91,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
 
       // Anlegen der Würfel:
       val dice = Range(0, 6).map(x =>
-        if (x <= 3) then
+        if (x < 3) then
           createDie("die"+(x+1), 'n')
         else 
           createDie("die"+(x+1), 'c')).toVector
@@ -108,15 +108,9 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           enabled = false
           reactions += {
             case event.ButtonClicked(_) =>
-              println("Button " + name +" geklickt")
               typ match
-                case 'c' => 
-                  println("Farbwuerfel")
-                  spielfeld.color = dieChosen(this)
-                            println("Farbe gesetzt: " + spielfeld.color)
-                case 'n' => 
-                  println("Zahlwuerfel")
-                  spielfeld.number = dieChosen(this)
+                case 'c' => spielfeld.color = dieChosen(this)
+                case 'n' => spielfeld.number = dieChosen(this)
           }
         }
       }
@@ -125,15 +119,12 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         d.name match 
           case "die1" => dice(1).enabled = false
                          dice(2).enabled = false
-                         println(dice(0).text)
                          dice(0).text
           case "die2" => dice(0).enabled = false
                          dice(2).enabled = false
-                         println(dice(1).text)
                          dice(1).text
           case "die3" => dice(0).enabled = false
                          dice(1).enabled = false
-                        println(dice(2).text)
                          dice(2).text
           case "die4" => dice(4).enabled = false
                          dice(5).enabled = false
@@ -148,7 +139,6 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
 
       // -------------- Hilfsmethode Farbstring ----------------
       def setColorsdieText(t:String):String = {
-        println("Ausgewählt:" + t)
         t match
           case "rot" => myColor.red.getRGB.toString
           case "orange" => myColor.orange.getRGB.toString
