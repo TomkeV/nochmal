@@ -90,13 +90,13 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     rounds += 1
 
   def load() = {
-    pitch.loadFromXML()
-    pitch = pitch.loadFromJson()
+    pitch = pitch.loadFromXML()
+    //pitch = pitch.loadFromJson()
   }
 
   def save() = {
     pitch.saveToXML()
-    pitch.saveToJson()
+    //pitch.saveToJson()
   }
 
   override def toString = pitch.pitchToString()

@@ -145,13 +145,16 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       case _ => PitchWithColors(blackColorsList, Color.black) 
     rounds = (xml \ "rounds").text.toInt
     val p = createMatrixFromXML(xml)
+    for (line <- p) {
+      println(line)
+    }
 
     return PitchAsMatrix(p)
   }
   
   // Hilfsmethode aus Strings matrix erstellen
   def createMatrixFromXML(xml:Node): Vector[Vector[Filling]] = {
-    val lines = Range(0, 7).map(i =>
+    val lines = Range(1, 8).map(i =>
       val line = "line"+i
       (xml \ line).text.toCharArray()
     )
