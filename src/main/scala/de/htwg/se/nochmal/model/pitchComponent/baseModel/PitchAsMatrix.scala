@@ -20,8 +20,9 @@ import controller.controllerComponent.controllerBaseImpl.rounds
 // Bibliotheksimports
 import play.api.libs.json.*
 import java.io.{PrintWriter, File}
-import scala.io.Source
 import scala.xml.XML
+import scala.xml.Node
+import scala.io.Source
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -142,35 +143,49 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       case "b" => PitchWithColors(blueColorsList, Color.blue)
       case "y" => PitchWithColors(yellowColorsList, Color.yellow)
       case _ => PitchWithColors(blackColorsList, Color.black) 
-    val p = (xml \ "pitch").head.text
-    println("Feld: " + p)
-    rounds = (xml \ "rounds").text.toInt 
-    //val q = matrixFromXML(p)
+    rounds = (xml \ "rounds").text.toInt
+    val p = createMatrixFromXML(xml)
 
-    return PitchAsMatrix(matrix)
+    return PitchAsMatrix(p)
   }
-  // Hilfsmethode Matrix aus Strings:
-  def matrixFromXML(v:Vector[String]): Vector[Vector[Filling]] = {
-    v.map(x => 
-      stringToVector(x)).toVector
+  
+  // Hilfsmethode aus Strings matrix erstellen
+  def createMatrixFromXML(xml:Node): Vector[Vector[Filling]] = {
+    val lines = Range(0, 7).map(i =>
+      val line = "line"+i
+      (xml \ line).text.toCharArray()
+    )
+    lines.map(x => 
+      x.map(c =>
+        c match
+          case ' ' => Filling.empty
+          case 'X' => Filling.filled
+        ).toVector
+      ).toVector
   }
 
   override def saveToXML(): Unit = {
     val pw = new PrintWriter(new File("saves/xml_save.xml"))
     pw.write(
-      "<state>" +
-        matrixToXML() +
+      "<pitch>" +
+        "<line1>" + matrixLineToString(matrix, 0) + "</line1>" +
+        "<line2>" + matrixLineToString(matrix, 1) + "</line2>" +
+        "<line3>" + matrixLineToString(matrix, 2) + "</line3>" +
+        "<line4>" + matrixLineToString(matrix, 3) + "</line4>" +
+        "<line5>" + matrixLineToString(matrix, 4) + "</line5>" +
+        "<line6>" + matrixLineToString(matrix, 5) + "</line6>" +
+        "<line7>" + matrixLineToString(matrix, 6) + "</line7>" +
         "<rounds>" + rounds + "</rounds>" +
         "<color>" + myColor.getColor() + "</color>" +
-      "</state>"
+      "</pitch>"
     )
     pw.close()
   }
 
   // Hilfsmethode Matrix speichern: 
-  def matrixToXML():String = {
-  "<pitch>" + 
-    Range(1, row_num+1).map(i => "<zeile" + i + ">" + matrix(i) + "</zeile" + i + ">").mkString(sep = "+")
-  "</pitch>"
+  def matrixLineToString(m:Vector[Vector[Filling]], i:Int):String = {
+    println("Zeile: " + m(i).toString())
+    m(i).map(x =>
+      x.toString()).mkString
   }
 }
