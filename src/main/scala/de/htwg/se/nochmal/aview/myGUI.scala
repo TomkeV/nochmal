@@ -254,5 +254,4 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
 
 // ToDos: 
 // Menüleiste
-    // Option zum Beenden (Event.Quit)
     // Spielanleitung
