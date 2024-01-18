@@ -37,10 +37,11 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
 
   val spielfeld = setUpPitch(titel, matrix, punkte)
 
+
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
     e match
-      case Event.Applied =>
+      case Event.Applied => 
       case Event.Crossed => 
       case Event.Diced => 
       case Event.Loaded => 
@@ -77,14 +78,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
     }
   }
 
-  // Button ankreuzen
-  def handleClick(b:Button) = {
-    InputHandler.handle(b.name, controller)
-    b.text = Filling.filled.toString()
-    b.enabled = false
-    crossesSet = crossesSet + 1
-  }
-
   // Punktezeile erzeugen
   def createPoints(col:Int):GridPanel = {
     val cellWidth = 3
@@ -116,12 +109,10 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
   // Matrix aus ButtonMap:
   def createMatrixFromButtonMap(rowNum:Int, colNum:Int): GridPanel = {
     val b = buttons.buttonMap
-    println("Elemente in buttons: " + b.size)
     new GridPanel(rowNum, colNum) {
       border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
       for (y <- 0 to rowNum-1) {
         for (x <- 0 to colNum-1) {
-          println("y: " + y + " x: " + x)
           contents += b((y, x))
         }
       }
