@@ -20,8 +20,7 @@ import controller.controllerComponent.controllerBaseImpl.rounds
 // Bibliotheksimports
 import play.api.libs.json.*
 import java.io.{PrintWriter, File}
-import scala.xml.XML
-import scala.xml.Node
+import scala.xml.{XML, Node}
 import scala.io.Source
 
 // -----------------------------------------------------------------------------------------------------
@@ -112,27 +111,17 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       case "b" => PitchWithColors(blueColorsList, Color.blue)
       case "y" => PitchWithColors(yellowColorsList, Color.yellow)
       case _ => PitchWithColors(blackColorsList, Color.black)
-    
-    val p = (json \ "pitch").as[IndexedSeq[String]]
     rounds = (json \ "rounds").as[Int]
 
-    val m = stringsToMatrix(p)
+    val pitch = (json \ "pitch").as[IndexedSeq[String]].map(i =>
+                val chars = i.toCharArray()
+                Range(0, chars.length).map(y =>
+                  chars(y) match
+                    case ' ' => Filling.empty
+                    case 'X' => Filling.filled
+                ).toVector).toVector
 
-    return PitchAsMatrix(m)
-  }
-
-  // Hilfsmethode zum Einlesen der Matrix
-  def stringsToMatrix(seq:IndexedSeq[String]):Vector[Vector[Filling]] = {
-    seq.map(x => stringToVector(x)).toVector
-  }
-
-  // Hilfsmethode um aus Strings Matrix zu machen
-  def stringToVector(s:String):Vector[Filling] = {
-    val chars = s.toCharArray()
-    Range(0, chars.length).map(x => chars(x) match
-      case ' ' => Filling.empty
-      case 'X' => Filling.filled
-    ).toVector
+    return PitchAsMatrix(pitch)
   }
 
   // ------------------------------------------- File-IO mit XML
@@ -153,7 +142,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   }
   
   // Hilfsmethode aus Strings matrix erstellen
-  def createMatrixFromXML(xml:Node): Vector[Vector[Filling]] = {
+  private def createMatrixFromXML(xml:Node): Vector[Vector[Filling]] = {
     val lines = Range(1, 8).map(i =>
       val line = "line"+i
       (xml \ line).text.toCharArray()
@@ -186,7 +175,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   }
 
   // Hilfsmethode Matrix speichern: 
-  def matrixLineToString(m:Vector[Vector[Filling]], i:Int):String = {
+  private def matrixLineToString(m:Vector[Vector[Filling]], i:Int):String = {
     println("Zeile: " + m(i).toString())
     m(i).map(x =>
       x.toString()).mkString

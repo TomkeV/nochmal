@@ -40,7 +40,8 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   val cols = controller.pitch.col_num
   val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
 
-  val spielfeld = new GUISpielfeld(controller)
+  val buttonsMap = new ButtonMap(controller)
+  val spielfeld = new GUISpielfeld(controller, buttonsMap)
 
   override def update(e: Event): Unit = 
     e match {
@@ -110,8 +111,8 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           reactions += {
             case event.ButtonClicked(_) =>
               typ match
-                case 'c' => spielfeld.color = dieChosen(this)
-                case 'n' => spielfeld.number = dieChosen(this)
+                case 'c' => buttonsMap.color = dieChosen(this)
+                case 'n' => buttonsMap.number = dieChosen(this)
           }
         }
       }
@@ -215,7 +216,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
             case event.ButtonClicked(_) =>
               InputHandler.handle("a", controller)
               roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-              sumLabel.text = "Summe: " + spielfeld.summe
+              sumLabel.text = "Summe: " + buttonsMap.summe
               gameStatePanel.repaint()
           }
         }
@@ -226,7 +227,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       }  
 
       // Rundenzähler hinzufügen
-      val sumLabel = new Label("Summe: " + spielfeld.summe)
+      val sumLabel = new Label("Summe: " + buttonsMap.summe)
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
       val gameStatePanel = new GridPanel(1,2) {
         background = jColor.WHITE

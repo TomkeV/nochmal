@@ -1,7 +1,6 @@
 /**
   * GUISpielfeld.scala
   * @author: Tomke Velten
-  * @version: 16.01.2024
   */
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
@@ -29,7 +28,7 @@ import scala.io.Source
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
-class GUISpielfeld(controller: ControllerInterface) extends Observer {
+class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends Observer {
   controller.add(this)
 
   // ------------------------------------------------------------------- VARIABLEN 
@@ -37,13 +36,17 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
   private val titel = createTitle(controller.pitch.col_num)
   private var matrix = createPitch(controller.pitch.row_num, controller.pitch.col_num)
   private val punkte = createPoints(controller.pitch.col_num)
+  private val matrixFromButtons = createMatrixFromButtonMap(controller.pitch.row_num, controller.pitch.col_num)
 
-  val spielfeld = setUpPitch(titel, matrix, punkte)
+  //val buttons = new ButtonMap(controller).buttonMap
+  val spielfeld = setUpPitch(titel, matrixFromButtons, punkte) //setUpPitch(titel, matrix, punkte)
 
   var number = ""
   var crossesSet = 0
   var color = ""
   var summe = 0
+
+
 
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
@@ -63,7 +66,7 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
   // Spielfeld aktualisieren
   def updatePitch() = {
     println("update Pitch aufgerufen")
-    matrix = createPitch(controller.pitch.row_num, controller.pitch.col_num)
+    buttons.updateButtonMap()
     println("update pitch ausgeführt")
   }
 
@@ -120,11 +123,9 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
       val y = (n.toCharArray()(1) - 65).toInt
       text = controller.pitch.getIndex(x, y).toString()
       enabled = if (controller.pitch.getIndex(x, y) == Filling.filled) then
-                  println("Dieser Button wurde geklickt: "+ name)
                   false
                 else
                   true
-
       reactions += {
         case event.ButtonClicked(_) =>
           if (number == "") then {
@@ -143,10 +144,7 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
           } else if (number == "!") {
             if (crossesSet < 5) then {
               if (c.getRGB.toString == color) then
-                InputHandler.handle(name, controller)
-                text = Filling.filled.toString()
-                enabled = false
-                crossesSet = crossesSet + 1
+                handleClick(this)
               else if (color == "Joker!") then
                 handleClick(this)
               else
@@ -193,18 +191,18 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
     }
   }
 
+  // Matrix aus ButtonMap:
+  def createMatrixFromButtonMap(rowNum:Int, colNum:Int): GridPanel = {
+    val b = buttons.buttonMap
+    println("Elemente in buttons: " + b.size)
+    new GridPanel(rowNum, colNum) {
+      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
+      for (y <- 0 to rowNum-1) {
+        for (x <- 0 to colNum-1) {
+          println("y: " + y + " x: " + x)
+          contents += b((y, x))
+        }
+      }
+    }
+  }
 }
-
-
-
-/*   def loadPitchFromJson(): Vector[Vector[Filling]] = {
-    val json = Json.parse(Source.fromFile("saves/save1.json").mkString)
-    val pitch = (json \ "pitch").as[IndexedSeq[String]]
-    pitch.map(i =>
-      val chars = i.toCharArray()
-      Range(0, chars.length).map(y =>
-        chars(y) match
-          case ' ' => Filling.empty
-          case 'X' => Filling.filled
-        ).toVector).toVector
-  } */
