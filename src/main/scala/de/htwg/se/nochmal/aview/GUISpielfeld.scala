@@ -37,17 +37,10 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
 
   val spielfeld = setUpPitch(titel, matrix, punkte)
 
-  var number = ""
-  var crossesSet = 0
-  var color = ""
-  var summe = 0
-
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
     e match
-      case Event.Applied => crossesSet = 0
-                            number = ""
-                            color = ""
+      case Event.Applied =>
       case Event.Crossed => 
       case Event.Diced => 
       case Event.Loaded => 
