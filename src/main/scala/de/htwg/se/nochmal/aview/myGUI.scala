@@ -216,7 +216,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
             case event.ButtonClicked(_) =>
               InputHandler.handle("a", controller)
               roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-              sumLabel.text = "Summe: " + buttonsMap.summe
+              sumLabel.text = "Summe: " + spielfeld.summe
               gameStatePanel.repaint()
           }
         }
@@ -227,7 +227,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       }  
 
       // Rundenzähler hinzufügen
-      val sumLabel = new Label("Summe: " + buttonsMap.summe)
+      val sumLabel = new Label("Summe: " + spielfeld.summe)
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
       val gameStatePanel = new GridPanel(1,2) {
         background = jColor.WHITE

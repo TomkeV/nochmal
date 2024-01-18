@@ -32,7 +32,6 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
   var number = ""
   var crossesSet = 0
   var color = ""
-  var summe = 0
 
   val buttonMap = createMatrix
 

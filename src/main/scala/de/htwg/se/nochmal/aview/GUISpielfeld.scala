@@ -37,6 +37,7 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
 
   val spielfeld = setUpPitch(titel, matrix, punkte)
 
+  var summe = 0
 
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
@@ -49,11 +50,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
       case Event.Redone => 
       case Event.Saved => 
       case Event.Undone => 
-  }
-
-  // Spielfeld aktualisieren
-  def updatePitch() = {
-    buttons.updateButtonMap()
   }
 
   // Spielfeld zusammensetzen
@@ -117,5 +113,10 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
         }
       }
     }
+  }
+
+  // Spielfeld aktualisieren
+  def updatePitch() = {
+    buttons.updateButtonMap()
   }
 }
