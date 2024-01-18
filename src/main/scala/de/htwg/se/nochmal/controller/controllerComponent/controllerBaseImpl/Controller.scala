@@ -15,16 +15,14 @@ package controllerBaseImpl
 import scala.util.{Try, Failure, Success}
 
 import model.pitchComponent.PitchInterface
-//import model.PitchAsMatrix
-import model.Filling
 import model.Cross
 import model.diceComponent.DiceInterface
-//import model.Numbers_dice
-//import model.dice.diceImplementierung.Colors_dice
-import util.Observable
 import util.Event
 import util.UndoManager
+// kann ich auskommentieren ohne Fehler:
 import controllerComponent.ControllerInterface
+import util.Observable
+import model.Filling
 
 
 var diceResult = ""
@@ -51,6 +49,9 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
       case Event.Quit => beQuit()
       case Event.Redone => redo()
       case Event.Undone => undo()
+      case Event.Saved => save()
+      case Event.Loaded => load()
+
         /* if(undoAllowed)
           undo()
         else 
@@ -87,6 +88,17 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     undoAllowed = false
     moveDone = false
     rounds += 1
+
+  def load() = {
+    pitch = pitch.loadFromJson()
+/*     for (i <- 0 to 6) {
+      println("Reihe " + i + ": " + pitch.getColumn(i).toString())
+    } */
+  }
+
+  def save() = {
+    pitch.saveToJson()
+  }
 
   override def toString = pitch.pitchToString()
 }

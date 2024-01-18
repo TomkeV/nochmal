@@ -1,5 +1,6 @@
 /**
   * PitchWithColorsInterface.scala
+  * @author: Tomke Velten
   */
 // -----------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------- PACKAGE
@@ -15,4 +16,5 @@ trait PitchWithColorsInterface {
   def getStrIndex(x:Int, y:Int): String
   def getIntIndex(x:Int, y:Int): Int 
   def getLine(x:Int): List[Color]
+  def getColor():String
 }

@@ -1,27 +1,21 @@
-/**
-  * ControllerInterface.scala
-  */
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
-package controller
-package controllerComponent
+package util
+package io
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
-import util.Observable
-import util.Event
+import de.htwg.se.nochmal.util.FileIOInterface
+import de.htwg.se.nochmal.model.pitchComponent.PitchInterface
+import scala.io.Source
 
-import model.Cross
-import model.pitchComponent.PitchInterface
 
 // -----------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------- INTERFACE DEFINITION
-trait ControllerInterface extends Observable {
-  var pitch:PitchInterface
-  def publish(c:Option[Cross] = None, e: Event) : Unit
-  //def undo(): PitchInterface
-  def undo(): String
-  def redo(): PitchInterface
-  def beQuit(): String
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
+class JsonIO extends FileIOInterface {
+
+  override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromJson()
+
+  override def save(pitch: PitchInterface): Unit = pitch.saveToJson()
 }

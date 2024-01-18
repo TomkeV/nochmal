@@ -18,3 +18,5 @@ enum Event:
     case Undone
     case Redone
     case Applied
+    case Saved
+    case Loaded

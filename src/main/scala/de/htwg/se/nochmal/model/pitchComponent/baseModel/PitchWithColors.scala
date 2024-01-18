@@ -1,5 +1,6 @@
 /**
   * PitchWithColors.scala
+  * @author: Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------
@@ -23,6 +24,11 @@ case class PitchWithColors(colorsList:List[List[Color]], background:Color = Colo
   def getLine(x:Int):List[Color] = {
     colorsList(x)
   }
+
+  def getColor(): String = {
+    this.background.toString()
+  }
+
 }
 
 // -----------------------------------------------------------------------------------------------------
