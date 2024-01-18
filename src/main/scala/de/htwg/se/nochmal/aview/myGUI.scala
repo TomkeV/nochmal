@@ -79,7 +79,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         contents += new MenuItem(Action("Speichern") {
           InputHandler.handle("s", controller)
         })
-        contents += new MenuItem(Action("Laden") { // funktioniert nicht!!!!
+        contents += new MenuItem(Action("Laden") {
           InputHandler.handle("l", controller)
           spielfeld.updatePitch()
         })

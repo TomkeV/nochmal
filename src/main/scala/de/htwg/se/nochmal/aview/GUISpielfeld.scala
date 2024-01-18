@@ -7,8 +7,6 @@
 package de.htwg.se.nochmal
 package aview
 
-
-
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne Imports
@@ -34,19 +32,15 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
   // ------------------------------------------------------------------- VARIABLEN 
   private val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
   private val titel = createTitle(controller.pitch.col_num)
-  private var matrix = createPitch(controller.pitch.row_num, controller.pitch.col_num)
+  private val matrix = createMatrixFromButtonMap(controller.pitch.row_num, controller.pitch.col_num)
   private val punkte = createPoints(controller.pitch.col_num)
-  private val matrixFromButtons = createMatrixFromButtonMap(controller.pitch.row_num, controller.pitch.col_num)
 
-  //val buttons = new ButtonMap(controller).buttonMap
-  val spielfeld = setUpPitch(titel, matrixFromButtons, punkte) //setUpPitch(titel, matrix, punkte)
+  val spielfeld = setUpPitch(titel, matrix, punkte)
 
   var number = ""
   var crossesSet = 0
   var color = ""
   var summe = 0
-
-
 
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
@@ -65,9 +59,7 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
 
   // Spielfeld aktualisieren
   def updatePitch() = {
-    println("update Pitch aufgerufen")
     buttons.updateButtonMap()
-    println("update pitch ausgeführt")
   }
 
   // Spielfeld zusammensetzen
@@ -89,69 +81,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
           foreground = jColor.BLACK
         }
       }
-    }
-  }
-
-  // Feld mit x Zeilen mit Buttons erzeugen
-  def createPitch(rowNum:Int, colNum:Int): GridPanel = {
-    new GridPanel(rowNum, 1) {
-      border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
-      for (i <- 0 to rowNum-1) {
-        contents += createRow(colNum, i+1, controller.pitch.myColor.getLine(i))
-      }
-    }
-  }
-
-  // Automatisiertes Erzeugen von Zeilen mit bunten Feldern
-  def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = {
-    println(controller.pitch.getColumn(num-1))
-    new GridPanel(1, cols) {
-      for (i <- 0 to cols-1) {
-        val cross = "x" + ('A' + i).toChar.toString() + num.toString()
-        contents += createButton(colors(i), cross)
-      }
-    }
-  }
-
-  // Automatisiertes Erzeugen von bunten, ankreuzbaren Feldern
-  def createButton(c:myColor, n:String): Button = {
-    new Button() {
-      preferredSize = new Dimension(30, 30)
-      background = jColor(c.getRGB)
-      name = n
-      val x = (n.toCharArray()(2) - 49).toInt
-      val y = (n.toCharArray()(1) - 65).toInt
-      text = controller.pitch.getIndex(x, y).toString()
-      enabled = if (controller.pitch.getIndex(x, y) == Filling.filled) then
-                  false
-                else
-                  true
-      reactions += {
-        case event.ButtonClicked(_) =>
-          if (number == "") then {
-            JOptionPane.showMessageDialog(null, "Du musst eine Zahl auswählen!")
-          } else if (color == "") then {
-            JOptionPane.showMessageDialog(null, "Du musst eine Farbe auswählen!")
-          } else if (number != "!") then {
-            if (crossesSet < number.toInt) then {
-              if (c.getRGB.toString == color) then
-                handleClick(this)
-              else if (color == "Joker!") then
-                handleClick(this)
-              else
-                JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")
-            }
-          } else if (number == "!") {
-            if (crossesSet < 5) then {
-              if (c.getRGB.toString == color) then
-                handleClick(this)
-              else if (color == "Joker!") then
-                handleClick(this)
-              else
-                JOptionPane.showMessageDialog(null, "Du musst deine ausgewählte Farbe ankreuzen!")
-            }
-          }
-        }
     }
   }
 

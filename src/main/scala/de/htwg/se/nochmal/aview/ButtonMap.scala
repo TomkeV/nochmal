@@ -1,19 +1,42 @@
-package de.htwg.se.nochmal.aview
+/**
+  * ButtonMap.scala
+  * Klasse zum Speichern einer Matrix aus Buttons
+  * @author: Tomke Velten
+  */
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- PACKAGE
+package de.htwg.se.nochmal
+package aview
 
-import de.htwg.se.nochmal.controller.controllerComponent.ControllerInterface
-import de.htwg.se.nochmal.model.pitchComponent.PitchWithColorsInterface
+// -----------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------- IMPORTS
+// interne imports
+import controller.controllerComponent.ControllerInterface
+import model.pitchComponent.PitchWithColorsInterface
+import de.htwg.se.nochmal.model.Filling
+import de.htwg.se.nochmal.util.{Observer, InputHandler, Event}
+
+// Bibliotheksimports
 import scala.swing.*
 import java.awt.Color as jColor
 import java.awt.Dimension
 import javax.swing.JOptionPane
-import de.htwg.se.nochmal.util.InputHandler
-import de.htwg.se.nochmal.model.Filling
-import de.htwg.se.nochmal.util.Observer
-import de.htwg.se.nochmal.util.Event
 
+
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
 class ButtonMap(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
+  // ------------------------------------------------------------------- VARIABLEN 
+  var number = ""
+  var crossesSet = 0
+  var color = ""
+  var summe = 0
+
+  val buttonMap = createMatrix
+
+  // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
     e match
       case Event.Applied => crossesSet = 0
@@ -28,13 +51,6 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
       case Event.Undone => 
   }
 
-  var number = ""
-  var crossesSet = 0
-  var color = ""
-  var summe = 0
-
-  val buttonMap = createMatrix
-  
   def createMatrix: Map[(Int, Int), Button] = {
     val rows = controller.pitch.row_num
     val cols = controller.pitch.col_num
