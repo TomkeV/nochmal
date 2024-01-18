@@ -14,5 +14,7 @@ lazy val root = project
     libraryDependencies += "org.scala-lang.modules" %% "scala-swing" % "3.0.0",
 
     // File-IO: JSON
-    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.3"
+    libraryDependencies += "com.typesafe.play" %% "play-json" % "2.10.3",
+    // File-IO: XML
+    libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "2.2.0"
   )

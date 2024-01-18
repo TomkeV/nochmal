@@ -24,4 +24,7 @@ trait PitchInterface {
   // File-IO
   def loadFromJson():PitchInterface
   def saveToJson():Unit
+
+  def loadFromXML(): PitchInterface
+  def saveToXML(): Unit
 }

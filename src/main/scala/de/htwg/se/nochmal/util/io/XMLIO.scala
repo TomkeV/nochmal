@@ -2,14 +2,17 @@
 // --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package util
+package io
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 import model.pitchComponent.PitchInterface
 
+
 // -----------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------- INTERFACE DEFINITION
-trait FileIOInterface {
-  def load(pitch: PitchInterface): PitchInterface
-  def save(pitch: PitchInterface): Unit
+// ------------------------------------------------------------------------------------ CLASS DEFINITION
+class XMLIO extends FileIOInterface {
+    override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromXML()
+
+    override def save(pitch: PitchInterface): Unit = pitch.saveToXML()
 }
