@@ -80,6 +80,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         })
         contents += new MenuItem(Action("Laden") { // funktioniert nicht!!!!
           InputHandler.handle("l", controller)
+          spielfeld.updatePitch()
         })
       }
     }
@@ -93,7 +94,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       val dice = Range(0, 6).map(x =>
         if (x < 3) then
           createDie("die"+(x+1), 'n')
-        else 
+        else
           createDie("die"+(x+1), 'c')).toVector
 
 

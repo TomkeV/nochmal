@@ -58,7 +58,13 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
       case Event.Redone => 
       case Event.Saved => 
       case Event.Undone => 
-    
+  }
+
+  // Spielfeld aktualisieren
+  def updatePitch() = {
+    println("update Pitch aufgerufen")
+    matrix = createPitch(controller.pitch.row_num, controller.pitch.col_num)
+    println("update pitch ausgeführt")
   }
 
   // Spielfeld zusammensetzen
@@ -85,7 +91,6 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
 
   // Feld mit x Zeilen mit Buttons erzeugen
   def createPitch(rowNum:Int, colNum:Int): GridPanel = {
-    println("createPitch aufgerufen")
     new GridPanel(rowNum, 1) {
       border = BorderFactory.createMatteBorder(0, 20, 10, 20, pitchBackground)
       for (i <- 0 to rowNum-1) {
@@ -96,6 +101,7 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
 
   // Automatisiertes Erzeugen von Zeilen mit bunten Feldern
   def createRow(cols:Int, num:Int, colors:List[myColor]):GridPanel = {
+    println(controller.pitch.getColumn(num-1))
     new GridPanel(1, cols) {
       for (i <- 0 to cols-1) {
         val cross = "x" + ('A' + i).toChar.toString() + num.toString()
@@ -110,8 +116,14 @@ class GUISpielfeld(controller: ControllerInterface) extends Observer {
       preferredSize = new Dimension(30, 30)
       background = jColor(c.getRGB)
       name = n
-/*       val x = n.toCharArray()(2)
-      val y = n.toCharArray()(1) */
+      val x = (n.toCharArray()(2) - 49).toInt
+      val y = (n.toCharArray()(1) - 65).toInt
+      text = controller.pitch.getIndex(x, y).toString()
+      enabled = if (controller.pitch.getIndex(x, y) == Filling.filled) then
+                  println("Dieser Button wurde geklickt: "+ name)
+                  false
+                else
+                  true
 
       reactions += {
         case event.ButtonClicked(_) =>
