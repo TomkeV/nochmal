@@ -26,11 +26,13 @@ import util.UndoManager
 import controllerComponent.ControllerInterface
 import util.Observable
 import model.Filling
+import scala.collection.mutable.ArrayBuffer
 
 
 var diceResult = ""
 var rounds = 0
 var moveDone = false
+  var crossArray = ArrayBuffer[Cross]()
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -42,7 +44,9 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
   // Methode zum Ausführen einer beliebigen Operation
   def publish(c:Option[Cross] = None, e:Event) = 
     e match
-      case Event.Applied => if(moveDone) then apply()
+      case Event.Applied => println(crossArray)
+        if(moveDone) then apply()
+                            println(crossArray)
       case Event.Crossed => if (c.isDefined) then {
                               pitch = setCross(c.get)
                               moveDone = true
@@ -58,6 +62,7 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     notifyObservers(e)
     
   def setCross(c:Cross) = 
+    crossArray.addOne(c)
     undoManager.doMove(pitch, SetCommand(c))
 
   def singleDice(): Unit = 
@@ -77,6 +82,7 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     undoManager.redoMove(pitch)
 
   def apply(): Unit = 
+    crossArray.clear()
     moveDone = false
     rounds += 1
 

@@ -42,7 +42,6 @@ class UndoManager[T] {
         val result = head.undoMove(t)
         undoStack = stack
         redoStack = head::redoStack
-
         return result
     }
   }

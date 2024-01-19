@@ -46,11 +46,10 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
-      case Event.Diced => //redoButton.enabled = false
-      case Event.Crossed => //redoButton.enabled = true
+      case Event.Diced => 
+      case Event.Crossed => 
       case Event.Applied => 
-                            //redoButton.enabled = false
-      case Event.Loaded => //this.repaint()
+      case Event.Loaded => 
       case Event.Saved => 
       case Event.Undone => 
       case Event.Redone => 
@@ -94,13 +93,13 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       // Anlegen der Würfel:
       val dice = Range(0, 6).map(x =>
         if (x < 3) then
-          createDie("die"+(x+1), 'n')
+          createDice("die"+(x+1), 'n')
         else
-          createDie("die"+(x+1), 'c')).toVector
+          createDice("die"+(x+1), 'c')).toVector
 
 
       // Methode zum Erzeugen der Würfel
-      def createDie(n:String, t:Char):Button = {
+      def createDice(n:String, t:Char):Button = {
         new Button {
           val typ = t
           name = n
@@ -116,7 +115,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           }
         }
       }
-      // -------------- Hilfsmethode Würfel auswählen --------------- FUNKTIONAL
+      // -------------- Hilfsmethode Würfel auswählen --------------- 
       def dieChosen(d:Button) : String = {
         d.name match 
           case "die1" => dice(1).enabled = false
@@ -130,17 +129,17 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
                          dice(2).text
           case "die4" => dice(4).enabled = false
                          dice(5).enabled = false
-                         setColorsdieText(dice(3).text)
+                         setColorsDieText(dice(3).text)
           case "die5" => dice(3).enabled = false
                          dice(5).enabled = false
-                         setColorsdieText(dice(4).text)
+                         setColorsDieText(dice(4).text)
           case "die6" => dice(3).enabled = false
                          dice(4).enabled = false
-                         setColorsdieText(dice(5).text)
+                         setColorsDieText(dice(5).text)
       }
 
       // -------------- Hilfsmethode Farbstring ----------------
-      def setColorsdieText(t:String):String = {
+      def setColorsDieText(t:String):String = {
         t match
           case "rot" => myColor.red.getRGB.toString
           case "orange" => myColor.orange.getRGB.toString
@@ -150,7 +149,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           case _ => "Joker!"
       }
       // -------------- Hilfsmethode Farbgebung -----------------
-      def setBackground(d:Button) = {
+      def setColorsDieBackground(d:Button) = {
         d.background = d.text match
           case "rot" => jColor(myColor.red.getRGB)
           case "orange" => jColor(myColor.orange.getRGB)
@@ -177,7 +176,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
                 Range(0, dice.length).map(i =>
                   dice(i).text = dicedArray(i+1)
                   dice(i).enabled = true
-                  if (i >= 3) then setBackground(dice(i))
+                  if (i >= 3) then setColorsDieBackground(dice(i))
                 )
             }
           }
