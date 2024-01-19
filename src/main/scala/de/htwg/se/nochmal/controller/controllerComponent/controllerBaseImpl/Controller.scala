@@ -28,12 +28,6 @@ import util.Observable
 import model.Filling
 import scala.collection.mutable.ArrayBuffer
 
-
-var diceResult = ""
-var rounds = 0
-var moveDone = false
-var crossArray = ArrayBuffer[Cross]()
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface {

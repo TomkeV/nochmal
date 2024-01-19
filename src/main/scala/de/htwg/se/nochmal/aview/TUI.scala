@@ -17,8 +17,8 @@ import scala.io.StdIn.readLine
 
 // interne Imports
 import controller.controllerComponent.ControllerInterface
-import controller.controllerComponent.controllerBaseImpl.diceResult
-import controller.controllerComponent.controllerBaseImpl.rounds
+import controller.diceResult
+import controller.rounds
 import util.Observer
 import util.Event
 import util.InputHandler
@@ -26,16 +26,12 @@ import util.InputHandler
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class TUI(controller: ControllerInterface) extends Observer {
-  controller.add(this) // ermöglicht update
+  controller.add(this)
 
-  var goOn = true // speichert, ob noch Runden verfügbar sind
-  val num_of_rounds = controller.pitch.col_num * 2 // speichert maximale Rundenzahl
+  var goOn = true
+  val num_of_rounds = controller.pitch.col_num * 2
 
-  // Methode zum Starten des Spiels
-  def run =
-    println(controller.pitch.toString)
-    inputGetAndAnalysis()
- 
+
   override def update(e: Event) = 
       e match
         case Event.Quit => goOn = false
@@ -48,10 +44,13 @@ class TUI(controller: ControllerInterface) extends Observer {
         case Event.Redone => println(controller.redo())
         case Event.Saved => println("Aktueller Spielstand wurde gespeichert.")
         case Event.Loaded => println(controller.pitch.toString) 
+    
+  def run =
+    println(controller.pitch.toString)
+    getAndAnalyseInput()
 
-  // rekursive Methode zum Einlesen der Nutzereingaben
-  def inputGetAndAnalysis(): Unit =
+  def getAndAnalyseInput(): Unit =
     val input = readLine 
     InputHandler.handle(input, controller)
-    if goOn then inputGetAndAnalysis()
+    if goOn then getAndAnalyseInput()
 }

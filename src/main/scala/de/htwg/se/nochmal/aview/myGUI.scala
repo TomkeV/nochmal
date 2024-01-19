@@ -14,8 +14,9 @@ package aview
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne imports:
 import controller.controllerComponent.ControllerInterface
-import controller.controllerComponent.controllerBaseImpl.diceResult
-import controller.controllerComponent.controllerBaseImpl.rounds
+import controller.diceResult
+import controller.rounds
+import controller.moveDone
 
 import util.*
 
@@ -28,7 +29,6 @@ import model.Filling
 import scala.swing._ 
 import javax.swing.BorderFactory
 import java.awt.Color as jColor
-import de.htwg.se.nochmal.controller.controllerComponent.controllerBaseImpl.moveDone
 import javax.swing.JOptionPane
 
 // -----------------------------------------------------------------------------------------------------
@@ -37,10 +37,10 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   controller.add(this)
 
   // ------------------------------------------------------------- Variablen
-  val num_of_rounds = controller.pitch.col_num * 2 // speichern der maximalen Rundenzahl
+  val num_of_rounds = controller.pitch.col_num * 2
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
-  val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
+  val pitchBackground = jColor(controller.pitch.myColor.background.getRGB)
 
   val buttonsMap = new ButtonMap(controller)
   val spielfeld = new GUISpielfeld(controller, buttonsMap)
@@ -57,8 +57,8 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       case Event.Redone => 
     }
 
-  // Anlegen des Hauptrahmens
-  val myFrame = new Frame {
+  
+  val myMainFrame = new Frame {
     preferredSize = new Dimension(800, 600)
 
     title = "Nochmal"
@@ -83,15 +83,12 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       
       contents += spielfeld.spielfeld
 
-      // Anlegen der Würfel:
       val dice = Range(0, 6).map(x =>
         if (x < 3) then
           createDice("die"+(x+1), 'n')
         else
           createDice("die"+(x+1), 'c')).toVector
 
-
-      // Methode zum Erzeugen der Würfel
       def createDice(n:String, t:Char):Button = {
         new Button {
           val typ = t
@@ -103,13 +100,13 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           reactions += {
             case event.ButtonClicked(_) =>
               typ match
-                case 'c' => buttonsMap.color = dieChosen(this)
-                case 'n' => buttonsMap.number = dieChosen(this)
+                case 'c' => buttonsMap.color = dieChosenReaction(this)
+                case 'n' => buttonsMap.number = dieChosenReaction(this)
           }
         }
       }
-      // -------------- Hilfsmethode Würfel auswählen --------------- 
-      def dieChosen(d:Button) : String = {
+
+      def dieChosenReaction(d:Button) : String = {
         d.name match 
           case "die1" => dice(1).enabled = false
                          dice(2).enabled = false
@@ -131,7 +128,6 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
                          setColorsDieText(dice(5).text)
       }
 
-      // -------------- Hilfsmethode Farbstring ----------------
       def setColorsDieText(t:String):String = {
         t match
           case "rot" => myColor.red.getRGB.toString
@@ -141,7 +137,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           case "blau" => myColor.blue.getRGB.toString
           case _ => "Joker!"
       }
-      // -------------- Hilfsmethode Farbgebung -----------------
+
       def setColorsDieBackground(d:Button) = {
         d.background = d.text match
           case "rot" => jColor(myColor.red.getRGB)

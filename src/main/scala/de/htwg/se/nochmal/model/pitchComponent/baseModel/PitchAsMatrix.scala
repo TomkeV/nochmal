@@ -15,7 +15,7 @@ package baseModel
 // interne Imports
 import util.*
 import pitchComponent.PitchInterface
-import controller.controllerComponent.controllerBaseImpl.rounds
+import controller.rounds
 
 // Bibliotheksimports
 import play.api.libs.json.*
