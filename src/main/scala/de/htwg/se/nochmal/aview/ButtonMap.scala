@@ -18,7 +18,6 @@ import util.{Observer, InputHandler, Event}
 // Bibliotheksimports
 import scala.swing.*
 import java.awt.Color as jColor
-import java.awt.Dimension
 import javax.swing.JOptionPane
 
 

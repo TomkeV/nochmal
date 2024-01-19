@@ -28,10 +28,11 @@ import util.InputHandler
 class TUI(controller: ControllerInterface) extends Observer {
   controller.add(this)
 
+  // ------------------------------------------------------------- VARIABLEN
   var goOn = true
   val num_of_rounds = controller.pitch.col_num * 2
 
-
+  // ------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event) = 
       e match
         case Event.Quit => goOn = false

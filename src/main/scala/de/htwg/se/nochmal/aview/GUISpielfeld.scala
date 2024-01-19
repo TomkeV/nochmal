@@ -1,5 +1,6 @@
 /**
   * GUISpielfeld.scala
+  * Klasse zum Aufbau einer GUI
   * @author: Tomke Velten
   */
 // -----------------------------------------------------------------------------------------------------
@@ -11,16 +12,12 @@ package aview
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne Imports
 import controller.controllerComponent.ControllerInterface
-import util.{Observer, Event, InputHandler, EvenOdd, EvenEvent, OddEvent}
-import model.Color as myColor
-import model.Filling
+import util.{Observer, Event, EvenOdd, EvenEvent, OddEvent}
 
 // Bibliotheksimports
 import scala.swing.*
 import java.awt.Color as jColor
-import javax.swing.{BorderFactory, BoxLayout, JOptionPane}
-import play.api.libs.json.Json
-import scala.io.Source
+import javax.swing.{BorderFactory, BoxLayout}
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -28,7 +25,7 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
   controller.add(this)
 
   // ------------------------------------------------------------------- VARIABLEN 
-  private val pitchBackground = jColor(controller.pitch.myColor.background.getRGB) // speichern der Farbe des Blocks
+  private val pitchBackground = jColor(controller.pitch.myColor.background.getRGB)
   private val titel = createTitle(controller.pitch.col_num)
   private val matrix = createMatrixFromButtonMap(controller.pitch.row_num, controller.pitch.col_num)
   private val punkte = createPoints(controller.pitch.col_num)
@@ -50,7 +47,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
       case Event.Undone => 
   }
 
-  // Spielfeld zusammensetzen
   def setUpPitch(titel:GridPanel, feld:GridPanel, punkte:GridPanel): BoxPanel = {
     new BoxPanel(Orientation.Vertical) {
       contents += titel
@@ -59,7 +55,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
     }
   }
 
-  // Titelzeile erzeugen
   def createTitle(col:Int):GridPanel = {
     new GridPanel(1, col) {
       border = BorderFactory.createMatteBorder(10, 20, 10, 20, pitchBackground)
@@ -72,14 +67,13 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
     }
   }
 
-  // Punktezeile erzeugen
   def createPoints(col:Int):GridPanel = {
     val cellWidth = 3
     new GridPanel(1, col) {
       border = BorderFactory.createMatteBorder(0, 20, 20, 20, pitchBackground)
-      val pointStringArray = if (col%2 == 0) { // für gerade Spaltenanzahl: 
+      val pointStringArray = if (col%2 == 0) {
                                 EvenOdd.handle(EvenEvent())(cellWidth, col).toCharArray()
-                              } else { // für ungerade Spaltenanzahl:
+                              } else {
                                 EvenOdd.handle(OddEvent())(cellWidth, col).toCharArray()
                               }
 
@@ -100,7 +94,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
     }
   }
 
-  // Matrix aus ButtonMap:
   def createMatrixFromButtonMap(rowNum:Int, colNum:Int): GridPanel = {
     val b = buttons.buttonMap
     new GridPanel(rowNum, colNum) {
@@ -113,7 +106,6 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
     }
   }
 
-  // Spielfeld aktualisieren
   def updatePitch() = {
     buttons.updateButtonMap()
   }

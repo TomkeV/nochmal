@@ -18,25 +18,21 @@ import controller.diceResult
 import controller.rounds
 import controller.moveDone
 
-import util.*
-
-import model.pitchComponent.baseModel.PitchWithColors
-import model.pitchComponent.baseModel.blackColorsList
 import model.Color as myColor
-import model.Filling
+import util.*
 
 // Bibliotheksimports:
 import scala.swing._ 
-import javax.swing.BorderFactory
+import javax.swing. {BorderFactory, JOptionPane}
 import java.awt.Color as jColor
-import javax.swing.JOptionPane
+
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   controller.add(this)
 
-  // ------------------------------------------------------------- Variablen
+  // ------------------------------------------------------------- VARIABLEN
   val num_of_rounds = controller.pitch.col_num * 2
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
@@ -44,23 +40,10 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
 
   val buttonsMap = new ButtonMap(controller)
   val spielfeld = new GUISpielfeld(controller, buttonsMap)
-
-  override def update(e: Event): Unit = 
-    e match {
-      case Event.Quit => this.dispose()
-      case Event.Diced => 
-      case Event.Crossed => 
-      case Event.Applied => 
-      case Event.Loaded => 
-      case Event.Saved => 
-      case Event.Undone => 
-      case Event.Redone => 
-    }
-
   
+  // ------------------------------------------------- MAINFRAME
   val myMainFrame = new Frame {
     preferredSize = new Dimension(800, 600)
-
     title = "Nochmal"
 
     menuBar = new MenuBar {
@@ -81,73 +64,23 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
     contents = new BoxPanel(Orientation.Vertical) {
       border = BorderFactory.createMatteBorder(20, 20, 20, 20, jColor.darkGray)
       
-      contents += spielfeld.spielfeld
-
-      val dice = Range(0, 6).map(x =>
+      // ----------------------------------- MAINFRAME: VARIABLEN
+      val dice = {Range(0, 6).map(x =>
         if (x < 3) then
           createDice("die"+(x+1), 'n')
         else
           createDice("die"+(x+1), 'c')).toVector
-
-      def createDice(n:String, t:Char):Button = {
-        new Button {
-          val typ = t
-          name = n
-          text = ""
-          preferredSize = new Dimension(40, 20)
-          border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
-          enabled = false
-          reactions += {
-            case event.ButtonClicked(_) =>
-              typ match
-                case 'c' => buttonsMap.color = dieChosenReaction(this)
-                case 'n' => buttonsMap.number = dieChosenReaction(this)
-          }
-        }
+      }
+      val sumLabel = new Label("Summe: " + spielfeld.summe)
+      val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
+      val gameStatePanel = new GridPanel(1,2) {
+        background = jColor.WHITE
+        contents += roundLabel
+        contents += sumLabel
       }
 
-      def dieChosenReaction(d:Button) : String = {
-        d.name match 
-          case "die1" => dice(1).enabled = false
-                         dice(2).enabled = false
-                         dice(0).text
-          case "die2" => dice(0).enabled = false
-                         dice(2).enabled = false
-                         dice(1).text
-          case "die3" => dice(0).enabled = false
-                         dice(1).enabled = false
-                         dice(2).text
-          case "die4" => dice(4).enabled = false
-                         dice(5).enabled = false
-                         setColorsDieText(dice(3).text)
-          case "die5" => dice(3).enabled = false
-                         dice(5).enabled = false
-                         setColorsDieText(dice(4).text)
-          case "die6" => dice(3).enabled = false
-                         dice(4).enabled = false
-                         setColorsDieText(dice(5).text)
-      }
-
-      def setColorsDieText(t:String):String = {
-        t match
-          case "rot" => myColor.red.getRGB.toString
-          case "orange" => myColor.orange.getRGB.toString
-          case "gruen" => myColor.green.getRGB.toString
-          case "gelb" => myColor.yellow.getRGB.toString
-          case "blau" => myColor.blue.getRGB.toString
-          case _ => "Joker!"
-      }
-
-      def setColorsDieBackground(d:Button) = {
-        d.background = d.text match
-          case "rot" => jColor(myColor.red.getRGB)
-          case "orange" => jColor(myColor.orange.getRGB)
-          case "gelb" => jColor(myColor.yellow.getRGB)
-          case "gruen" => jColor(myColor.green.getRGB)
-          case "blau" => jColor(myColor.blue.getRGB)
-          case "Joker!" => jColor.BLACK 
-          case _ => jColor.white
-      }
+      // ------------------------------------ MAINFRAME: AUFBAU
+      contents += spielfeld.spielfeld
 
       contents += new GridPanel(1, 5) {
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
@@ -208,18 +141,86 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         contents += new Label()
       }  
 
-      val sumLabel = new Label("Summe: " + spielfeld.summe)
-      val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
-      val gameStatePanel = new GridPanel(1,2) {
-        background = jColor.WHITE
-        contents += roundLabel
-        contents += sumLabel
-      }
       contents += gameStatePanel
+    
+      // ------------------------------------ MAINFRAME: FUNKTIONEN
+      def createDice(n:String, t:Char):Button = {
+          new Button {
+            val typ = t
+            name = n
+            text = ""
+            preferredSize = new Dimension(40, 20)
+            border = BorderFactory.createMatteBorder(0, 31, 0, 31, jColor.darkGray)
+            enabled = false
+            reactions += {
+              case event.ButtonClicked(_) =>
+                typ match
+                  case 'c' => buttonsMap.color = dieChosenReaction(this)
+                  case 'n' => buttonsMap.number = dieChosenReaction(this)
+            }
+          }
+        }
+
+        def dieChosenReaction(d:Button) : String = {
+          d.name match 
+            case "die1" => dice(1).enabled = false
+                          dice(2).enabled = false
+                          dice(0).text
+            case "die2" => dice(0).enabled = false
+                          dice(2).enabled = false
+                          dice(1).text
+            case "die3" => dice(0).enabled = false
+                          dice(1).enabled = false
+                          dice(2).text
+            case "die4" => dice(4).enabled = false
+                          dice(5).enabled = false
+                          setColorsDieText(dice(3).text)
+            case "die5" => dice(3).enabled = false
+                          dice(5).enabled = false
+                          setColorsDieText(dice(4).text)
+            case "die6" => dice(3).enabled = false
+                          dice(4).enabled = false
+                          setColorsDieText(dice(5).text)
+        }
+
+        def setColorsDieText(t:String):String = {
+          t match
+            case "rot" => myColor.red.getRGB.toString
+            case "orange" => myColor.orange.getRGB.toString
+            case "gruen" => myColor.green.getRGB.toString
+            case "gelb" => myColor.yellow.getRGB.toString
+            case "blau" => myColor.blue.getRGB.toString
+            case _ => "Joker!"
+        }
+
+        def setColorsDieBackground(d:Button) = {
+          d.background = d.text match
+            case "rot" => jColor(myColor.red.getRGB)
+            case "orange" => jColor(myColor.orange.getRGB)
+            case "gelb" => jColor(myColor.yellow.getRGB)
+            case "gruen" => jColor(myColor.green.getRGB)
+            case "blau" => jColor(myColor.blue.getRGB)
+            case "Joker!" => jColor.BLACK 
+            case _ => jColor.white
+        }
     }
     
     pack()
     centerOnScreen()
     open()
   }
+
+  // ------------------------------------------------------------- FUNKTIONEN
+  override def update(e: Event): Unit = 
+    e match {
+      case Event.Quit => this.dispose()
+      case Event.Diced => 
+      case Event.Crossed => 
+      case Event.Applied => 
+      case Event.Loaded => 
+      case Event.Saved => 
+      case Event.Undone => 
+      case Event.Redone => 
+    }
+
 }
