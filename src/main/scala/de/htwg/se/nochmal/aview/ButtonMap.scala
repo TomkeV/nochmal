@@ -12,9 +12,8 @@ package aview
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne imports
 import controller.controllerComponent.ControllerInterface
-import model.pitchComponent.PitchWithColorsInterface
-import de.htwg.se.nochmal.model.Filling
-import de.htwg.se.nochmal.util.{Observer, InputHandler, Event}
+import model.Filling
+import util.{Observer, InputHandler, Event}
 
 // Bibliotheksimports
 import scala.swing.*
@@ -108,7 +107,8 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
     for (i <- 0 to controller.pitch.row_num-1) {
       for (x <- 0 to controller.pitch.col_num-1) {
         buttonMap((i,x)).text = controller.pitch.getIndex(i, x).toString()
-        buttonMap((i,x)).enabled = false
+        if (buttonMap((i, x)).text == Filling.filled.toString()) then
+          buttonMap((i,x)).enabled = false
       }
     }
   }

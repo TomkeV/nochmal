@@ -37,11 +37,11 @@ var crossArray = ArrayBuffer[Cross]()
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colors:DiceInterface) extends ControllerInterface {
-
+   // ------------------------------------------------------------------- VARIABLEN
   val undoManager = new UndoManager[PitchInterface]
   val file_io = summon[FileIOInterface]
 
-  // Methode zum Ausführen einer beliebigen Operation
+   // ------------------------------------------------------------------- FUNKTIONEN
   def publish(c:Option[Cross] = None, e:Event) = 
     e match
       case Event.Applied => if(moveDone) then apply()

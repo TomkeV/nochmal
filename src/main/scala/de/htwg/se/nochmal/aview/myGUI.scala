@@ -28,6 +28,8 @@ import model.Filling
 import scala.swing._ 
 import javax.swing.BorderFactory
 import java.awt.Color as jColor
+import de.htwg.se.nochmal.controller.controllerComponent.controllerBaseImpl.moveDone
+import javax.swing.JOptionPane
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -54,15 +56,6 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       case Event.Undone => 
       case Event.Redone => 
     }
-
-  val undoButton = new Button("Undo") {
-    reactions += {
-      case event.ButtonClicked(_) =>
-              InputHandler.handle("u", controller)
-              spielfeld.updatePitch()
-    }
-  }
-
 
   // Anlegen des Hauptrahmens
   val myFrame = new Frame {
@@ -160,8 +153,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           case _ => jColor.white
       }
 
-      // Button zum Würfeln zentriert hinzufügen
-      contents += new GridPanel(1,5) {
+      contents += new GridPanel(1, 5) {
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         background = jColor.darkGray
         contents += new Label() 
@@ -184,36 +176,42 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         contents += new Label() 
       } 
 
-      // Panel zur Darstellung der 6 Würfel
       contents += new GridPanel(1, 6) {
         preferredSize = new Dimension(800, 40)
         Range(0, 6).map(x =>
           contents += dice(x))
       }
 
-      // Button Apply zentriert hinzufügen
       contents += new GridPanel(1, 5) {
         background = jColor.darkGray
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
-        val applyButton = new Button("Bestaetigen") {
-          //enabled = false
-          preferredSize = new Dimension(50, 30)
+        contents += new Button("Bestaetigen") {
           reactions += {
             case event.ButtonClicked(_) =>
-              InputHandler.handle("a", controller)
-              roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-              sumLabel.text = "Summe: " + spielfeld.summe
-              gameStatePanel.repaint()
+              if (!moveDone) then
+                JOptionPane.showMessageDialog(null, "Du musst erst etwas ankreuzen!")
+              else 
+                InputHandler.handle("a", controller)
+                roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
+                sumLabel.text = "Summe: " + spielfeld.summe
+                gameStatePanel.repaint()
           }
         }
-        contents += applyButton
         contents += new Label()
-        contents += undoButton
+        contents += new Button("Undo") {
+          reactions += {
+            case event.ButtonClicked(_) =>
+              if (!moveDone) then
+                JOptionPane.showMessageDialog(null, "Du kannst nur das Ankreuzen rückgängig machen!")
+              else 
+                    InputHandler.handle("u", controller)
+                    spielfeld.updatePitch()
+          }
+        }
         contents += new Label()
       }  
 
-      // Rundenzähler hinzufügen
       val sumLabel = new Label("Summe: " + spielfeld.summe)
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
       val gameStatePanel = new GridPanel(1,2) {
