@@ -1,12 +1,13 @@
 /**
   * EvenOddState.scala
-  * State Pattern used to make a difference
-  * between even and odd number of lines
+  * State Pattern used to make a difference between even and odd number of lines.
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
-package de.htwg.se.nochmal.util
+package de.htwg.se.nochmal
+package util
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------- INTERFACE DEFINITION
@@ -22,7 +23,7 @@ case class OddEvent() extends EvenOddEvent
 
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
-object EvenOdd { // Object: entweder Singleton (nur ein Objekt der Klasse) oder Companion-Object (hält für Klasse relevante Inhalte)
+object EvenOdd {
     var state = evenState
 
     def handle(e: EvenOddEvent) = 

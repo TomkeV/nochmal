@@ -45,7 +45,7 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
       case Event.Quit => 
       case Event.Redone => 
       case Event.Saved => 
-      case Event.Undone => 
+      case Event.Undone => crossesSet = 0
   }
 
   def createMatrix: Map[(Int, Int), Button] = {
@@ -56,7 +56,7 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
       y <- 0 to rows-1
       x <- 0 to cols-1
     } yield {
-      val c = controller.pitch.myColor.colorsList(y)(x).getRGB
+      val c = controller.pitch.pitchColor.colorsList(y)(x).getRGB
       val n =  "x" + ('A' + x).toChar.toString() + (y+1).toString()
       val b = new Button {
           background = jColor(c)

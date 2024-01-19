@@ -1,6 +1,7 @@
 /**
   * Filling.scala
   * enum to save different Fillings for cells in a matrix
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------

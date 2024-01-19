@@ -13,7 +13,7 @@ package pitchComponent
 trait PitchInterface {
   val row_num:Int
   val col_num:Int
-  var myColor:PitchWithColorsInterface
+  var pitchColor:PitchWithColorsInterface
 
   def fillCellWithCross(cross:Cross, p:PitchInterface): PitchInterface
   def unfillCellWithCross(cross:Cross, pitch:PitchInterface): PitchInterface

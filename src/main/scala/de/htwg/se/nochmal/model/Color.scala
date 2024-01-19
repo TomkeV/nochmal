@@ -1,8 +1,8 @@
 /**
   * Color.scala
   * enum to save different colors 
-  * with their string representation
-  * and an rgb int-code.
+  * with their string representation and an int-code for rgb-representation.
+  * @author Tomke Velten
   */
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
@@ -14,7 +14,6 @@ package model
 enum Color(s:String, rgb:Int) {
   override def toString(): String = s
   def getRGB: Int = rgb
-  // rgb = r * 65536 + g * 256 + b
   case red extends Color("r", 220*65536 + 26 * 256 + 52) 
   case orange extends Color("o", 255*65536 + 140 * 256 + 0)
   case yellow extends Color("y", 253*65536 + 219*256 + 0) 

@@ -1,7 +1,7 @@
 /**
   * Event.scala
-  * Kind of a list of things which may happen 
-  * ingame.
+  * Kind of a list of things which may happen ingame.
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------

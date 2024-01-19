@@ -25,7 +25,7 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
   controller.add(this)
 
   // ------------------------------------------------------------------- VARIABLEN 
-  private val pitchBackground = jColor(controller.pitch.myColor.background.getRGB)
+  private val pitchBackground = jColor(controller.pitch.pitchColor.background.getRGB)
   private val titel = createTitle(controller.pitch.col_num)
   private val matrix = createMatrixFromButtonMap(controller.pitch.row_num, controller.pitch.col_num)
   private val punkte = createPoints(controller.pitch.col_num)

@@ -1,7 +1,7 @@
 /**
   * InputChain.scala
-  * Chain of Responsibility Pattern is used to 
-  * analyse input given in TUI or GUI.
+  * Chain of Responsibility Pattern is used to analyse input given in TUI or GUI.
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------

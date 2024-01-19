@@ -1,5 +1,6 @@
 /**
   * Command.scala
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------
@@ -10,12 +11,11 @@ package util
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 import controller.controllerComponent.ControllerInterface
-//import controller.controllerBaseImpl.Controller
 
 // -----------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------- INTERFACE DEFINITION
 trait Command[T] {
-  def noMove(t: T): T //wenn nichts getan wurde unverändertes T zurückliefern
+  def noMove(t: T): T 
   def doMove(t: T): T
   def undoMove(t: T): T
   def redoMove(t: T): T
@@ -28,7 +28,7 @@ class UndoManager[T] {
   private var redoStack: List[Command[T]] = Nil
 
   def doMove(t: T, command: Command[T]): T = {
-    undoStack = command::undoStack // legt Objekt auf Stack, damit undo möglich
+    undoStack = command::undoStack 
     command.doMove(t)
   }
 

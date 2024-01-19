@@ -6,10 +6,7 @@ package io
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
-import de.htwg.se.nochmal.util.FileIOInterface
-import de.htwg.se.nochmal.model.pitchComponent.PitchInterface
-import scala.io.Source
-
+import model.pitchComponent.PitchInterface
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION

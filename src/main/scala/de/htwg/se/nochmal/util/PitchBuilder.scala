@@ -1,6 +1,7 @@
 /**
   * PitchBuilder.scala
   * Builder Pattern
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------
@@ -11,11 +12,7 @@ package util
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 import model.pitchComponent.PitchInterface
-//import model.baseModel.PitchAsMatrix
-import model.pitchComponent.PitchWithColorsInterface
-import model.pitchComponent.baseModel.PitchWithColors
 import model.Filling
-import model.pitchComponent.baseModel.blackColorsList
 
 // -----------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------- INTERFACE DEFINITION
@@ -55,7 +52,7 @@ class Matrix(cellWidth:Int, colNum:Int, rowNum:Int, pitch:PitchInterface) {
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class MatrixWithColors(cellWidth:Int, colNum:Int, rowNum:Int, pitch: PitchInterface) {
-    val myColors = pitch.myColor
+    val myColors = pitch.pitchColor
     val eol = sys.props("line.separator")
     val numOfRows = Range(0, rowNum)
     val numOfCells = Range(0, colNum)

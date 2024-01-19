@@ -1,5 +1,6 @@
 /** Nochmal_main.scala
   * Hauptklasse zum Starten des Programms.
+  * @author Tomke Velten
   */
 
 // -----------------------------------------------------------------------------------------------------

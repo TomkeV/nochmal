@@ -36,7 +36,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   val num_of_rounds = controller.pitch.col_num * 2
   val rows = controller.pitch.row_num 
   val cols = controller.pitch.col_num
-  val pitchBackground = jColor(controller.pitch.myColor.background.getRGB)
+  val pitchBackground = jColor(controller.pitch.pitchColor.background.getRGB)
 
   val buttonsMap = new ButtonMap(controller)
   val spielfeld = new GUISpielfeld(controller, buttonsMap)
@@ -115,19 +115,6 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         background = jColor.darkGray
         border = BorderFactory.createMatteBorder(10, 10, 10, 10, jColor.darkGray)
         contents += new Label()
-        contents += new Button("Bestaetigen") {
-          reactions += {
-            case event.ButtonClicked(_) =>
-              if (!moveDone) then
-                JOptionPane.showMessageDialog(null, "Du musst erst etwas ankreuzen!")
-              else 
-                InputHandler.handle("a", controller)
-                roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-                sumLabel.text = "Summe: " + spielfeld.summe
-                gameStatePanel.repaint()
-          }
-        }
-        contents += new Label()
         contents += new Button("Undo") {
           reactions += {
             case event.ButtonClicked(_) =>
@@ -138,6 +125,19 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
                     spielfeld.updatePitch()
           }
         }
+        contents += new Label()
+        contents += new Button("Bestaetigen") {
+                  reactions += {
+                    case event.ButtonClicked(_) =>
+                      if (!moveDone) then
+                        JOptionPane.showMessageDialog(null, "Du musst erst etwas ankreuzen!")
+                      else 
+                        InputHandler.handle("a", controller)
+                        roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
+                        sumLabel.text = "Summe: " + spielfeld.summe
+                        gameStatePanel.repaint()
+                  }
+                }
         contents += new Label()
       }  
 
