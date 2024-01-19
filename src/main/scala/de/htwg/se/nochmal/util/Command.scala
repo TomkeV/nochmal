@@ -33,12 +33,9 @@ class UndoManager[T] {
   }
 
   def undoMove(t: T): T = {
-    println("UndoManager: undoMove()")
     undoStack match {
-      case Nil => println("UndoManager: Leeren Stack erkannt")
-                  t
-      case head::stack => 
-        println("UndoManager: Element auf Stack gefunden")
+      case Nil => t
+      case head::stack =>
         val result = head.undoMove(t)
         undoStack = stack
         redoStack = head::redoStack

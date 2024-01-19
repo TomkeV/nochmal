@@ -105,13 +105,11 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
   }
 
   def updateButtonMap() = {
-    println("Update ButtonMap aufgerufen")
     for (i <- 0 to controller.pitch.row_num-1) {
       for (x <- 0 to controller.pitch.col_num-1) {
         buttonMap((i,x)).text = controller.pitch.getIndex(i, x).toString()
         buttonMap((i,x)).enabled = false
       }
     }
-    println("Update ButtonMap ausgeführt")
   }
 }

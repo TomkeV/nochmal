@@ -32,7 +32,7 @@ import scala.collection.mutable.ArrayBuffer
 var diceResult = ""
 var rounds = 0
 var moveDone = false
-  var crossArray = ArrayBuffer[Cross]()
+var crossArray = ArrayBuffer[Cross]()
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
@@ -44,9 +44,7 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
   // Methode zum Ausführen einer beliebigen Operation
   def publish(c:Option[Cross] = None, e:Event) = 
     e match
-      case Event.Applied => println(crossArray)
-        if(moveDone) then apply()
-                            println(crossArray)
+      case Event.Applied => if(moveDone) then apply()
       case Event.Crossed => if (c.isDefined) then {
                               pitch = setCross(c.get)
                               moveDone = true
@@ -54,9 +52,7 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
       case Event.Diced => singleDice()
       case Event.Quit => beQuit()
       case Event.Redone => redo()
-      case Event.Undone => println("Controller: Event erhalten")
-                          pitch = undo()
-                          println("Controller: Pitch undo() zugewiesen")
+      case Event.Undone => if(moveDone) then pitch = undo()
       case Event.Saved => save()
       case Event.Loaded => load()
     notifyObservers(e)
@@ -66,6 +62,7 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     undoManager.doMove(pitch, SetCommand(c))
 
   def singleDice(): Unit = 
+    moveDone = false
     val n = nums.roll_dice()
     val c = colors.roll_dice()
     val eol = sys.props("line.separator")
@@ -75,7 +72,6 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     "Danke fuers Spielen!"
 
   def undo(): PitchInterface =
-    println("Controller: Undo aufgerufen")
     undoManager.undoMove(pitch)
 
   def redo(): PitchInterface =

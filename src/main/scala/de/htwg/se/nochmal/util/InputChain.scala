@@ -82,7 +82,6 @@ class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
     override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         if (input == "u") {
-            println("InputChain: Undo erkannt")
             controller.publish(e = Event.Undone)
             true
         } else {
