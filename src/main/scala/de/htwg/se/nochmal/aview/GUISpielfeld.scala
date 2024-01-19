@@ -22,8 +22,6 @@ import javax.swing.{BorderFactory, BoxLayout, JOptionPane}
 import play.api.libs.json.Json
 import scala.io.Source
 
-
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends Observer {

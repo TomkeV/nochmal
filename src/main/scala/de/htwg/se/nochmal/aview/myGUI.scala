@@ -116,7 +116,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           }
         }
       }
-      // -------------- Hilfsmethode Würfel auswählen ---------------
+      // -------------- Hilfsmethode Würfel auswählen --------------- FUNKTIONAL
       def dieChosen(d:Button) : String = {
         d.name match 
           case "die1" => dice(1).enabled = false
@@ -151,7 +151,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       }
       // -------------- Hilfsmethode Farbgebung -----------------
       def setBackground(d:Button) = {
-        val diceColor = d.text match
+        d.background = d.text match
           case "rot" => jColor(myColor.red.getRGB)
           case "orange" => jColor(myColor.orange.getRGB)
           case "gelb" => jColor(myColor.yellow.getRGB)
@@ -159,8 +159,6 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           case "blau" => jColor(myColor.blue.getRGB)
           case "Joker!" => jColor.BLACK 
           case _ => jColor.white
-        
-        d.background = diceColor
       }
 
       // Button zum Würfeln zentriert hinzufügen
@@ -176,21 +174,11 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
                 InputHandler.handle("w", controller)
 
                 val dicedArray = diceResult.split("""\R""")
-                dice(0).text = dicedArray(1)
-                dice(0).enabled = true
-                dice(1).text = dicedArray(2)
-                dice(1).enabled = true
-                dice(2).text = dicedArray(3)
-                dice(2).enabled = true
-                dice(3).text = dicedArray(4)
-                dice(3).enabled = true
-                setBackground(dice(3))
-                dice(4).text = dicedArray(5)
-                dice(4).enabled = true
-                setBackground(dice(4))
-                dice(5).text = dicedArray(6)
-                dice(5).enabled = true
-                setBackground(dice(5))
+                Range(0, dice.length).map(i =>
+                  dice(i).text = dicedArray(i+1)
+                  dice(i).enabled = true
+                  if (i >= 3) then setBackground(dice(i))
+                )
             }
           }
         contents += new Label()
@@ -242,8 +230,3 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
     open()
   }
 }
-
-
-// ToDos: 
-// Menüleiste
-    // Spielanleitung
