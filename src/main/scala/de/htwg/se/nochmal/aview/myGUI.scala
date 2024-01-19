@@ -56,13 +56,13 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
       case Event.Redone => 
     }
 
-/*   val redoButton = new Button("Redo") {
-    enabled = false
+  val undoButton = new Button("Undo") {
     reactions += {
       case event.ButtonClicked(_) =>
-              InputHandler.handle("r", controller)
+              InputHandler.handle("u", controller)
+              spielfeld.updatePitch()
     }
-  } */
+  }
 
 
   // Anlegen des Hauptrahmens
@@ -209,8 +209,8 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
           }
         }
         contents += applyButton
-        //contents += new Label()
-        //contents += redoButton
+        contents += new Label()
+        contents += undoButton
         contents += new Label()
       }  
 

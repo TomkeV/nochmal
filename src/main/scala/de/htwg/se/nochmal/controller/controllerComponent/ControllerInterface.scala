@@ -20,8 +20,7 @@ import model.pitchComponent.PitchInterface
 trait ControllerInterface extends Observable {
   var pitch:PitchInterface
   def publish(c:Option[Cross] = None, e: Event) : Unit
-  //def undo(): PitchInterface
-  def undo(): String
+  def undo(): PitchInterface
   def redo(): PitchInterface
   def beQuit(): String
 }

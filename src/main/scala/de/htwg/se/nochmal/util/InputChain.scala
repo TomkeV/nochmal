@@ -66,9 +66,7 @@ class LoadHandler() extends ChainHandler {
 
     override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         if (input == "l") {
-            println("Controller aufgerufen")
             controller.publish(e = Event.Loaded)
-            println("load() ausgeführt")
             true
         } else {
             nextHandler.handleInput(input, controller)
@@ -84,6 +82,7 @@ class UndoHandler() extends ChainHandler {
     var nextHandler = RedoHandler()
     override def handleInput(input: String, controller: ControllerInterface): Boolean = {
         if (input == "u") {
+            println("InputChain: Undo erkannt")
             controller.publish(e = Event.Undone)
             true
         } else {

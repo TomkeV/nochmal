@@ -38,36 +38,29 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
 
   val undoManager = new UndoManager[PitchInterface]
   val file_io = summon[FileIOInterface]
-  var undoAllowed = false
 
   // Methode zum Ausführen einer beliebigen Operation
   def publish(c:Option[Cross] = None, e:Event) = 
     e match
       case Event.Applied => if(moveDone) then apply()
       case Event.Crossed => if (c.isDefined) then {
-                              val cross = c.get
-                              pitch = setCross(cross)
+                              pitch = setCross(c.get)
                               moveDone = true
                             }
       case Event.Diced => singleDice()
       case Event.Quit => beQuit()
       case Event.Redone => redo()
-      case Event.Undone => undo()
+      case Event.Undone => println("Controller: Event erhalten")
+                          pitch = undo()
+                          println("Controller: Pitch undo() zugewiesen")
       case Event.Saved => save()
       case Event.Loaded => load()
-
-        /* if(undoAllowed)
-          undo()
-        else 
-          println("Nicht moeglich!") */
     notifyObservers(e)
     
   def setCross(c:Cross) = 
-    undoAllowed = true
     undoManager.doMove(pitch, SetCommand(c))
 
   def singleDice(): Unit = 
-    undoAllowed = false
     val n = nums.roll_dice()
     val c = colors.roll_dice()
     val eol = sys.props("line.separator")
@@ -76,20 +69,14 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
   def beQuit(): String =
     "Danke fuers Spielen!"
 
-/*   def undo(): PitchInterface =
-    undoManager.undoMove(pitch) */
-
-  def undo(): String =
-    if (undoAllowed) then 
-      undoManager.undoMove(pitch).toString()
-    else 
-      "Nicht moeglich!"
+  def undo(): PitchInterface =
+    println("Controller: Undo aufgerufen")
+    undoManager.undoMove(pitch)
 
   def redo(): PitchInterface =
     undoManager.redoMove(pitch)
 
   def apply(): Unit = 
-    undoAllowed = false
     moveDone = false
     rounds += 1
 
