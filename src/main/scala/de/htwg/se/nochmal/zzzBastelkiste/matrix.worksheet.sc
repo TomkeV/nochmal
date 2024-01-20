@@ -231,9 +231,8 @@ val colorMatrix = Vector[Vector[Color]](Vector(Color.green, Color.orange, Color.
                                         Vector(Color.green, Color.yellow, Color.red, Color.red, Color.orange, Color.blue, Color.blue))
 
 
-// Matrixumbau:
+/* // Matrixumbau:
 
 import de.htwg.se.nochmal.model.PitchAsMatrix
 
-val testing_matrix = new PitchAsMatrix(4, 7)
-
+val testing_matrix = new PitchAsMatrix(4, 7) */

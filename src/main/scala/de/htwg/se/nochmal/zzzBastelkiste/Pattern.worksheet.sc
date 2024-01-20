@@ -70,7 +70,7 @@ points().toString()
 
 
 
-// ----------------------------------------------------------------------------------
+/* // ----------------------------------------------------------------------------------
 // Chain of Responsibility 
 import de.htwg.se.nochmal.controller.Controller
 import de.htwg.se.nochmal.model.Colors_dice
@@ -171,8 +171,8 @@ class Points(cellWidth:Int, colNum:Int) {
               } else { // für ungerade Zahlen: 
                 EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
               }
-}
-val testPoints = Points(3, 7).res
+} */
+/* val testPoints = Points(3, 7).res
 
 class PitchBuilder() extends Builder {
     private var title : String = _
@@ -250,7 +250,7 @@ class PitchBuilder2(val cellWidth: Int, val colNum: Int) {
             EvenOdd.handle(OddEvent())(cellWidth, colNum) + eol
         }
     }
-}
+} */
 
 /* object Pitch {
 def builder(cellWidth: Int = 3, colNum: Int = 7): PitchBuilder2 = {
