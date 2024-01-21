@@ -31,5 +31,8 @@ class SetCommand(cross:Cross) extends Command[PitchInterface] {
     return p
 
   override def redoMove(pitch: PitchInterface): PitchInterface = 
-    pitch.fillCellWithCross(cross, pitch)
+    var p = pitch
+    Range(0, crossArray.length).map(x =>
+      p = p.fillCellWithCross(crossArray(x), p))
+    return p
 }

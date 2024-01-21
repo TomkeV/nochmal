@@ -36,13 +36,18 @@ class SetCommandSpec extends AnyWordSpec {
         val res = testCommand.doMove(pitch)
         res.getIndex(0, 0) should equal (Filling.filled)
       }
-/*       "have an undo function that empties the cells which were crossed last " in {
+      "have an undo function that empties the cells which were crossed last " in {
         val res = testCommand.doMove(pitch)
+        crossArray.addOne(Cross(1, 1))
         val resres = testCommand.undoMove(res)
         resres.getIndex(0, 0) should equal (Filling.empty)
-      } */
-/*       "have an redo function that repeats the last move " in {
-
-      } */
+      }
+      "have an redo function that repeats the last move " in {
+        val res = testCommand.doMove(pitch)
+        crossArray.addOne(Cross(1, 1))
+        val resres = testCommand.undoMove(res)
+        val resresres = testCommand.redoMove(resres)
+        resresres.getIndex(0, 0) should equal (Filling.filled)
+      }
     }
 }
