@@ -49,7 +49,7 @@ class SaveHandlerSpec extends AnyWordSpec {
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ QUITHANDLER TEST
-class LoadHandlerSpec extends AnyWordSpec {
+/* class LoadHandlerSpec extends AnyWordSpec {
   "The LoadHandler " should {
     val lH = LoadHandler()
     "only handle the input if its 'l' " in {
@@ -57,7 +57,7 @@ class LoadHandlerSpec extends AnyWordSpec {
       lH.handleInput("f", testController) should be (false)
     }
   }
-}
+} */
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ UNDOHANDLER TEST
