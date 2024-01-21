@@ -22,7 +22,7 @@ class SetCommand(cross:Cross) extends Command[PitchInterface] {
   override def noMove(pitch: PitchInterface): PitchInterface = pitch
 
   override def doMove(pitch: PitchInterface): PitchInterface = 
-    pitch.fillCellWithCross(cross, pitch )
+    pitch.fillCellWithCross(cross, pitch)
 
   override def undoMove(pitch: PitchInterface): PitchInterface = 
     var p = pitch

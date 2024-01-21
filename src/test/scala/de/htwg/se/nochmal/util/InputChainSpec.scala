@@ -17,6 +17,7 @@ import controller.controllerComponent.controllerBaseImpl.Controller
 import model.pitchComponent.baseModel.PitchAsMatrix
 import model.diceComponent.diceImplementierung.Numbers_dice
 import model.diceComponent.diceImplementierung.Colors_dice
+import de.htwg.se.nochmal.controller.crossArray
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------- VARIABLEN

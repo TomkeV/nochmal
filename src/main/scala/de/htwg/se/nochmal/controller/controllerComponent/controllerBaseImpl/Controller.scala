@@ -79,8 +79,4 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     val eol = sys.props("line.separator")
     diceResult = "Deine Wuerfelergebnisse: " + eol + n + eol + c
   }
-
-  override def toString = {
-    pitch.pitchToString()
-  }
 }

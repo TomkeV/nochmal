@@ -15,8 +15,8 @@ trait Observer:
     def update(e: Event): Unit
 
 // -----------------------------------------------------------------------------------------------------
-// -------------------------------------------------------------------------------- INTERFACE DEFINITINO
-trait Observable { // trait entspricht interface
+// -------------------------------------------------------------------------------- INTERFACE DEFINITION
+trait Observable {
     var subscribers: Vector[Observer] = Vector()
     def add(s: Observer) = subscribers = subscribers :+ s
     def remove(s: Observer) = subscribers = subscribers.filterNot(o => o == s)
