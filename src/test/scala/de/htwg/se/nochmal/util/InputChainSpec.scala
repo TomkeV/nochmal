@@ -35,6 +35,30 @@ class QuitHandlerSpec extends AnyWordSpec {
 }
 
 // -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ SAVEHANDLER TEST
+class SaveHandlerSpec extends AnyWordSpec {
+  "The SaveHandler " should {
+    val sH = SaveHandler()
+    "only handle the input if its 's' " in {
+      sH.handleInput("s", testController) should be (true)
+      sH.handleInput("f", testController) should be (false)
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------ QUITHANDLER TEST
+class LoadHandlerSpec extends AnyWordSpec {
+  "The LoadHandler " should {
+    val lH = LoadHandler()
+    "only handle the input if its 'l' " in {
+      lH.handleInput("l", testController) should be (true)
+      lH.handleInput("f", testController) should be (false)
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ UNDOHANDLER TEST
 class UndoHandlerSpec extends AnyWordSpec {
   "The UndoHandler " should {
