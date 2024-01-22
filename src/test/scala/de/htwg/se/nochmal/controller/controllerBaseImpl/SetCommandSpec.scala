@@ -41,6 +41,7 @@ class SetCommandSpec extends AnyWordSpec {
         crossArray.addOne(Cross(1, 1))
         val resres = testCommand.undoMove(res)
         resres.getIndex(0, 0) should equal (Filling.empty)
+        crossArray.empty
       }
       "have an redo function that repeats the last move " in {
         val res = testCommand.doMove(pitch)
@@ -48,6 +49,7 @@ class SetCommandSpec extends AnyWordSpec {
         val resres = testCommand.undoMove(res)
         val resresres = testCommand.redoMove(resres)
         resresres.getIndex(0, 0) should equal (Filling.filled)
+        crossArray.empty
       }
     }
 }
