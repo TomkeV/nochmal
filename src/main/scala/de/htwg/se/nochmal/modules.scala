@@ -70,7 +70,7 @@ object BluePitch {
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
   
-  given FileIOInterface: FileIOInterface = new XMLIO()
+  given FileIOInterface: FileIOInterface = new JsonIO()
 }
 
 // -----------------------------------------------------------------------------------------------------
