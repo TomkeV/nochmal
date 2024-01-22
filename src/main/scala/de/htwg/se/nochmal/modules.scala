@@ -28,6 +28,7 @@ import model.Color
 
 import util.ioComponent.FileIOInterface
 import util.ioComponent.io.JsonIO
+import util.ioComponent.io.XMLIO
 
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION
@@ -69,7 +70,7 @@ object BluePitch {
   given ControllerInterface: ControllerInterface 
     = Controller(PitchInterface, NumbersDiceInterface, ColorDiceInterface)
   
-  given FileIOInterface: FileIOInterface = new JsonIO()
+  given FileIOInterface: FileIOInterface = new XMLIO()
 }
 
 // -----------------------------------------------------------------------------------------------------
