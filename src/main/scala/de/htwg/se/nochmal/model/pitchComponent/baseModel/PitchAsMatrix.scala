@@ -69,7 +69,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
 
   // -------------------------------------------------------------- Funktionen für File-IO
   // ------------------------------------------- File-IO mit JSON
-  override def saveToJson(): Unit = {
+  override def saveToJson(): Boolean = {
     val pw = new PrintWriter(new File("saves/save1.json")) 
     pw.write(
       Json.obj(
@@ -79,6 +79,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       ).toString
     )
     pw.close()
+    true
   }
 
   private def matrixToString(m:Vector[Vector[Filling]]):IndexedSeq[String] = {
@@ -146,7 +147,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       ).toVector
   }
 
-  override def saveToXML(): Unit = {
+  override def saveToXML(): Boolean = {
     val pw = new PrintWriter(new File("saves/xml_save.xml"))
     pw.write(
       "<pitch>" +
@@ -162,6 +163,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       "</pitch>"
     )
     pw.close()
+    true
   }
 
   private def matrixLineToString(m:Vector[Vector[Filling]], i:Int):String = {

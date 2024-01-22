@@ -12,8 +12,6 @@ class BluePitchSpec extends AnyWordSpec {
     "have a blue background " in {
       testController.pitch.pitchColor.getColor() should be ("b")
     }
-/*     "use XML for File-IO " in {
-    } */
   }
   
 }

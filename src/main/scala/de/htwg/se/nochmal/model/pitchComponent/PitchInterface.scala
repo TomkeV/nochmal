@@ -23,8 +23,8 @@ trait PitchInterface {
 
   // File-IO
   def loadFromJson():PitchInterface
-  def saveToJson():Unit
+  def saveToJson():Boolean
 
   def loadFromXML(): PitchInterface
-  def saveToXML(): Unit
+  def saveToXML(): Boolean
 }

@@ -16,5 +16,5 @@ import model.pitchComponent.PitchInterface
 // -------------------------------------------------------------------------------- INTERFACE DEFINITION
 trait FileIOInterface {
   def load(pitch: PitchInterface): PitchInterface
-  def save(pitch: PitchInterface): Unit
+  def save(pitch: PitchInterface): Boolean
 }

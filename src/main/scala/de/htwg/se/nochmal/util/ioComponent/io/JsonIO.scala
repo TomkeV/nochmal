@@ -16,5 +16,5 @@ class JsonIO extends FileIOInterface {
 
   override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromJson()
 
-  override def save(pitch: PitchInterface): Unit = pitch.saveToJson()
+  override def save(pitch: PitchInterface): Boolean = pitch.saveToJson()
 }
