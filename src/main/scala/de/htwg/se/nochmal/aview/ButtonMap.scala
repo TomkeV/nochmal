@@ -108,6 +108,8 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
         buttonMap((i,x)).text = controller.pitch.getIndex(i, x).toString()
         if (buttonMap((i, x)).text == Filling.filled.toString()) then
           buttonMap((i,x)).enabled = false
+        else 
+          buttonMap((i,x)).enabled = true
       }
     }
   }

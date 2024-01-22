@@ -14,7 +14,8 @@ package controllerBaseImpl
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 import Default.FileIOInterface
-import util.{FileIOInterface, Event, UndoManager}
+import util.{Event, UndoManager}
+import util.ioComponent.FileIOInterface
 import model.pitchComponent.PitchInterface
 import model.diceComponent.DiceInterface
 import model.Cross

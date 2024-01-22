@@ -39,17 +39,20 @@ class QuitHandlerSpec extends AnyWordSpec {
 // ------------------------------------------------------------------------------------ SAVEHANDLER TEST
 class SaveHandlerSpec extends AnyWordSpec {
   "The SaveHandler " should {
+    val saveController = Controller(new PitchAsMatrix(1, 1, 3), Numbers_dice(1), Colors_dice(1))
+    saveController.publish(e = Event.Loaded)
     val sH = SaveHandler()
     "only handle the input if its 's' " in {
-      sH.handleInput("s", testController) should be (true)
-      sH.handleInput("f", testController) should be (false)
+      sH.handleInput("s", saveController) should be (true)
+      sH.handleInput("f", saveController) should be (false)
     }
   }
 }
 
+
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ QUITHANDLER TEST
-/* class LoadHandlerSpec extends AnyWordSpec {
+class LoadHandlerSpec extends AnyWordSpec {
   "The LoadHandler " should {
     val lH = LoadHandler()
     "only handle the input if its 'l' " in {
@@ -57,7 +60,9 @@ class SaveHandlerSpec extends AnyWordSpec {
       lH.handleInput("f", testController) should be (false)
     }
   }
-} */
+}
+
+
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ UNDOHANDLER TEST

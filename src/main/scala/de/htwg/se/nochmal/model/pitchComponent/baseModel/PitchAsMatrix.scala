@@ -81,13 +81,18 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
     pw.close()
   }
 
-  private def matrixToString(m:Vector[Vector[Filling]]):String = {
-    var res = ""
-    Range(0, m.length).map(x => 
-      m(x).map(y =>
-        res += y.toString()))
+  private def matrixToString(m:Vector[Vector[Filling]]):IndexedSeq[String] = {
+    val range = Range(0, m.length)
+    val res = range.map(x => vectorToString(m(x)))
     return res
   }
+
+  private def vectorToString(v:Vector[Filling]):String = {
+    var res = ""
+    v.map(y => res += y.toString())
+    res
+  }
+
 
   override def loadFromJson(): PitchInterface = {
     val load = Source.fromFile("saves/save1.json").mkString
