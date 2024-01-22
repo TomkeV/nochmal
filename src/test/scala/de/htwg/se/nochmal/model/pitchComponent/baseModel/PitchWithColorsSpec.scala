@@ -43,4 +43,7 @@ class PitchWithColorsSpec extends AnyWordSpec {
       testPitch.getStrIndex(0, 0) should be(Color.green.toString())
     }
   }
+  "A list of colors should always stay the same " in {
+    blackColorsList shouldBe a [List[List[Color]]]
+  }
 }
