@@ -18,6 +18,8 @@ import model.pitchComponent.baseModel.PitchAsMatrix
 import model.diceComponent.diceImplementierung.Numbers_dice
 import model.diceComponent.diceImplementierung.Colors_dice
 import de.htwg.se.nochmal.controller.crossArray
+import de.htwg.se.nochmal.model.Cross
+import de.htwg.se.nochmal.controller.moveDone
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------- VARIABLEN
@@ -68,10 +70,14 @@ class LoadHandlerSpec extends AnyWordSpec {
 // ------------------------------------------------------------------------------------ UNDOHANDLER TEST
 class UndoHandlerSpec extends AnyWordSpec {
   "The UndoHandler " should {
+    val undoController = testController
+    crossArray.addOne(Cross(1, 1))
+    moveDone = true
+    undoController.publish(e = Event.Crossed)
     val uH = UndoHandler()
     "only handle the input if its 'u' " in {
-      uH.handleInput("u", testController) should be (true)
-      uH.handleInput("f", testController) should be (false)
+      uH.handleInput("u", undoController) should be (true)
+      uH.handleInput("f", undoController) should be (false)
     }
   }
 }
