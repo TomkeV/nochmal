@@ -1,17 +1,20 @@
+/**
+  * FileIOInterface.scala
+  * @author Tomke Velten
+  */
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package util
-package io
+package ioComponent
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 import model.pitchComponent.PitchInterface
 
 // -----------------------------------------------------------------------------------------------------
-// ------------------------------------------------------------------------------------ CLASS DEFINITION
-class XMLIO extends FileIOInterface {
-    override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromXML()
-
-    override def save(pitch: PitchInterface): Unit = pitch.saveToXML()
+// -------------------------------------------------------------------------------- INTERFACE DEFINITION
+trait FileIOInterface {
+  def load(pitch: PitchInterface): PitchInterface
+  def save(pitch: PitchInterface): Unit
 }

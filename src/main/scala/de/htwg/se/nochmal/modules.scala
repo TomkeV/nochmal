@@ -26,8 +26,8 @@ import model.pitchComponent.baseModel.yellowColorsList
 
 import model.Color
 
-import util.FileIOInterface
-import util.io.JsonIO
+import util.ioComponent.FileIOInterface
+import util.ioComponent.io.JsonIO
 
 // -----------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------- OBJECT DEFINITION

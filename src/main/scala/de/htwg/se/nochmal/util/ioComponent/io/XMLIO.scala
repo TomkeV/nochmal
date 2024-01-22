@@ -2,6 +2,7 @@
 // --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
 package util
+package ioComponent
 package io
 
 // -----------------------------------------------------------------------------------------------------
@@ -10,9 +11,8 @@ import model.pitchComponent.PitchInterface
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
-class JsonIO extends FileIOInterface {
+class XMLIO extends FileIOInterface {
+    override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromXML()
 
-  override def load(pitch: PitchInterface): PitchInterface = pitch.loadFromJson()
-
-  override def save(pitch: PitchInterface): Unit = pitch.saveToJson()
+    override def save(pitch: PitchInterface): Unit = pitch.saveToXML()
 }
