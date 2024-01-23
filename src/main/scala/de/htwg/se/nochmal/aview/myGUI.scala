@@ -14,9 +14,7 @@ package aview
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne imports:
 import controller.controllerComponent.ControllerInterface
-import controller.diceResult
-import controller.rounds
-import controller.moveDone
+import controller.{diceResult, rounds, moveDone, summe}
 
 import model.Color as myColor
 import util.*
@@ -71,7 +69,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
         else
           createDice("die"+(x+1), 'c')).toVector
       }
-      val sumLabel = new Label("Summe: " + spielfeld.summe)
+      val sumLabel = new Label("Summe: " + summe)
       val roundLabel = new Label("Runde " + rounds + " von " + num_of_rounds)
       val gameStatePanel = new GridPanel(1,2) {
         background = jColor.WHITE
@@ -134,7 +132,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
                       else 
                         InputHandler.handle("a", controller)
                         roundLabel.text = "Runde " + rounds + " von " + num_of_rounds
-                        sumLabel.text = "Summe: " + spielfeld.summe
+                        sumLabel.text = "Summe: " + summe
                         gameStatePanel.repaint()
                   }
                 }

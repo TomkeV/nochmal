@@ -75,36 +75,23 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
       Json.obj(
         "pitch" -> matrixToString(matrix),
         "rounds" -> rounds,
-        "color" -> pitchColor.getColor()
-      ).toString
-    )
+        "sum" -> controller.summe
+      ).toString)
     pw.close()
     true
   }
 
   private def matrixToString(m:Vector[Vector[Filling]]):IndexedSeq[String] = {
-    val range = Range(0, m.length)
-    val res = range.map(x => vectorToString(m(x)))
-    return res
+    Range(0, m.length).map(x =>
+      var r = ""
+      m(x).map(y => r += y.toString())
+      r)
   }
-
-  private def vectorToString(v:Vector[Filling]):String = {
-    var res = ""
-    v.map(y => res += y.toString())
-    res
-  }
-
 
   override def loadFromJson(): PitchInterface = {
-    val load = Source.fromFile("saves/save1.json").mkString
-    val json = Json.parse(load)
-    pitchColor = (json \ "color").as[String] match
-      case "o" => PitchWithColors(orangeColorsList, Color.orange)
-      case "b" => PitchWithColors(blueColorsList, Color.blue)
-      case "y" => PitchWithColors(yellowColorsList, Color.yellow)
-      case _ => PitchWithColors(blackColorsList, Color.black)
+    val json = Json.parse(Source.fromFile("saves/save1.json").mkString)
     rounds = (json \ "rounds").as[Int]
-
+    controller.summe = (json \ "sum").as[Int]
     val pitch = (json \ "pitch").as[IndexedSeq[String]].map(i =>
                 val chars = i.toCharArray()
                 Range(0, chars.length).map(y =>
@@ -119,16 +106,9 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   // ------------------------------------------- File-IO mit XML
   override def loadFromXML(): PitchInterface = {
     val xml = XML.loadFile("saves/xml_save.xml").head
-    pitchColor = (xml \ "color").text match
-      case "o" => PitchWithColors(orangeColorsList, Color.orange)
-      case "b" => PitchWithColors(blueColorsList, Color.blue)
-      case "y" => PitchWithColors(yellowColorsList, Color.yellow)
-      case _ => PitchWithColors(blackColorsList, Color.black) 
+    controller.summe = (xml \ "sum").text.toInt
     rounds = (xml \ "rounds").text.toInt
     val p = createMatrixFromXML(xml)
-    for (line <- p) {
-      println(line)
-    }
 
     return PitchAsMatrix(p)
   }
@@ -136,15 +116,12 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   private def createMatrixFromXML(xml:Node): Vector[Vector[Filling]] = {
     val lines = Range(1, 8).map(i =>
       val line = "line"+i
-      (xml \ line).text.toCharArray()
-    )
+      (xml \ line).text.toCharArray())
     lines.map(x => 
-      x.map(c =>
-        c match
-          case ' ' => Filling.empty
-          case 'X' => Filling.filled
-        ).toVector
-      ).toVector
+      x.map(c => c match
+                    case ' ' => Filling.empty
+                    case 'X' => Filling.filled
+        ).toVector).toVector
   }
 
   override def saveToXML(): Boolean = {
@@ -159,7 +136,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
         "<line6>" + matrixLineToString(matrix, 5) + "</line6>" +
         "<line7>" + matrixLineToString(matrix, 6) + "</line7>" +
         "<rounds>" + rounds + "</rounds>" +
-        "<color>" + pitchColor.getColor() + "</color>" +
+        "<sum>" + controller.summe + "</color>" +
       "</pitch>"
     )
     pw.close()
@@ -167,7 +144,6 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   }
 
   private def matrixLineToString(m:Vector[Vector[Filling]], i:Int):String = {
-    println("Zeile: " + m(i).toString())
     m(i).map(x =>
       x.toString()).mkString
   }

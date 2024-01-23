@@ -13,6 +13,7 @@ package aview
 // interne Imports
 import controller.controllerComponent.ControllerInterface
 import util.{Observer, Event, EvenOdd, EvenEvent, OddEvent}
+import controller.summe
 
 // Bibliotheksimports
 import scala.swing.*
@@ -32,7 +33,7 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
 
   val spielfeld = setUpPitch(titel, matrix, punkte)
 
-  var summe = 0
+  //var summe = 0
 
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {

@@ -17,8 +17,7 @@ import scala.io.StdIn.readLine
 
 // interne Imports
 import controller.controllerComponent.ControllerInterface
-import controller.diceResult
-import controller.rounds
+import controller.{diceResult, rounds, summe}
 import util.Observer
 import util.Event
 import util.InputHandler
@@ -40,6 +39,7 @@ class TUI(controller: ControllerInterface) extends Observer {
         case Event.Crossed => println(controller.pitch.toString) 
         case Event.Applied => if rounds == num_of_rounds then goOn = false
                               println("Runde " + rounds + " von " + num_of_rounds)
+                              println("Aktueller Punktestand: " + summe)
         case Event.Diced => println(diceResult)
         case Event.Undone => println(controller.undo())
         case Event.Redone => println(controller.redo())

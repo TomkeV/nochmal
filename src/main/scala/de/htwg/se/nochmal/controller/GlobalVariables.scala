@@ -15,3 +15,4 @@ var diceResult = ""
 var rounds = 0
 var moveDone = false
 var crossArray = ArrayBuffer[Cross]()
+var summe = 0
