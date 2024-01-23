@@ -70,7 +70,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   // -------------------------------------------------------------- Funktionen für File-IO
   // ------------------------------------------- File-IO mit JSON
   override def saveToJson(): Boolean = {
-    val pw = new PrintWriter(new File("saves/save1.json")) 
+    val pw = new PrintWriter(new File("saves/json_save.json")) 
     pw.write(
       Json.obj(
         "pitch" -> matrixToString(matrix),
@@ -89,7 +89,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
   }
 
   override def loadFromJson(): PitchInterface = {
-    val json = Json.parse(Source.fromFile("saves/save1.json").mkString)
+    val json = Json.parse(Source.fromFile("saves/json_save.json").mkString)
     rounds = (json \ "rounds").as[Int]
     controller.summe = (json \ "sum").as[Int]
     val pitch = (json \ "pitch").as[IndexedSeq[String]].map(i =>
@@ -136,7 +136,7 @@ case class PitchAsMatrix(matrix: Vector[Vector[Filling]]) extends PitchInterface
         "<line6>" + matrixLineToString(matrix, 5) + "</line6>" +
         "<line7>" + matrixLineToString(matrix, 6) + "</line7>" +
         "<rounds>" + rounds + "</rounds>" +
-        "<sum>" + controller.summe + "</color>" +
+        "<sum>" + controller.summe + "</sum>" +
       "</pitch>"
     )
     pw.close()

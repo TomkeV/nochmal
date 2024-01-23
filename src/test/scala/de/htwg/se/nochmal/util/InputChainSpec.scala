@@ -15,11 +15,9 @@ import org.scalatest.matchers.should.Matchers._
 // interne imports
 import controller.controllerComponent.controllerBaseImpl.Controller
 import model.pitchComponent.baseModel.PitchAsMatrix
-import model.diceComponent.diceImplementierung.Numbers_dice
-import model.diceComponent.diceImplementierung.Colors_dice
-import de.htwg.se.nochmal.controller.crossArray
-import de.htwg.se.nochmal.model.Cross
-import de.htwg.se.nochmal.controller.moveDone
+import model.diceComponent.diceImplementierung.{Numbers_dice, Colors_dice}
+import controller.{crossArray, moveDone}
+import model.Cross
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------- VARIABLEN
@@ -63,7 +61,6 @@ class LoadHandlerSpec extends AnyWordSpec {
     }
   }
 }
-
 
 
 // -----------------------------------------------------------------------------------------------------
