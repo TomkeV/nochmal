@@ -1,6 +1,7 @@
 /** Nochmal_main.scala
   * Hauptklasse zum Starten des Programms.
   * @author Tomke Velten
+  * @version 23.01.2024
   */
 
 // -----------------------------------------------------------------------------------------------------
