@@ -55,7 +55,8 @@ case class Controller(var pitch:PitchInterface, val nums:DiceInterface, val colo
     undoManager.redoMove(pitch)
 
   def apply(): Unit = {
-    crossArray.clear()
+    //crossArray.clear()
+    crossArray.empty
     moveDone = false
     rounds += 1
   }
