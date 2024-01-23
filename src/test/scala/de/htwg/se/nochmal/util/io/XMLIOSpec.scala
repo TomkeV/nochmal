@@ -7,10 +7,13 @@ package io
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
+// interne imports
+import model.pitchComponent.baseModel.PitchAsMatrix
+import model.pitchComponent.PitchInterface
+
+// Bibliotheksimports
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
-import de.htwg.se.nochmal.model.pitchComponent.baseModel.PitchAsMatrix
-import de.htwg.se.nochmal.model.pitchComponent.PitchInterface
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------ TEST

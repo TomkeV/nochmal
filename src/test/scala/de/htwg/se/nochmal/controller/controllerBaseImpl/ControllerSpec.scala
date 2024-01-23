@@ -21,8 +21,6 @@ import util.Event
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------ TEST
 class ControllerSpec extends AnyWordSpec {

@@ -20,9 +20,6 @@ import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 import scala.swing.Button
 
-
-
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------ TEST
 class ButtonMapSpec extends AnyWordSpec {

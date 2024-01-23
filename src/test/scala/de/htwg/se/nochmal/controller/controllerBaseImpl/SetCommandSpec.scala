@@ -20,8 +20,6 @@ import model.Filling
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class SetCommandSpec extends AnyWordSpec {

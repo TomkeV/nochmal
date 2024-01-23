@@ -43,10 +43,5 @@ class Numbers_diceSpec extends AnyWordSpec {
         s should fullyMatch regex """([1-5!]\R){2}[1-5!]"""
       }
     }
-    /* "implemented " should {
-      "have an Interface which must not be instantiated " in {
-        val dice = DiceInterface() shouldNot compile
-      }
-    } */
   }
 }
