@@ -22,7 +22,7 @@ import javax.swing.{BorderFactory, BoxLayout}
 
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
-class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends Observer {
+class GUIPitch(controller: ControllerInterface, buttons:ButtonMap) extends Observer {
   controller.add(this)
 
   // ------------------------------------------------------------------- VARIABLEN 
@@ -96,7 +96,8 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
     }
   }
 
-  def updatePitch() = {
+  def updatePitch(): Boolean = {
     buttons.updateButtonMap()
+    true
   }
 }

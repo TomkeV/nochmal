@@ -24,7 +24,6 @@ import scala.swing._
 import javax.swing. {BorderFactory, JOptionPane}
 import java.awt.Color as jColor
 
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------ CLASS DEFINITION
 class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
@@ -37,7 +36,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   val pitchBackground = jColor(controller.pitch.pitchColor.background.getRGB)
 
   val buttonsMap = new ButtonMap(controller)
-  val spielfeld = new GUISpielfeld(controller, buttonsMap)
+  val spielfeld = new GUIPitch(controller, buttonsMap)
   
   // ------------------------------------------------- MAINFRAME
   val myMainFrame = new Frame {
