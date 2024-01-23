@@ -18,7 +18,6 @@ import Default.ControllerInterface
 //import BluePitch.ControllerInterface
 //import YellowPitch.ControllerInterface
 
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------ MAIN
 @main def nochmal: Unit =
