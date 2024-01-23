@@ -1,37 +1,31 @@
-/**
-  * ControllerSpec.scala
+/* /**
+  * GUISpielfeldSpec.scala
   * @author: Tomke Velten
   */
-
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- PACKAGE
 package de.htwg.se.nochmal
-package controller
-package controllerComponent
-package controllerBaseImpl
+package aview
 
 // -----------------------------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------------------- IMPORTS
 // interne imports
-import model.pitchComponent.baseModel.PitchAsMatrix
-import model.diceComponent.diceImplementierung.{Numbers_dice, Colors_dice}
-import util.Event
+import Default.ControllerInterface
+import controller.controllerComponent.ControllerInterface
 
 // Bibliotheksimports
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 
-
-
 // -----------------------------------------------------------------------------------------------------
 // ------------------------------------------------------------------------------------------------ TEST
-class ControllerSpec extends AnyWordSpec {
-  "The Controller " should {
-    "ensure that no crosses be saved after apply " in {
-      val controller = new Controller(new PitchAsMatrix(2, 2), new Numbers_dice(), new Colors_dice)
-      controller.publish(e = Event.Applied)
-      controller.apply()
-      crossArray shouldBe empty
+class GUISpielfeldSpec extends AnyWordSpec {
+  val testController = summon[ControllerInterface]
+  val testButtonMap = ButtonMap(testController)
+  val testGUIfeld = GUISpielfeld(testController, testButtonMap)
+  "The GUI pitch " should {
+    "save the defaul background if there is none given " in {
     }
   }
 }
+ */

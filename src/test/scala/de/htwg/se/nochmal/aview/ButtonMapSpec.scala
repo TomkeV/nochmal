@@ -13,12 +13,13 @@ package aview
 // interne imports
 import Default.ControllerInterface
 import controller.controllerComponent.ControllerInterface
+import util.Event
 
 // Bibliotheksimports
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 import scala.swing.Button
-import de.htwg.se.nochmal.util.Event
+
 
 
 
