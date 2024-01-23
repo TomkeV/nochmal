@@ -1,5 +1,5 @@
 # Noch mal!
-[![Scala CI](https://github.com/TomkeV/nochmal/actions/workflows/scala.yml/badge.svg)] [![Coverage Status](https://coveralls.io/repos/github/TomkeV/nochmal/badge.svg?branch=main)](https://coveralls.io/github/TomkeV/nochmal?branch=main)
+![Scala CI](https://github.com/TomkeV/nochmal/actions/workflows/scala.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/TomkeV/nochmal/badge.svg?branch=main)](https://coveralls.io/github/TomkeV/nochmal?branch=main)
 
 Projekt im Fach Software Engineering an der HTWG Konstanz, AIN3, Wintersemester 2023/2024
 
