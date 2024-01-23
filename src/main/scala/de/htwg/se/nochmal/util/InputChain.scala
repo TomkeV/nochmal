@@ -175,7 +175,7 @@ class RestHandler() extends ChainHandler {
             case 'M' | 'm' => Success(13)
             case 'N' | 'n' => Success(14)
             case 'O' | 'o' => Success(15)
-            case _ => Failure(new Error("Keine gueltige Zeile!"))
+            case _ => Failure(new Error("Keine gueltige Spalte!"))
         return x
     }
 }

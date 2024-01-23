@@ -39,13 +39,8 @@ class ButtonMap(controller: ControllerInterface) extends Observer {
       case Event.Applied => crossesSet = 0
                             number = ""
                             color = ""
-      case Event.Crossed => 
-      case Event.Diced => 
-      case Event.Loaded => 
-      case Event.Quit => 
-      case Event.Redone => 
-      case Event.Saved => 
       case Event.Undone => crossesSet = 0
+      case _ => 
   }
 
   def createMatrix: Map[(Int, Int), Button] = {

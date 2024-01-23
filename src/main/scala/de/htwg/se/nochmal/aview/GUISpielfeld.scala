@@ -33,19 +33,8 @@ class GUISpielfeld(controller: ControllerInterface, buttons:ButtonMap) extends O
 
   val spielfeld = setUpPitch(titel, matrix, punkte)
 
-  //var summe = 0
-
   // ------------------------------------------------------------------- FUNKTIONEN
   override def update(e: Event): Unit = {
-    e match
-      case Event.Applied => 
-      case Event.Crossed => 
-      case Event.Diced => 
-      case Event.Loaded => 
-      case Event.Quit => 
-      case Event.Redone => 
-      case Event.Saved => 
-      case Event.Undone => 
   }
 
   def setUpPitch(titel:GridPanel, feld:GridPanel, punkte:GridPanel): BoxPanel = {

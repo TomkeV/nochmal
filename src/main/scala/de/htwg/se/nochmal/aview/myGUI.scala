@@ -212,13 +212,7 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
-      case Event.Diced => 
-      case Event.Crossed => 
-      case Event.Applied => 
-      case Event.Loaded => 
-      case Event.Saved => 
-      case Event.Undone => 
-      case Event.Redone => 
+      case _ => 
     }
 
 }

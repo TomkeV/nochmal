@@ -18,6 +18,7 @@ import controller.controllerComponent.ControllerInterface
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers._
 import scala.swing.Button
+import de.htwg.se.nochmal.util.Event
 
 
 
@@ -25,11 +26,31 @@ import scala.swing.Button
 // ------------------------------------------------------------------------------------------------ TEST
 class ButtonMapSpec extends AnyWordSpec {
   val controller = summon[ControllerInterface]
-  "The ButtonMap " should {
+  "The ButtonMap " when {
     val testMap = new ButtonMap(controller) 
-    "create a Map of buttons for a GUI saving their coordinates " in {
+    "created" should {
+      "be a map of buttons for a GUI saving their coordinates " in {
       val mock = testMap.createMatrix
       mock shouldBe a [Map[(Int, Int), Button]]
+      }
+    }
+    "getting an event " should {
+      "react to an apply " in {
+        testMap.update(Event.Applied)
+        testMap.crossesSet should be (0)
+        testMap.number should be ("")
+        testMap.color should be ("")
+      }
+      "react to an undo " in {
+        testMap.update(Event.Undone)
+        testMap.crossesSet should be (0)
+      }
+    }
+    "used " should {
+      "be able to handle clicks on it buttons " in {
+        testMap.handleClick(testMap.buttonMap((1, 1)))
+        testMap.crossesSet should be (1)
+      }
     }
   }
 }
