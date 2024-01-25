@@ -211,7 +211,25 @@ class myGUI(controller: ControllerInterface) extends MainFrame with Observer {
   override def update(e: Event): Unit = 
     e match {
       case Event.Quit => this.dispose()
+      case Event.Applied => if (rounds == controller.pitch.col_num * 2) then evalWin(summe)
       case _ => 
     }
 
+  def evalWin(s:Int) = {
+    val filledStar = '\u2605'
+    val emptyStar = '\u2606'
+
+    if (s > 32) 
+      JOptionPane.showMessageDialog(null, s"$filledStar $filledStar $filledStar $filledStar $filledStar\n Es gibt also doch Superhelden!")
+    else if (s > 24)
+      JOptionPane.showMessageDialog(null, s"$filledStar $filledStar $filledStar $filledStar $emptyStar\n Du könntest auch professioneller NOCH MAL!-Spieler werden!")
+    else if (s > 16) 
+      JOptionPane.showMessageDialog(null, s"$filledStar $filledStar $filledStar $emptyStar $emptyStar\nKlasse, das lief ja gut!")
+    else if (s > 8)
+      JOptionPane.showMessageDialog(null, s"$filledStar $filledStar $emptyStar $emptyStar $emptyStar\nDas war wohl nicht dein erstes Mal!")
+    else if (s > 0)
+      JOptionPane.showMessageDialog(null, s"$filledStar $emptyStar $emptyStar $emptyStar $emptyStar\nDas geht noch besser!")
+    else if (s == 0)
+      JOptionPane.showMessageDialog(null, s"$emptyStar $emptyStar $emptyStar $emptyStar $emptyStar Dabei sein ist alles!")
+  }
 }

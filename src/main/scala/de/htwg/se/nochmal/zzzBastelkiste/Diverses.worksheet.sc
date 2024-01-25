@@ -178,3 +178,7 @@ def stringToVector(s:String):Vector[String] = {
 }
 
 val test2 = stringsToMatrix(test)
+
+
+val starSymbol = '\u2605'
+val emptyStar = '\u2606'

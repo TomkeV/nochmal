@@ -37,9 +37,13 @@ class TUI(controller: ControllerInterface) extends Observer {
         case Event.Quit => goOn = false
                             println("Danke fuers Spielen!")
         case Event.Crossed => println(controller.pitch.toString) 
-        case Event.Applied => if rounds == num_of_rounds then goOn = false
-                              println("Runde " + rounds + " von " + num_of_rounds)
-                              println("Aktueller Punktestand: " + summe)
+        case Event.Applied => 
+          if (rounds == num_of_rounds) {
+            println(evalWin(summe))
+          } else {
+            println("Runde " + rounds + " von " + num_of_rounds)
+            println("Aktueller Punktestand: " + summe)
+          }               
         case Event.Diced => println(diceResult)
         case Event.Undone => println(controller.undo())
         case Event.Redone => println(controller.redo())
@@ -54,4 +58,22 @@ class TUI(controller: ControllerInterface) extends Observer {
     val input = readLine 
     InputHandler.handle(input, controller)
     if goOn then getAndAnalyseInput()
+
+  def evalWin(s:Int): String = {
+    goOn = false
+    if (s > 32) 
+      "* * * * *\nEs gibt also doch Superhelden!"
+    else if (s > 24)
+      "* * * *\nDu könntest auch professioneller NOCH MAL!-Spieler sein!"
+    else if (s > 16) 
+      "* * *\nKlasse, das lief ja gut!"
+    else if (s > 8)
+      "* *\nDas war wohl nicht dein erstes Mal!"
+    else if (s > 0)
+      "*\nDas geht noch besser! "
+    else if (s == 0)
+      "Dabei sein ist alles!"
+    else 
+      "Fehler! Wie konnte das passieren?"
+  }
 }
